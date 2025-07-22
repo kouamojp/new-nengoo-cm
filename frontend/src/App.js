@@ -1,52 +1,110 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import './App.css';
+import { 
+  Homepage, 
+  ProductCatalog, 
+  ProductDetail, 
+  ShoppingCart, 
+  Checkout, 
+  UserProfile, 
+  About,
+  SearchResults 
+} from './components';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+function App() {
+  const [language, setLanguage] = useState('fr');
+  const [currency, setCurrency] = useState('XAF');
+  const [cartItems, setCartItems] = useState([]);
+  const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem('nengoo-cart');
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+    
+    const savedUser = localStorage.getItem('nengoo-user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  // Save cart to localStorage when cartItems change
+  useEffect(() => {
+    localStorage.setItem('nengoo-cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (product, quantity = 1) => {
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.id === product.id);
+      if (existingItem) {
+        return prev.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity }];
+    });
+  };
+
+  const updateCartQuantity = (productId, newQuantity) => {
+    if (newQuantity <= 0) {
+      setCartItems(prev => prev.filter(item => item.id !== productId));
+    } else {
+      setCartItems(prev =>
+        prev.map(item =>
+          item.id === productId ? { ...item, quantity: newQuantity } : item
+        )
+      );
     }
   };
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
+  const removeFromCart = (productId) => {
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+  };
 
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
-function App() {
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'fr' ? 'en' : 'fr');
+  };
+
+  const appProps = {
+    language,
+    currency,
+    cartItems,
+    user,
+    searchQuery,
+    setSearchQuery,
+    addToCart,
+    updateCartQuantity,
+    removeFromCart,
+    clearCart,
+    toggleLanguage,
+    setUser
+  };
+
   return (
     <div className="App">
-      <BrowserRouter>
+      <Router>
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<Homepage {...appProps} />} />
+          <Route path="/catalog" element={<ProductCatalog {...appProps} />} />
+          <Route path="/catalog/:category" element={<ProductCatalog {...appProps} />} />
+          <Route path="/product/:id" element={<ProductDetail {...appProps} />} />
+          <Route path="/cart" element={<ShoppingCart {...appProps} />} />
+          <Route path="/checkout" element={<Checkout {...appProps} />} />
+          <Route path="/profile" element={<UserProfile {...appProps} />} />
+          <Route path="/about" element={<About {...appProps} />} />
+          <Route path="/search" element={<SearchResults {...appProps} />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }
