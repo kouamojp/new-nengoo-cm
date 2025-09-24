@@ -377,6 +377,11 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
               <span className="text-2xl">👤</span>
               <div className="text-sm">{user ? user.name : t.signin}</div>
             </Link>
+            
+            <Link to="/seller" className="hover:text-yellow-300 transition-colors">
+              <span className="text-2xl">🏪</span>
+              <div className="text-sm">Vendeur</div>
+            </Link>
           </div>
         </div>
       </div>
