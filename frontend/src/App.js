@@ -9,7 +9,13 @@ import {
   Checkout, 
   UserProfile, 
   About,
-  SearchResults 
+  SearchResults,
+  SellerDashboard,
+  SellerProducts,
+  SellerOrders,
+  SellerAnalytics,
+  SellerProfile,
+  SellerMessages 
 } from './components';
 
 function App() {
