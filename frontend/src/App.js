@@ -109,6 +109,14 @@ function App() {
           <Route path="/profile" element={<UserProfile {...appProps} />} />
           <Route path="/about" element={<About {...appProps} />} />
           <Route path="/search" element={<SearchResults {...appProps} />} />
+          
+          {/* Seller Routes */}
+          <Route path="/seller" element={<SellerDashboard {...appProps} />} />
+          <Route path="/seller/products" element={<SellerProducts {...appProps} />} />
+          <Route path="/seller/orders" element={<SellerOrders {...appProps} />} />
+          <Route path="/seller/analytics" element={<SellerAnalytics {...appProps} />} />
+          <Route path="/seller/profile" element={<SellerProfile {...appProps} />} />
+          <Route path="/seller/messages" element={<SellerMessages {...appProps} />} />
         </Routes>
       </Router>
     </div>
