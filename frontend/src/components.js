@@ -1838,3 +1838,1018 @@ export const SellerDashboard = (props) => {
     </div>
   );
 };
+// Seller Products Management Component
+export const SellerProducts = (props) => {
+  const { language, addToCart } = props;
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [products, setProducts] = useState(mockProducts);
+  const [newProduct, setNewProduct] = useState({
+    name: { fr: '', en: '' },
+    category: 'fashion',
+    price: 0,
+    image: '',
+    description: { fr: '', en: '' },
+    stock: 0,
+    inStock: true
+  });
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const product = {
+      ...newProduct,
+      id: Math.max(...products.map(p => p.id)) + 1,
+      rating: 0,
+      reviews: 0
+    };
+    setProducts([...products, product]);
+    setNewProduct({
+      name: { fr: '', en: '' },
+      category: 'fashion', 
+      price: 0,
+      image: '',
+      description: { fr: '', en: '' },
+      stock: 0,
+      inStock: true
+    });
+    setShowAddForm(false);
+  };
+
+  const handleDeleteProduct = (id) => {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce produit?')) {
+      setProducts(products.filter(p => p.id !== id));
+    }
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XAF',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header {...props} />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <SellerSidebar currentPage="products" language={language} />
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <SellerHeader title="Gestion des Produits" language={language} />
+            
+            {/* Actions Bar */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <div>
+                  <h2 className="text-xl font-bold">Mes Produits ({products.length})</h2>
+                  <p className="text-gray-600">Gérez votre catalogue de produits</p>
+                </div>
+                <button
+                  onClick={() => setShowAddForm(!showAddForm)}
+                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                >
+                  ➕ Ajouter un Produit
+                </button>
+              </div>
+            </div>
+
+            {/* Add Product Form */}
+            {showAddForm && (
+              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h3 className="text-xl font-bold mb-6">Ajouter un Nouveau Produit</h3>
+                <form onSubmit={handleAddProduct} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Nom (Français)</label>
+                      <input
+                        type="text"
+                        required
+                        value={newProduct.name.fr}
+                        onChange={(e) => setNewProduct({
+                          ...newProduct,
+                          name: { ...newProduct.name, fr: e.target.value }
+                        })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Nom (Anglais)</label>
+                      <input
+                        type="text"
+                        required
+                        value={newProduct.name.en}
+                        onChange={(e) => setNewProduct({
+                          ...newProduct,
+                          name: { ...newProduct.name, en: e.target.value }
+                        })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Catégorie</label>
+                      <select
+                        value={newProduct.category}
+                        onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      >
+                        <option value="fashion">Mode</option>
+                        <option value="electronics">Électronique</option>
+                        <option value="home">Maison & Jardin</option>
+                        <option value="local">Produits Locaux</option>
+                        <option value="agriculture">Agriculture</option>
+                        <option value="beauty">Beauté</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Prix (XAF)</label>
+                      <input
+                        type="number"
+                        required
+                        value={newProduct.price}
+                        onChange={(e) => setNewProduct({ ...newProduct, price: parseInt(e.target.value) })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Image URL</label>
+                      <input
+                        type="url"
+                        required
+                        value={newProduct.image}
+                        onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Stock</label>
+                      <input
+                        type="number"
+                        required
+                        value={newProduct.stock}
+                        onChange={(e) => setNewProduct({ 
+                          ...newProduct, 
+                          stock: parseInt(e.target.value),
+                          inStock: parseInt(e.target.value) > 0
+                        })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Description (Français)</label>
+                    <textarea
+                      required
+                      value={newProduct.description.fr}
+                      onChange={(e) => setNewProduct({
+                        ...newProduct,
+                        description: { ...newProduct.description, fr: e.target.value }
+                      })}
+                      rows={3}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Description (Anglais)</label>
+                    <textarea
+                      required
+                      value={newProduct.description.en}
+                      onChange={(e) => setNewProduct({
+                        ...newProduct,
+                        description: { ...newProduct.description, en: e.target.value }
+                      })}
+                      rows={3}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                  
+                  <div className="flex space-x-4">
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+                    >
+                      Ajouter le Produit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddForm(false)}
+                      className="bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors"
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* Products Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {products.map(product => (
+                <div key={product.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+                  <div className="relative">
+                    <img
+                      src={product.image}
+                      alt={product.name[language]}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-2 right-2 flex space-x-1">
+                      <button
+                        onClick={() => setEditingProduct(product)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg text-sm transition-colors"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg text-sm transition-colors"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                    {product.inStock ? (
+                      <span className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 text-xs rounded">
+                        En Stock
+                      </span>
+                    ) : (
+                      <span className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-xs rounded">
+                        Rupture
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-2">{product.name[language]}</h3>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xl font-bold text-purple-600">
+                        {formatPrice(product.price)}
+                      </span>
+                      <div className="flex items-center">
+                        <span className="text-yellow-400 mr-1">⭐</span>
+                        <span className="text-sm">{product.rating} ({product.reviews})</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {product.description[language]}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-500">
+                        Stock: {product.stock || 'N/A'}
+                      </span>
+                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                        {translations[language][product.category]}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <Footer language={language} />
+    </div>
+  );
+};
+
+// Seller Orders Management Component
+export const SellerOrders = (props) => {
+  const { language } = props;
+  const [orders, setOrders] = useState(mockSellerData.orders);
+  const [filterStatus, setFilterStatus] = useState('all');
+
+  const filteredOrders = filterStatus === 'all' 
+    ? orders 
+    : orders.filter(order => order.status === filterStatus);
+
+  const updateOrderStatus = (orderId, newStatus) => {
+    setOrders(orders.map(order => 
+      order.id === orderId 
+        ? { ...order, status: newStatus }
+        : order
+    ));
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XAF',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'shipped': return 'bg-blue-100 text-blue-800';
+      case 'delivered': return 'bg-green-100 text-green-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'pending': return '⏳';
+      case 'shipped': return '🚚';
+      case 'delivered': return '✅';
+      case 'cancelled': return '❌';
+      default: return '📋';
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'pending': return 'En attente';
+      case 'shipped': return 'Expédiée';
+      case 'delivered': return 'Livrée';
+      case 'cancelled': return 'Annulée';
+      default: return status;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header {...props} />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <SellerSidebar currentPage="orders" language={language} />
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <SellerHeader title="Gestion des Commandes" language={language} />
+            
+            {/* Filters and Stats */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <div>
+                  <h2 className="text-xl font-bold">Mes Commandes ({filteredOrders.length})</h2>
+                  <p className="text-gray-600">Gérez le statut de vos commandes</p>
+                </div>
+                <div className="flex space-x-2">
+                  {['all', 'pending', 'shipped', 'delivered', 'cancelled'].map(status => (
+                    <button
+                      key={status}
+                      onClick={() => setFilterStatus(status)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        filterStatus === status
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                      }`}
+                    >
+                      {status === 'all' ? 'Toutes' : getStatusText(status)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Orders List */}
+            <div className="space-y-6">
+              {filteredOrders.map(order => (
+                <div key={order.id} className="bg-white rounded-lg shadow-lg p-6">
+                  {/* Order Header */}
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+                    <div>
+                      <div className="flex items-center space-x-4">
+                        <h3 className="text-lg font-bold">Commande {order.id}</h3>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.status)}`}>
+                          {getStatusIcon(order.status)} {getStatusText(order.status)}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-6 text-sm text-gray-600 mt-2">
+                        <span>👤 {order.customer}</span>
+                        <span>📅 {order.date}</span>
+                        <span className="font-semibold text-purple-600">
+                          {formatPrice(order.total)}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-2">
+                      <select
+                        value={order.status}
+                        onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      >
+                        <option value="pending">En attente</option>
+                        <option value="shipped">Expédiée</option>
+                        <option value="delivered">Livrée</option>
+                        <option value="cancelled">Annulée</option>
+                      </select>
+                      <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Détails
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Order Items */}
+                  <div className="border-t pt-4">
+                    <h4 className="font-semibold mb-3">Articles commandés:</h4>
+                    <div className="space-y-2">
+                      {order.items.map((item, index) => (
+                        <div key={index} className="flex justify-between items-center py-2 px-4 bg-gray-50 rounded-lg">
+                          <div>
+                            <span className="font-medium">{item.name}</span>
+                            <span className="text-gray-600 ml-2">× {item.quantity}</span>
+                          </div>
+                          <span className="font-semibold">{formatPrice(item.price * item.quantity)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {filteredOrders.length === 0 && (
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">📋</div>
+                <h3 className="text-xl font-semibold mb-2">Aucune commande trouvée</h3>
+                <p className="text-gray-600">
+                  {filterStatus === 'all' 
+                    ? "Vous n'avez pas encore de commandes."
+                    : `Aucune commande avec le statut "${getStatusText(filterStatus)}".`
+                  }
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      
+      <Footer language={language} />
+    </div>
+  );
+};
+
+// Seller Analytics Component
+export const SellerAnalytics = (props) => {
+  const { language } = props;
+  
+  const analyticsData = {
+    revenue: {
+      daily: [120000, 150000, 80000, 200000, 180000, 250000, 300000],
+      monthly: [2450000, 2800000, 3200000, 2900000, 3500000, 3800000],
+      labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun']
+    },
+    topProducts: [
+      { name: 'Robe Traditionnelle', sales: 45, revenue: 2025000 },
+      { name: 'Panier Artisanal', sales: 32, revenue: 480000 },
+      { name: 'Chapeaux Traditionnels', sales: 28, revenue: 238000 },
+      { name: 'Cosmétiques Naturels', sales: 24, revenue: 288000 },
+      { name: 'Grains Biologiques', sales: 18, revenue: 63000 }
+    ],
+    demographics: {
+      age: [
+        { range: '18-25', percentage: 25 },
+        { range: '26-35', percentage: 35 },
+        { range: '36-45', percentage: 25 },
+        { range: '46+', percentage: 15 }
+      ],
+      cities: [
+        { city: 'Douala', percentage: 40 },
+        { city: 'Yaoundé', percentage: 30 },
+        { city: 'Bafoussam', percentage: 15 },
+        { city: 'Garoua', percentage: 10 },
+        { city: 'Autres', percentage: 5 }
+      ]
+    }
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XAF',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header {...props} />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <SellerSidebar currentPage="analytics" language={language} />
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <SellerHeader title="Analyses et Statistiques" language={language} />
+            
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              {[
+                { title: 'Revenus Total', value: '18,500,000 XAF', change: '+15%', icon: '💰', color: 'from-green-400 to-green-600' },
+                { title: 'Commandes', value: '847', change: '+12%', icon: '📦', color: 'from-blue-400 to-blue-600' },
+                { title: 'Clients', value: '456', change: '+8%', icon: '👥', color: 'from-purple-400 to-purple-600' },
+                { title: 'Taux Conversion', value: '3.2%', change: '+0.5%', icon: '📊', color: 'from-orange-400 to-red-500' }
+              ].map((metric, index) => (
+                <div key={index} className={`bg-gradient-to-r ${metric.color} text-white rounded-lg p-6 shadow-lg`}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm opacity-90">{metric.title}</p>
+                      <p className="text-2xl font-bold">{metric.value}</p>
+                      <p className="text-sm mt-1 bg-white bg-opacity-20 px-2 py-1 rounded inline-block">
+                        {metric.change}
+                      </p>
+                    </div>
+                    <div className="text-3xl">{metric.icon}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              {/* Revenue Chart */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-bold mb-6">Évolution du Chiffre d'Affaires</h3>
+                <div className="h-64 bg-gradient-to-t from-purple-50 to-transparent rounded-lg flex items-end justify-around p-4">
+                  {analyticsData.revenue.monthly.map((value, index) => (
+                    <div key={index} className="flex flex-col items-center">
+                      <div 
+                        className="bg-gradient-to-t from-purple-500 to-purple-300 rounded-t w-12"
+                        style={{ height: `${(value / Math.max(...analyticsData.revenue.monthly)) * 200}px` }}
+                      ></div>
+                      <span className="text-xs mt-2 text-gray-600">
+                        {analyticsData.revenue.labels[index]}
+                      </span>
+                      <span className="text-xs text-purple-600 font-semibold">
+                        {(value / 1000000).toFixed(1)}M
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Top Products */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-bold mb-6">Produits les Plus Vendus</h3>
+                <div className="space-y-4">
+                  {analyticsData.topProducts.map((product, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-purple-500 text-white rounded-lg flex items-center justify-center text-sm font-bold">
+                          {index + 1}
+                        </div>
+                        <div>
+                          <p className="font-semibold">{product.name}</p>
+                          <p className="text-sm text-gray-600">{product.sales} ventes</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-purple-600">
+                          {formatPrice(product.revenue)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Demographics */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Age Demographics */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-bold mb-6">Répartition par Âge</h3>
+                <div className="space-y-4">
+                  {analyticsData.demographics.age.map((group, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="font-medium">{group.range} ans</span>
+                        <span className="font-bold">{group.percentage}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-blue-400 to-blue-600 h-2 rounded-full"
+                          style={{ width: `${group.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Geographic Distribution */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-bold mb-6">Répartition Géographique</h3>
+                <div className="space-y-4">
+                  {analyticsData.demographics.cities.map((location, index) => (
+                    <div key={index} className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="font-medium">{location.city}</span>
+                        <span className="font-bold">{location.percentage}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-green-400 to-green-600 h-2 rounded-full"
+                          style={{ width: `${location.percentage}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <Footer language={language} />
+    </div>
+  );
+};
+
+// Seller Profile Component
+export const SellerProfile = (props) => {
+  const { language } = props;
+  const [profileData, setProfileData] = useState(mockSellerData.profile);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    setIsEditing(false);
+    // Here you would save to backend
+    alert('Profil mis à jour avec succès!');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header {...props} />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <SellerSidebar currentPage="profile" language={language} />
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <SellerHeader title="Profil Vendeur" language={language} />
+            
+            {/* Profile Card */}
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-bold">Informations du Profil</h2>
+                <button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+                >
+                  {isEditing ? 'Annuler' : '✏️ Modifier'}
+                </button>
+              </div>
+
+              <form onSubmit={handleSave} className="space-y-6">
+                <div className="flex items-center space-x-6 mb-8">
+                  <img
+                    src={profileData.logo}
+                    alt="Logo"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-purple-200"
+                  />
+                  {isEditing && (
+                    <div>
+                      <label className="block text-sm font-medium mb-2">URL du Logo</label>
+                      <input
+                        type="url"
+                        value={profileData.logo}
+                        onChange={(e) => setProfileData({ ...profileData, logo: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Nom de la Boutique</label>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={profileData.name}
+                        onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    ) : (
+                      <p className="text-lg font-semibold text-gray-800">{profileData.name}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email</label>
+                    {isEditing ? (
+                      <input
+                        type="email"
+                        value={profileData.email}
+                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    ) : (
+                      <p className="text-lg text-gray-800">{profileData.email}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Téléphone</label>
+                    {isEditing ? (
+                      <input
+                        type="tel"
+                        value={profileData.phone}
+                        onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    ) : (
+                      <p className="text-lg text-gray-800">{profileData.phone}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Adresse</label>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={profileData.address}
+                        onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
+                        className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      />
+                    ) : (
+                      <p className="text-lg text-gray-800">{profileData.address}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Description de la Boutique</label>
+                  {isEditing ? (
+                    <textarea
+                      value={profileData.description}
+                      onChange={(e) => setProfileData({ ...profileData, description: e.target.value })}
+                      rows={4}
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  ) : (
+                    <p className="text-lg text-gray-800">{profileData.description}</p>
+                  )}
+                </div>
+
+                {isEditing && (
+                  <div className="pt-6">
+                    <button
+                      type="submit"
+                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                    >
+                      Sauvegarder les Modifications
+                    </button>
+                  </div>
+                )}
+              </form>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-lg p-6 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm opacity-90">Note Moyenne</p>
+                    <p className="text-3xl font-bold">{profileData.rating} ⭐</p>
+                    <p className="text-sm opacity-75">Très bon vendeur</p>
+                  </div>
+                  <div className="text-4xl">📊</div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg p-6 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm opacity-90">Total Ventes</p>
+                    <p className="text-3xl font-bold">{profileData.totalSales}</p>
+                    <p className="text-sm opacity-75">Commandes livrées</p>
+                  </div>
+                  <div className="text-4xl">📦</div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white rounded-lg p-6 shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm opacity-90">Membre Depuis</p>
+                    <p className="text-2xl font-bold">
+                      {new Date(profileData.joinDate).toLocaleDateString('fr-FR', { 
+                        year: 'numeric', 
+                        month: 'short' 
+                      })}
+                    </p>
+                    <p className="text-sm opacity-75">Vendeur actif</p>
+                  </div>
+                  <div className="text-4xl">🕐</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <Footer language={language} />
+    </div>
+  );
+};
+
+// Seller Messages Component
+export const SellerMessages = (props) => {
+  const { language } = props;
+  const [messages, setMessages] = useState(mockSellerData.messages);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [reply, setReply] = useState('');
+
+  const markAsRead = (messageId) => {
+    setMessages(messages.map(msg => 
+      msg.id === messageId ? { ...msg, read: true } : msg
+    ));
+  };
+
+  const sendReply = (e) => {
+    e.preventDefault();
+    if (reply.trim() && selectedMessage) {
+      // Mock sending reply
+      alert('Réponse envoyée avec succès!');
+      setReply('');
+      setSelectedMessage(null);
+    }
+  };
+
+  const unreadCount = messages.filter(msg => !msg.read).length;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header {...props} />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <SellerSidebar currentPage="messages" language={language} />
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            <SellerHeader title="Messages et Communications" language={language} />
+            
+            {/* Messages Overview */}
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold">Centre de Messages</h2>
+                  <p className="text-gray-600">
+                    {messages.length} message(s) total, {unreadCount} non lu(s)
+                  </p>
+                </div>
+                {unreadCount > 0 && (
+                  <div className="bg-red-100 text-red-800 px-4 py-2 rounded-full font-semibold">
+                    {unreadCount} nouveau(x)
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Messages List */}
+            <div className="space-y-4">
+              {messages.map(message => (
+                <div 
+                  key={message.id} 
+                  className={`bg-white rounded-lg shadow-lg p-6 cursor-pointer transition-all hover:shadow-xl ${
+                    !message.read ? 'border-l-4 border-purple-500' : ''
+                  }`}
+                  onClick={() => {
+                    setSelectedMessage(message);
+                    markAsRead(message.id);
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                        {message.from.split(' ').map(name => name[0]).join('')}
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg">{message.from}</h3>
+                        <p className="text-gray-600">{message.subject}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-500">{message.date}</p>
+                      {!message.read && (
+                        <span className="inline-block w-3 h-3 bg-red-500 rounded-full mt-2"></span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-700 line-clamp-2">{message.message}</p>
+                  
+                  <div className="mt-4 flex space-x-2">
+                    <button 
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedMessage(message);
+                        markAsRead(message.id);
+                      }}
+                    >
+                      Répondre
+                    </button>
+                    <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Marquer comme lu
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {messages.length === 0 && (
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">💬</div>
+                <h3 className="text-xl font-semibold mb-2">Aucun message</h3>
+                <p className="text-gray-600">Vous n'avez pas encore reçu de messages.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Reply Modal */}
+      {selectedMessage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold">Répondre à {selectedMessage.from}</h3>
+                <button
+                  onClick={() => setSelectedMessage(null)}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-gray-600 mt-2">Sujet: {selectedMessage.subject}</p>
+            </div>
+            
+            <div className="p-6">
+              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <p className="text-sm text-gray-600 mb-2">Message original:</p>
+                <p className="text-gray-800">{selectedMessage.message}</p>
+                <p className="text-xs text-gray-500 mt-2">{selectedMessage.date}</p>
+              </div>
+              
+              <form onSubmit={sendReply}>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Votre réponse:</label>
+                  <textarea
+                    value={reply}
+                    onChange={(e) => setReply(e.target.value)}
+                    placeholder="Tapez votre réponse ici..."
+                    rows={6}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+                
+                <div className="flex space-x-4">
+                  <button
+                    type="submit"
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  >
+                    Envoyer la Réponse
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMessage(null)}
+                    className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <Footer language={language} />
+    </div>
+  );
+};
