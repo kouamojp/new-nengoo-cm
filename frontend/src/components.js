@@ -1393,7 +1393,7 @@ export const Checkout = (props) => {
   };
   
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 50000 ? 0 : 2500;
+  const shipping = formData.deliveryOption === 'pickup' ? 0 : (subtotal > 50000 ? 0 : 2500); // Free shipping for pickup or orders over 50,000 XAF
   const tax = subtotal * 0.1;
   const total = subtotal + shipping + tax;
   
