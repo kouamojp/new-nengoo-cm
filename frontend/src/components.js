@@ -2953,6 +2953,112 @@ export const SellerProfile = (props) => {
                   )}
                 </div>
 
+                {/* Social Media Links */}
+                <div>
+                  <label className="block text-sm font-medium mb-4">Réseaux Sociaux</label>
+                  {isEditing ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">WhatsApp</label>
+                        <input
+                          type="tel"
+                          value={profileData.socialMedia?.whatsapp || ''}
+                          onChange={(e) => setProfileData({
+                            ...profileData,
+                            socialMedia: { ...profileData.socialMedia, whatsapp: e.target.value }
+                          })}
+                          placeholder="+237 6XX XXX XXX"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Facebook</label>
+                        <input
+                          type="url"
+                          value={profileData.socialMedia?.facebook || ''}
+                          onChange={(e) => setProfileData({
+                            ...profileData,
+                            socialMedia: { ...profileData.socialMedia, facebook: e.target.value }
+                          })}
+                          placeholder="https://facebook.com/..."
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Instagram</label>
+                        <input
+                          type="url"
+                          value={profileData.socialMedia?.instagram || ''}
+                          onChange={(e) => setProfileData({
+                            ...profileData,
+                            socialMedia: { ...profileData.socialMedia, instagram: e.target.value }
+                          })}
+                          placeholder="https://instagram.com/..."
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-600 mb-1">Telegram</label>
+                        <input
+                          type="url"
+                          value={profileData.socialMedia?.telegram || ''}
+                          onChange={(e) => setProfileData({
+                            ...profileData,
+                            socialMedia: { ...profileData.socialMedia, telegram: e.target.value }
+                          })}
+                          placeholder="https://t.me/..."
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex space-x-4">
+                      {profileData.socialMedia?.whatsapp && (
+                        <button
+                          onClick={() => openWhatsApp(profileData.socialMedia.whatsapp)}
+                          className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+                        >
+                          <span>📱</span>
+                          <span>WhatsApp</span>
+                        </button>
+                      )}
+                      {profileData.socialMedia?.facebook && (
+                        <a
+                          href={profileData.socialMedia.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                          <span>📘</span>
+                          <span>Facebook</span>
+                        </a>
+                      )}
+                      {profileData.socialMedia?.instagram && (
+                        <a
+                          href={profileData.socialMedia.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-2 bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors"
+                        >
+                          <span>📷</span>
+                          <span>Instagram</span>
+                        </a>
+                      )}
+                      {profileData.socialMedia?.telegram && (
+                        <a
+                          href={profileData.socialMedia.telegram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                          <span>✈️</span>
+                          <span>Telegram</span>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+
                 {isEditing && (
                   <div className="pt-6">
                     <button
