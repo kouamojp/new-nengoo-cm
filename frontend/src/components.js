@@ -305,7 +305,8 @@ const mockProducts = [
     description: {
       fr: "Accessoires authentiques du marché local camerounais.",
       en: "Authentic accessories from the local Cameroonian market."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   }
 ];
 
