@@ -290,7 +290,8 @@ const mockProducts = [
     description: {
       fr: "Vêtements de mode moderne avec des influences traditionnelles camerounaises.",
       en: "Modern fashion clothing with traditional Cameroonian influences."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 8,
