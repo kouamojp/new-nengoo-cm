@@ -15,7 +15,11 @@ import {
   SellerOrders,
   SellerAnalytics,
   SellerProfile,
-  SellerMessages 
+  SellerMessages,
+  Login,
+  BuyerSignup,
+  SellerSignup,
+  PendingApproval
 } from './components';
 
 function App() {
