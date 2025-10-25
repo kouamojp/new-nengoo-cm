@@ -167,7 +167,22 @@ const translations = {
   }
 };
 
-// Mock Product Data
+// Utility functions for social media and WhatsApp
+const openWhatsApp = (phoneNumber, message = '') => {
+  const encodedMessage = encodeURIComponent(message);
+  const url = `https://wa.me/${phoneNumber.replace(/\D/g, '')}?text=${encodedMessage}`;
+  window.open(url, '_blank');
+};
+
+const formatPhoneForWhatsApp = (phone) => {
+  return phone.replace(/\D/g, '');
+};
+
+const generateProductWhatsAppMessage = (product, language) => {
+  return `Bonjour! Je suis intéressé(e) par votre produit "${product.name[language]}" sur Nengoo. Pourriez-vous me donner plus d'informations? Merci!`;
+};
+
+// Mock Product Data with seller WhatsApp
 const mockProducts = [
   {
     id: 1,
