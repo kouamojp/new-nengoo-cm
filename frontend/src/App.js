@@ -114,6 +114,12 @@ function App() {
           <Route path="/about" element={<About {...appProps} />} />
           <Route path="/search" element={<SearchResults {...appProps} />} />
           
+          {/* Authentication Routes */}
+          <Route path="/login" element={<Login {...appProps} />} />
+          <Route path="/signup/buyer" element={<BuyerSignup {...appProps} />} />
+          <Route path="/signup/seller" element={<SellerSignup {...appProps} />} />
+          <Route path="/pending-approval" element={<PendingApproval {...appProps} />} />
+          
           {/* Seller Routes */}
           <Route path="/seller" element={<SellerDashboard {...appProps} />} />
           <Route path="/seller/products" element={<SellerProducts {...appProps} />} />
