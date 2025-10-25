@@ -1379,7 +1379,9 @@ export const Checkout = (props) => {
     city: '',
     region: '',
     postalCode: '',
-    paymentMethod: 'mtnMoney'
+    paymentMethod: 'mtnMoney',
+    deliveryOption: 'home', // 'home' or 'pickup'
+    selectedPickupPoint: ''
   });
   
   const formatPrice = (price) => {
