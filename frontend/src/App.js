@@ -106,7 +106,7 @@ function App() {
     removeFromCart,
     clearCart,
     toggleLanguage,
-    setUser
+    setUser: updateUser
   };
 
   return (
