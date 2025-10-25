@@ -200,7 +200,8 @@ const mockProducts = [
     images: [
       "https://images.pexels.com/photos/21618972/pexels-photo-21618972.jpeg",
       "https://images.pexels.com/photos/31964014/pexels-photo-31964014.jpeg"
-    ]
+    ],
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 2,
