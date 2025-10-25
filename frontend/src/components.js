@@ -187,7 +187,31 @@ const translations = {
     followUs: "Follow Us",
     newsletter: "Newsletter",
     subscribe: "Subscribe",
-    footerText: "Nengoo - Your trusted Cameroonian marketplace since 2025"
+    footerText: "Nengoo - Your trusted Cameroonian marketplace since 2025",
+    
+    // Authentication
+    login: "Sign In",
+    signup: "Sign Up",
+    loginAsBuyer: "Sign In as Buyer",
+    loginAsSeller: "Sign In as Seller",
+    buyerLogin: "Buyer Login",
+    sellerLogin: "Seller Login",
+    whatsappNumber: "WhatsApp Number",
+    enterWhatsApp: "Enter your WhatsApp number",
+    selectCategories: "Select categories",
+    businessName: "Business Name",
+    city: "City",
+    selectCity: "Choose your city",
+    signupAsSeller: "Seller Registration",
+    signupAsBuyer: "Buyer Registration",
+    createAccount: "Create Account",
+    haveAccount: "Already have an account?",
+    noAccount: "Don't have an account?",
+    pendingApproval: "Pending Approval",
+    approvalMessage: "Your seller registration request has been submitted. You will receive a WhatsApp confirmation once your account is approved by the administrator.",
+    backToHome: "Back to Home",
+    logout: "Logout",
+    welcomeBack: "Welcome Back"
   }
 };
 
