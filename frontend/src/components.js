@@ -260,7 +260,8 @@ const mockProducts = [
     description: {
       fr: "Grains biologiques de haute qualité cultivés par des agriculteurs locaux.",
       en: "High-quality organic grains grown by local farmers."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 6,
