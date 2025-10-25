@@ -1594,6 +1594,40 @@ const mockSellerData = {
       date: "2025-07-21",
       read: true
     }
+  ],
+  pickupPoints: [
+    {
+      id: 1,
+      name: "Nengoo Point Douala Centre",
+      address: "Avenue de la Liberté, Douala",
+      phone: "+237 233 456 789",
+      hours: "Lun-Sam: 8h-18h",
+      city: "Douala"
+    },
+    {
+      id: 2,
+      name: "Nengoo Point Yaoundé Mvan",
+      address: "Quartier Mvan, Yaoundé",
+      phone: "+237 222 345 678",
+      hours: "Lun-Sam: 8h-18h",
+      city: "Yaoundé"
+    },
+    {
+      id: 3,
+      name: "Nengoo Point Bafoussam",
+      address: "Marché Central, Bafoussam",
+      phone: "+237 233 567 890",
+      hours: "Lun-Sam: 7h-17h",
+      city: "Bafoussam"
+    },
+    {
+      id: 4,
+      name: "Nengoo Point Garoua",
+      address: "Quartier Plateau, Garoua",
+      phone: "+237 222 678 901",
+      hours: "Lun-Sam: 8h-17h",
+      city: "Garoua"
+    }
   ]
 };
 
