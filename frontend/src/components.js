@@ -1640,13 +1640,23 @@ export const Checkout = (props) => {
                   <span>{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>{t.shipping}</span>
+                  <span>
+                    {formData.deliveryOption === 'pickup' ? 'Retrait gratuit' : t.shipping}
+                  </span>
                   <span>{shipping === 0 ? 'Gratuit' : formatPrice(shipping)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t.tax}</span>
                   <span>{formatPrice(tax)}</span>
                 </div>
+                {formData.deliveryOption === 'pickup' && formData.selectedPickupPoint && (
+                  <div className="pt-2 border-t">
+                    <p className="text-sm font-medium text-purple-600">Point de retrait:</p>
+                    <p className="text-sm text-gray-600">
+                      {mockSellerData.pickupPoints.find(p => p.id.toString() === formData.selectedPickupPoint)?.name}
+                    </p>
+                  </div>
+                )}
                 <hr />
                 <div className="flex justify-between text-lg font-bold">
                   <span>{t.total}</span>
