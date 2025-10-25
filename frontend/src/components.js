@@ -973,6 +973,11 @@ export const ProductDetail = (props) => {
   
   const images = product.images || [product.image];
 
+  const handleWhatsAppContact = () => {
+    const message = generateProductWhatsAppMessage(product, language);
+    openWhatsApp(product.sellerWhatsApp, message);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header {...props} />
