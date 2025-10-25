@@ -85,6 +85,15 @@ function App() {
     setLanguage(prev => prev === 'fr' ? 'en' : 'fr');
   };
 
+  const updateUser = (userData) => {
+    setUser(userData);
+    if (userData) {
+      localStorage.setItem('nengoo-user', JSON.stringify(userData));
+    } else {
+      localStorage.removeItem('nengoo-user');
+    }
+  };
+
   const appProps = {
     language,
     currency,
