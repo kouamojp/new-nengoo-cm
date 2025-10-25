@@ -1671,15 +1671,9 @@ export const Checkout = (props) => {
                 </div>
               </div>
               
-              <button
-                type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-semibold mt-6 transition-colors"
-              >
-                {t.placeOrder}
-              </button>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       
       <Footer language={language} />
