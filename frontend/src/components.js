@@ -453,15 +453,25 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
               <div className="text-sm">{t.cart}</div>
             </Link>
             
-            <Link to="/profile" className="hover:text-yellow-300 transition-colors">
-              <span className="text-2xl">👤</span>
-              <div className="text-sm">{user ? user.name : t.signin}</div>
-            </Link>
-            
-            <Link to="/seller" className="hover:text-yellow-300 transition-colors">
-              <span className="text-2xl">🏪</span>
-              <div className="text-sm">Vendeur</div>
-            </Link>
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <Link to={user.type === 'seller' ? '/seller' : '/profile'} className="hover:text-yellow-300 transition-colors">
+                  <span className="text-2xl">{user.type === 'seller' ? '🏪' : '👤'}</span>
+                  <div className="text-sm">{user.name}</div>
+                </Link>
+                <button 
+                  onClick={() => setUser(null)}
+                  className="text-sm hover:text-yellow-300 transition-colors"
+                >
+                  {t.logout}
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="hover:text-yellow-300 transition-colors">
+                <span className="text-2xl">👤</span>
+                <div className="text-sm">{t.signin}</div>
+              </Link>
+            )}
           </div>
 
           {/* Mobile User Actions */}
