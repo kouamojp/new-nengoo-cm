@@ -1530,12 +1530,19 @@ const mockSellerData = {
     name: "Boutique Afrique",
     email: "boutique@afrique.cm",
     phone: "+237 6XX XXX XXX",
+    whatsapp: "+237655123456",
     address: "Douala, Cameroun",
     logo: "https://images.pexels.com/photos/16430537/pexels-photo-16430537.jpeg",
     description: "Spécialiste en produits traditionnels camerounais",
     rating: 4.8,
     totalSales: 1250,
-    joinDate: "2024-01-15"
+    joinDate: "2024-01-15",
+    socialMedia: {
+      whatsapp: "+237655123456",
+      facebook: "https://facebook.com/boutique.afrique.cm",
+      instagram: "https://instagram.com/boutique_afrique",
+      telegram: "https://t.me/boutiqueafrique"
+    }
   },
   orders: [
     {
