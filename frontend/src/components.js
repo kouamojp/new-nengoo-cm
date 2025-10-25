@@ -1424,189 +1424,197 @@ export const Checkout = (props) => {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">Finaliser la commande</h1>
         
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Billing Information */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold mb-6">{t.billingInfo}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleInputChange}
-                  placeholder={t.firstName}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleInputChange}
-                  placeholder={t.lastName}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder={t.email}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder={t.phone}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-            </div>
-            
-            {/* Shipping Information */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold mb-6">{t.shippingInfo}</h3>
-              
-              {/* Delivery Options */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-4">Option de Livraison</label>
-                <div className="space-y-3">
-                  <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="deliveryOption"
-                      value="home"
-                      checked={formData.deliveryOption === 'home'}
-                      onChange={handleInputChange}
-                      className="mr-3"
-                    />
-                    <div className="flex items-center">
-                      <span className="text-xl mr-3">🏠</span>
-                      <div>
-                        <span className="font-medium">Livraison à domicile</span>
-                        <p className="text-sm text-gray-600">Livraison directe à votre adresse</p>
-                      </div>
-                    </div>
-                  </label>
-                  
-                  <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="deliveryOption"
-                      value="pickup"
-                      checked={formData.deliveryOption === 'pickup'}
-                      onChange={handleInputChange}
-                      className="mr-3"
-                    />
-                    <div className="flex items-center">
-                      <span className="text-xl mr-3">📍</span>
-                      <div>
-                        <span className="font-medium">Point de retrait</span>
-                        <p className="text-sm text-gray-600">Retrait gratuit dans un point Nengoo</p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              {/* Pickup Points Selection */}
-              {formData.deliveryOption === 'pickup' && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-3">Choisir un Point de Retrait</label>
-                  <div className="space-y-3 max-h-64 overflow-y-auto">
-                    {mockSellerData.pickupPoints.map(point => (
-                      <label key={point.id} className="flex items-start p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <input
-                          type="radio"
-                          name="selectedPickupPoint"
-                          value={point.id}
-                          checked={formData.selectedPickupPoint === point.id.toString()}
-                          onChange={handleInputChange}
-                          className="mr-3 mt-1"
-                        />
-                        <div className="flex-1">
-                          <div className="font-medium text-purple-700">{point.name}</div>
-                          <div className="text-sm text-gray-600 mt-1">{point.address}</div>
-                          <div className="text-sm text-gray-500 mt-1">
-                            📞 {point.phone} • 🕒 {point.hours}
-                          </div>
-                        </div>
-                        <div className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
-                          {point.city}
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Home Delivery Address Fields */}
-              {formData.deliveryOption === 'home' && (
+            <form onSubmit={handleSubmit}>
+              {/* Billing Information */}
+              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 className="text-xl font-bold mb-6">{t.billingInfo}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <input
                     type="text"
-                    name="address"
-                    value={formData.address}
+                    name="firstName"
+                    value={formData.firstName}
                     onChange={handleInputChange}
-                    placeholder={t.address}
-                    required={formData.deliveryOption === 'home'}
-                    className="sm:col-span-2 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    placeholder={t.city}
-                    required={formData.deliveryOption === 'home'}
+                    placeholder={t.firstName}
+                    required
                     className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                   <input
                     type="text"
-                    name="region"
-                    value={formData.region}
+                    name="lastName"
+                    value={formData.lastName}
                     onChange={handleInputChange}
-                    placeholder={t.region}
-                    required={formData.deliveryOption === 'home'}
+                    placeholder={t.lastName}
+                    required
+                    className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder={t.email}
+                    required
+                    className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    placeholder={t.phone}
+                    required
                     className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
-              )}
-            </div>
-            </div>
-            
-            {/* Payment Method */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-bold mb-6">{t.paymentMethod}</h3>
-              <div className="space-y-3">
-                {[
-                  { key: 'mtnMoney', label: t.mtnMoney, icon: '📱' },
-                  { key: 'orangeMoney', label: t.orangeMoney, icon: '🍊' },
-                  { key: 'creditCard', label: t.creditCard, icon: '💳' },
-                  { key: 'cashOnDelivery', label: t.cashOnDelivery, icon: '💰' }
-                ].map(method => (
-                  <label key={method.key} className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value={method.key}
-                      checked={formData.paymentMethod === method.key}
-                      onChange={handleInputChange}
-                      className="mr-3"
-                    />
-                    <span className="text-xl mr-3">{method.icon}</span>
-                    <span className="font-medium">{method.label}</span>
-                  </label>
-                ))}
               </div>
-            </div>
+            
+              {/* Shipping Information */}
+              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 className="text-xl font-bold mb-6">{t.shippingInfo}</h3>
+                
+                {/* Delivery Options */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-4">Option de Livraison</label>
+                  <div className="space-y-3">
+                    <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="deliveryOption"
+                        value="home"
+                        checked={formData.deliveryOption === 'home'}
+                        onChange={handleInputChange}
+                        className="mr-3"
+                      />
+                      <div className="flex items-center">
+                        <span className="text-xl mr-3">🏠</span>
+                        <div>
+                          <span className="font-medium">Livraison à domicile</span>
+                          <p className="text-sm text-gray-600">Livraison directe à votre adresse</p>
+                        </div>
+                      </div>
+                    </label>
+                    
+                    <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="deliveryOption"
+                        value="pickup"
+                        checked={formData.deliveryOption === 'pickup'}
+                        onChange={handleInputChange}
+                        className="mr-3"
+                      />
+                      <div className="flex items-center">
+                        <span className="text-xl mr-3">📍</span>
+                        <div>
+                          <span className="font-medium">Point de retrait</span>
+                          <p className="text-sm text-gray-600">Retrait gratuit dans un point Nengoo</p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Pickup Points Selection */}
+                {formData.deliveryOption === 'pickup' && (
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium mb-3">Choisir un Point de Retrait</label>
+                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                      {mockSellerData.pickupPoints.map(point => (
+                        <label key={point.id} className="flex items-start p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                          <input
+                            type="radio"
+                            name="selectedPickupPoint"
+                            value={point.id}
+                            checked={formData.selectedPickupPoint === point.id.toString()}
+                            onChange={handleInputChange}
+                            className="mr-3 mt-1"
+                          />
+                          <div className="flex-1">
+                            <div className="font-medium text-purple-700">{point.name}</div>
+                            <div className="text-sm text-gray-600 mt-1">{point.address}</div>
+                            <div className="text-sm text-gray-500 mt-1">
+                              📞 {point.phone} • 🕒 {point.hours}
+                            </div>
+                          </div>
+                          <div className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                            {point.city}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Home Delivery Address Fields */}
+                {formData.deliveryOption === 'home' && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder={t.address}
+                      required={formData.deliveryOption === 'home'}
+                      className="sm:col-span-2 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      placeholder={t.city}
+                      required={formData.deliveryOption === 'home'}
+                      className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                    <input
+                      type="text"
+                      name="region"
+                      value={formData.region}
+                      onChange={handleInputChange}
+                      placeholder={t.region}
+                      required={formData.deliveryOption === 'home'}
+                      className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                )}
+              </div>
+            
+              {/* Payment Method */}
+              <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <h3 className="text-xl font-bold mb-6">{t.paymentMethod}</h3>
+                <div className="space-y-3">
+                  {[
+                    { key: 'mtnMoney', label: t.mtnMoney, icon: '📱' },
+                    { key: 'orangeMoney', label: t.orangeMoney, icon: '🍊' },
+                    { key: 'creditCard', label: t.creditCard, icon: '💳' },
+                    { key: 'cashOnDelivery', label: t.cashOnDelivery, icon: '💰' }
+                  ].map(method => (
+                    <label key={method.key} className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value={method.key}
+                        checked={formData.paymentMethod === method.key}
+                        onChange={handleInputChange}
+                        className="mr-3"
+                      />
+                      <span className="text-xl mr-3">{method.icon}</span>
+                      <span className="font-medium">{method.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+              >
+                {t.placeOrder}
+              </button>
+            </form>
           </div>
           
           {/* Order Summary */}
