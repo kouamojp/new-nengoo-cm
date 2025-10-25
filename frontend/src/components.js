@@ -547,22 +547,37 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
             
             {/* Mobile User Links */}
             <div className="space-y-3 border-t border-purple-500 pt-4">
-              <Link
-                to="/profile"
-                onClick={() => setShowMobileMenu(false)}
-                className="flex items-center space-x-3 py-2 hover:text-yellow-300 transition-colors"
-              >
-                <span className="text-xl">👤</span>
-                <span>{user ? user.name : t.signin}</span>
-              </Link>
-              <Link
-                to="/seller"
-                onClick={() => setShowMobileMenu(false)}
-                className="flex items-center space-x-3 py-2 hover:text-yellow-300 transition-colors"
-              >
-                <span className="text-xl">🏪</span>
-                <span>Espace Vendeur</span>
-              </Link>
+              {user ? (
+                <div className="space-y-3">
+                  <Link
+                    to={user.type === 'seller' ? '/seller' : '/profile'}
+                    onClick={() => setShowMobileMenu(false)}
+                    className="flex items-center space-x-3 py-2 hover:text-yellow-300 transition-colors"
+                  >
+                    <span className="text-xl">{user.type === 'seller' ? '🏪' : '👤'}</span>
+                    <span>{user.name}</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setUser(null);
+                      setShowMobileMenu(false);
+                    }}
+                    className="flex items-center space-x-3 py-2 hover:text-yellow-300 transition-colors"
+                  >
+                    <span className="text-xl">🚪</span>
+                    <span>{t.logout}</span>
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="flex items-center space-x-3 py-2 hover:text-yellow-300 transition-colors"
+                >
+                  <span className="text-xl">👤</span>
+                  <span>{t.signin}</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
