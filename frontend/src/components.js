@@ -245,7 +245,8 @@ const mockProducts = [
     description: {
       fr: "Collection de chapeaux traditionnels camerounais faits à la main.",
       en: "Collection of handmade traditional Cameroonian hats."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 5,
