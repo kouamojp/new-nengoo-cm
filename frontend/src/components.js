@@ -275,7 +275,8 @@ const mockProducts = [
     description: {
       fr: "Cosmétiques naturels à base d'ingrédients africains traditionnels.",
       en: "Natural cosmetics made from traditional African ingredients."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 7,
