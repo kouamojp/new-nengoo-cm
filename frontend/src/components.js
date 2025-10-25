@@ -1467,32 +1467,118 @@ export const Checkout = (props) => {
                   required
                   className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  placeholder={t.address}
-                  required
-                  className="sm:col-span-2 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                  placeholder={t.city}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-                <input
-                  type="text"
-                  name="region"
-                  value={formData.region}
-                  onChange={handleInputChange}
-                  placeholder={t.region}
-                  required
-                  className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              </div>
+            </div>
+            
+            {/* Shipping Information */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-xl font-bold mb-6">{t.shippingInfo}</h3>
+              
+              {/* Delivery Options */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-4">Option de Livraison</label>
+                <div className="space-y-3">
+                  <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="deliveryOption"
+                      value="home"
+                      checked={formData.deliveryOption === 'home'}
+                      onChange={handleInputChange}
+                      className="mr-3"
+                    />
+                    <div className="flex items-center">
+                      <span className="text-xl mr-3">🏠</span>
+                      <div>
+                        <span className="font-medium">Livraison à domicile</span>
+                        <p className="text-sm text-gray-600">Livraison directe à votre adresse</p>
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="deliveryOption"
+                      value="pickup"
+                      checked={formData.deliveryOption === 'pickup'}
+                      onChange={handleInputChange}
+                      className="mr-3"
+                    />
+                    <div className="flex items-center">
+                      <span className="text-xl mr-3">📍</span>
+                      <div>
+                        <span className="font-medium">Point de retrait</span>
+                        <p className="text-sm text-gray-600">Retrait gratuit dans un point Nengoo</p>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Pickup Points Selection */}
+              {formData.deliveryOption === 'pickup' && (
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-3">Choisir un Point de Retrait</label>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {mockSellerData.pickupPoints.map(point => (
+                      <label key={point.id} className="flex items-start p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="selectedPickupPoint"
+                          value={point.id}
+                          checked={formData.selectedPickupPoint === point.id.toString()}
+                          onChange={handleInputChange}
+                          className="mr-3 mt-1"
+                        />
+                        <div className="flex-1">
+                          <div className="font-medium text-purple-700">{point.name}</div>
+                          <div className="text-sm text-gray-600 mt-1">{point.address}</div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            📞 {point.phone} • 🕒 {point.hours}
+                          </div>
+                        </div>
+                        <div className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                          {point.city}
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Home Delivery Address Fields */}
+              {formData.deliveryOption === 'home' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    placeholder={t.address}
+                    required={formData.deliveryOption === 'home'}
+                    className="sm:col-span-2 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    placeholder={t.city}
+                    required={formData.deliveryOption === 'home'}
+                    className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <input
+                    type="text"
+                    name="region"
+                    value={formData.region}
+                    onChange={handleInputChange}
+                    placeholder={t.region}
+                    required={formData.deliveryOption === 'home'}
+                    className="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              )}
                 />
               </div>
             </div>
