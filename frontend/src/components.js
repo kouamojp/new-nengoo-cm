@@ -1093,6 +1093,85 @@ export const ProductDetail = (props) => {
                 >
                   {t.buyNow}
                 </button>
+                
+                {/* WhatsApp Contact Button */}
+                {product.sellerWhatsApp && (
+                  <button
+                    onClick={handleWhatsAppContact}
+                    className="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center space-x-2 transition-colors"
+                  >
+                    <span>📱</span>
+                    <span>Contacter le vendeur sur WhatsApp</span>
+                  </button>
+                )}
+              </div>
+              
+              {/* Seller Info Card */}
+              <div className="mt-8 bg-gray-50 rounded-lg p-6">
+                <h3 className="text-lg font-semibold mb-4">Informations Vendeur</h3>
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={mockSellerData.profile.logo}
+                    alt="Vendeur"
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-lg">{mockSellerData.profile.name}</h4>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
+                      <span className="flex items-center">
+                        <span className="text-yellow-400 mr-1">⭐</span>
+                        {mockSellerData.profile.rating}
+                      </span>
+                      <span>{mockSellerData.profile.totalSales} ventes</span>
+                    </div>
+                    
+                    {/* Seller Social Links */}
+                    <div className="flex space-x-3 mt-3">
+                      {mockSellerData.profile.socialMedia.whatsapp && (
+                        <button
+                          onClick={() => openWhatsApp(mockSellerData.profile.socialMedia.whatsapp)}
+                          className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors"
+                          title="WhatsApp"
+                        >
+                          📱
+                        </button>
+                      )}
+                      {mockSellerData.profile.socialMedia.facebook && (
+                        <a
+                          href={mockSellerData.profile.socialMedia.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors"
+                          title="Facebook"
+                        >
+                          📘
+                        </a>
+                      )}
+                      {mockSellerData.profile.socialMedia.instagram && (
+                        <a
+                          href={mockSellerData.profile.socialMedia.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-pink-500 text-white p-2 rounded-full hover:bg-pink-600 transition-colors"
+                          title="Instagram"
+                        >
+                          📷
+                        </a>
+                      )}
+                      {mockSellerData.profile.socialMedia.telegram && (
+                        <a
+                          href={mockSellerData.profile.socialMedia.telegram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
+                          title="Telegram"
+                        >
+                          ✈️
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
               
               {/* Product Description */}
