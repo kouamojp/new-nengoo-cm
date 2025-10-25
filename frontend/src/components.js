@@ -3739,38 +3739,6 @@ export const PendingApproval = (props) => {
     </div>
   );
 };
-                    <p className="text-sm opacity-90">Total Ventes</p>
-                    <p className="text-3xl font-bold">{profileData.totalSales}</p>
-                    <p className="text-sm opacity-75">Commandes livrées</p>
-                  </div>
-                  <div className="text-4xl">📦</div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-purple-400 to-purple-600 text-white rounded-lg p-6 shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm opacity-90">Membre Depuis</p>
-                    <p className="text-2xl font-bold">
-                      {new Date(profileData.joinDate).toLocaleDateString('fr-FR', { 
-                        year: 'numeric', 
-                        month: 'short' 
-                      })}
-                    </p>
-                    <p className="text-sm opacity-75">Vendeur actif</p>
-                  </div>
-                  <div className="text-4xl">🕐</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <Footer language={language} />
-    </div>
-  );
-};
 
 // Seller Messages Component
 export const SellerMessages = (props) => {
