@@ -82,7 +82,31 @@ const translations = {
     followUs: "Suivez-nous",
     newsletter: "Newsletter",
     subscribe: "S'abonner",
-    footerText: "Nengoo - Votre marketplace camerounaise de confiance depuis 2025"
+    footerText: "Nengoo - Votre marketplace camerounaise de confiance depuis 2025",
+    
+    // Authentication
+    login: "Se connecter",
+    signup: "S'inscrire",
+    loginAsBuyer: "Se connecter en tant qu'Acheteur",
+    loginAsSeller: "Se connecter en tant que Vendeur",
+    buyerLogin: "Connexion Acheteur",
+    sellerLogin: "Connexion Vendeur",
+    whatsappNumber: "Numéro WhatsApp",
+    enterWhatsApp: "Entrez votre numéro WhatsApp",
+    selectCategories: "Sélectionner les catégories",
+    businessName: "Nom de l'entreprise",
+    city: "Ville",
+    selectCity: "Choisir votre ville",
+    signupAsSeller: "Inscription Vendeur",
+    signupAsBuyer: "Inscription Acheteur",
+    createAccount: "Créer un compte",
+    haveAccount: "Déjà un compte ?",
+    noAccount: "Pas de compte ?",
+    pendingApproval: "En attente d'approbation",
+    approvalMessage: "Votre demande d'inscription en tant que vendeur a été soumise. Vous recevrez une confirmation par WhatsApp une fois votre compte approuvé par l'administrateur.",
+    backToHome: "Retour à l'accueil",
+    logout: "Se déconnecter",
+    welcomeBack: "Bon retour"
   },
   en: {
     // Header
