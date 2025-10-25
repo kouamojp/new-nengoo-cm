@@ -230,7 +230,8 @@ const mockProducts = [
     description: {
       fr: "Panier artisanal traditionnel fabriqué par des artisans locaux camerounais.",
       en: "Traditional handcrafted basket made by local Cameroonian artisans."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 4,
