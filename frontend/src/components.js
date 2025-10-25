@@ -603,6 +603,11 @@ const ProductCard = ({ product, language, addToCart }) => {
     }).format(price);
   };
 
+  const handleWhatsAppContact = () => {
+    const message = generateProductWhatsAppMessage(product, language);
+    openWhatsApp(product.sellerWhatsApp, message);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group">
       <div className="relative overflow-hidden">
@@ -640,18 +645,28 @@ const ProductCard = ({ product, language, addToCart }) => {
         <p className="text-gray-600 text-sm mb-2">
           {product.reviews} {t.reviews} • {product.rating} ⭐
         </p>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mb-3">
           <span className="text-xl font-bold text-purple-600">
             {formatPrice(product.price)}
           </span>
           <button
             onClick={() => addToCart(product)}
             disabled={!product.inStock}
-            className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+            className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white px-3 py-1.5 text-sm rounded-lg transition-colors"
           >
             {t.addToCart}
           </button>
         </div>
+        {/* WhatsApp Contact Button */}
+        {product.sellerWhatsApp && (
+          <button
+            onClick={handleWhatsAppContact}
+            className="w-full bg-green-500 hover:bg-green-600 text-white px-3 py-2 text-sm rounded-lg flex items-center justify-center space-x-2 transition-colors"
+          >
+            <span>📱</span>
+            <span>Contacter sur WhatsApp</span>
+          </button>
+        )}
       </div>
     </div>
   );
