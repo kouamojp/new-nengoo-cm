@@ -215,7 +215,8 @@ const mockProducts = [
     description: {
       fr: "Smartphone Android dernière génération avec appareil photo haute résolution.",
       en: "Latest generation Android smartphone with high-resolution camera."
-    }
+    },
+    sellerWhatsApp: "+237655123456"
   },
   {
     id: 3,
