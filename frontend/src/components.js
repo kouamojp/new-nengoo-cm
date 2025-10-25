@@ -1983,6 +1983,52 @@ const mockSellerData = {
   ]
 };
 
+// Mock Authentication Data
+const mockUsers = {
+  buyers: [
+    {
+      id: 1,
+      whatsapp: "+237655123456",
+      name: "Marie Kouam",
+      joinDate: "2025-01-10",
+      type: "buyer"
+    }
+  ],
+  sellers: [
+    {
+      id: 1,
+      whatsapp: "+237655123456",
+      name: "Jean Baptiste",
+      businessName: "Boutique Afrique",
+      email: "boutique@afrique.cm",
+      city: "Douala",
+      categories: ["fashion", "local"],
+      status: "approved",
+      joinDate: "2024-01-15",
+      type: "seller"
+    }
+  ],
+  pendingSellers: [
+    {
+      id: 2,
+      whatsapp: "+237655987654",
+      name: "Aminata Sow",
+      businessName: "Artisanat Cameroun",
+      email: "artisanat@cameroun.cm",
+      city: "Yaoundé",
+      categories: ["local", "home"],
+      status: "pending",
+      submitDate: "2025-07-22",
+      type: "seller"
+    }
+  ]
+};
+
+const cameroonCities = [
+  "Douala", "Yaoundé", "Bafoussam", "Garoua", "Maroua", "Bamenda", 
+  "Ngaoundéré", "Bertoua", "Ebolowa", "Kumba", "Limbe", "Dschang"
+];
+
 // Seller Sidebar Component
 const SellerSidebar = ({ currentPage, language }) => {
   const menuItems = [
