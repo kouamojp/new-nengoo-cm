@@ -821,6 +821,9 @@ export const Homepage = (props) => {
     <div className="min-h-screen bg-gray-50">
       <Header {...props} />
       
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
+      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-purple-600 to-red-600 text-white">
         <div className="container mx-auto px-4 py-12 sm:py-20">
