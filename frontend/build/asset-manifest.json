@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pod-backups/nengoo-cam/build/static/css/main.b5ebf34a.css",
+    "main.js": "/pod-backups/nengoo-cam/build/static/js/main.7b25adb5.js",
+    "index.html": "/pod-backups/nengoo-cam/build/index.html",
+    "main.b5ebf34a.css.map": "/pod-backups/nengoo-cam/build/static/css/main.b5ebf34a.css.map",
+    "main.7b25adb5.js.map": "/pod-backups/nengoo-cam/build/static/js/main.7b25adb5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b5ebf34a.css",
+    "static/js/main.7b25adb5.js"
+  ]
+}

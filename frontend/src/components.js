@@ -75,14 +75,18 @@ const translations = {
     language: "Langue",
     
     // Navigation Categories
-    fashion: "Mode",
-    electronics: "Électronique",
-    home: "Maison & Jardin",
-    local: "Produits Locaux",
-    agriculture: "Agriculture",
-    beauty: "Beauté",
-    sports: "Sports",
-    books: "Livres",
+    food_drinks: "Aliments et Boissons",
+    sports_articles: "Articles Sportifs", 
+    handicrafts: "Artisanat et Produits Faits Main",
+    electronics: "Électroniques",
+    professional_equipment: "Équipements Professionnels",
+    toys: "Jouets pour Enfants",
+    home_garden: "Maison & Jardinage",
+    medical_equipment: "Matériel Médical",
+    beauty_care: "Produits de Beauté et Soins Personnels",
+    services: "Services",
+    clothing_accessories: "Vêtements et Accessoires",
+    travel_tickets: "Voyages et Billets",
     
     // Homepage
     welcome: "Bienvenue sur Nengoo",
