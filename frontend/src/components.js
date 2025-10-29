@@ -369,7 +369,7 @@ const mockProducts = [
   {
     id: 5,
     name: { fr: "Grains Biologiques", en: "Organic Grains" },
-    category: "agriculture",
+    category: "food_drinks",
     price: 3500,
     image: "https://images.pexels.com/photos/33062138/pexels-photo-33062138.jpeg",
     rating: 4.6,
