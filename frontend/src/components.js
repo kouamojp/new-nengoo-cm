@@ -984,12 +984,18 @@ export const ProductCatalog = (props) => {
 
   const categories = [
     { key: 'all', name: { fr: 'Tous', en: 'All' } },
-    { key: 'fashion', name: { fr: 'Mode', en: 'Fashion' } },
-    { key: 'electronics', name: { fr: 'Électronique', en: 'Electronics' } },
-    { key: 'home', name: { fr: 'Maison', en: 'Home' } },
-    { key: 'local', name: { fr: 'Produits Locaux', en: 'Local Products' } },
-    { key: 'agriculture', name: { fr: 'Agriculture', en: 'Agriculture' } },
-    { key: 'beauty', name: { fr: 'Beauté', en: 'Beauty' } }
+    { key: 'clothing_accessories', name: { fr: 'Vêtements et Accessoires', en: 'Clothing & Accessories' } },
+    { key: 'food_drinks', name: { fr: 'Aliments et Boissons', en: 'Food & Drinks' } },
+    { key: 'electronics', name: { fr: 'Électroniques', en: 'Electronics' } },
+    { key: 'home_garden', name: { fr: 'Maison & Jardinage', en: 'Home & Garden' } },
+    { key: 'handicrafts', name: { fr: 'Artisanat', en: 'Handicrafts' } },
+    { key: 'beauty_care', name: { fr: 'Beauté et Soins', en: 'Beauty & Care' } },
+    { key: 'sports_articles', name: { fr: 'Articles Sportifs', en: 'Sports Articles' } },
+    { key: 'toys', name: { fr: 'Jouets pour Enfants', en: 'Children\'s Toys' } },
+    { key: 'medical_equipment', name: { fr: 'Matériel Médical', en: 'Medical Equipment' } },
+    { key: 'professional_equipment', name: { fr: 'Équipements Pro', en: 'Professional Equipment' } },
+    { key: 'services', name: { fr: 'Services', en: 'Services' } },
+    { key: 'travel_tickets', name: { fr: 'Voyages et Billets', en: 'Travel & Tickets' } }
   ];
 
   return (
