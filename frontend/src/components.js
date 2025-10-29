@@ -3579,14 +3579,18 @@ export const SellerSignup = (props) => {
   };
 
   const categoryOptions = [
-    { key: 'fashion', label: 'Mode', icon: '👗' },
-    { key: 'electronics', label: 'Électronique', icon: '📱' },
-    { key: 'home', label: 'Maison & Jardin', icon: '🏠' },
-    { key: 'local', label: 'Produits Locaux', icon: '🎨' },
-    { key: 'agriculture', label: 'Agriculture', icon: '🌾' },
-    { key: 'beauty', label: 'Beauté', icon: '💄' },
-    { key: 'sports', label: 'Sports', icon: '⚽' },
-    { key: 'books', label: 'Livres', icon: '📚' }
+    { key: 'clothing_accessories', label: 'Vêtements et Accessoires', icon: '👗' },
+    { key: 'food_drinks', label: 'Aliments et Boissons', icon: '🍽️' },
+    { key: 'electronics', label: 'Électroniques', icon: '📱' },
+    { key: 'home_garden', label: 'Maison & Jardinage', icon: '🏠' },
+    { key: 'handicrafts', label: 'Artisanat et Produits Faits Main', icon: '🎨' },
+    { key: 'beauty_care', label: 'Produits de Beauté et Soins Personnels', icon: '💄' },
+    { key: 'sports_articles', label: 'Articles Sportifs', icon: '⚽' },
+    { key: 'toys', label: 'Jouets pour Enfants', icon: '🧸' },
+    { key: 'medical_equipment', label: 'Matériel Médical', icon: '🏥' },
+    { key: 'professional_equipment', label: 'Équipements Professionnels', icon: '🔧' },
+    { key: 'services', label: 'Services', icon: '🛠️' },
+    { key: 'travel_tickets', label: 'Voyages et Billets', icon: '✈️' }
   ];
 
   return (
