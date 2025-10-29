@@ -705,10 +705,10 @@ const Footer = ({ language }) => {
           <div>
             <h4 className="text-lg font-semibold mb-4">{t.categories}</h4>
             <ul className="space-y-2">
-              <li><Link to="/catalog/fashion" className="text-gray-300 hover:text-white transition-colors">{t.fashion}</Link></li>
+              <li><Link to="/catalog/clothing_accessories" className="text-gray-300 hover:text-white transition-colors">{t.clothing_accessories}</Link></li>
               <li><Link to="/catalog/electronics" className="text-gray-300 hover:text-white transition-colors">{t.electronics}</Link></li>
-              <li><Link to="/catalog/local" className="text-gray-300 hover:text-white transition-colors">{t.local}</Link></li>
-              <li><Link to="/catalog/agriculture" className="text-gray-300 hover:text-white transition-colors">{t.agriculture}</Link></li>
+              <li><Link to="/catalog/handicrafts" className="text-gray-300 hover:text-white transition-colors">{t.handicrafts}</Link></li>
+              <li><Link to="/catalog/food_drinks" className="text-gray-300 hover:text-white transition-colors">{t.food_drinks}</Link></li>
             </ul>
           </div>
 
