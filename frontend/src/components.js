@@ -887,7 +887,7 @@ export const Homepage = (props) => {
   const featuredProducts = mockProducts.slice(0, 4);
   const newArrivals = mockProducts.slice(2, 6);
   const bestSellers = mockProducts.slice(1, 5);
-  const localProducts = mockProducts.filter(p => p.category === 'local');
+  const localProducts = mockProducts.filter(p => p.category === 'handicrafts');
 
   return (
     <div className="min-h-screen bg-gray-50">
