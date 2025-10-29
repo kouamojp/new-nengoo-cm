@@ -2114,7 +2114,7 @@ const mockUsers = {
       businessName: "Boutique Afrique",
       email: "boutique@afrique.cm",
       city: "Douala",
-      categories: ["fashion", "local"],
+      categories: ["clothing_accessories", "handicrafts"],
       status: "approved",
       joinDate: "2024-01-15",
       type: "seller"
