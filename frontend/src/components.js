@@ -907,7 +907,7 @@ export const Homepage = (props) => {
                 <Link to="/catalog" className="bg-white text-purple-600 hover:bg-gray-100 px-6 sm:px-8 py-3 rounded-lg font-semibold transition-colors text-center">
                   {t.viewAll} 🛍️
                 </Link>
-                <Link to="/catalog/local" className="border-2 border-white hover:bg-white hover:text-purple-600 px-6 sm:px-8 py-3 rounded-lg font-semibold transition-colors text-center">
+                <Link to="/catalog/handicrafts" className="border-2 border-white hover:bg-white hover:text-purple-600 px-6 sm:px-8 py-3 rounded-lg font-semibold transition-colors text-center">
                   {t.localSpecialties} 🎨
                 </Link>
               </div>
