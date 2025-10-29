@@ -442,14 +442,18 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
   };
 
   const categories = [
-    { key: 'fashion', icon: '👗' },
+    { key: 'clothing_accessories', icon: '👗' },
+    { key: 'food_drinks', icon: '🍽️' },
     { key: 'electronics', icon: '📱' },
-    { key: 'home', icon: '🏠' },
-    { key: 'local', icon: '🎨' },
-    { key: 'agriculture', icon: '🌾' },
-    { key: 'beauty', icon: '💄' },
-    { key: 'sports', icon: '⚽' },
-    { key: 'books', icon: '📚' }
+    { key: 'home_garden', icon: '🏠' },
+    { key: 'handicrafts', icon: '🎨' },
+    { key: 'beauty_care', icon: '💄' },
+    { key: 'sports_articles', icon: '⚽' },
+    { key: 'toys', icon: '🧸' },
+    { key: 'medical_equipment', icon: '🏥' },
+    { key: 'professional_equipment', icon: '🔧' },
+    { key: 'services', icon: '🛠️' },
+    { key: 'travel_tickets', icon: '✈️' }
   ];
 
   return (
