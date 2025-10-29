@@ -425,6 +425,66 @@ const mockProducts = [
       en: "Authentic accessories from the local Cameroonian market."
     },
     sellerWhatsApp: "+237655123456"
+  },
+  {
+    id: 9,
+    name: { fr: "Produits Alimentaires Bio", en: "Organic Food Products" },
+    category: "food_drinks",
+    price: 8500,
+    image: "https://images.pexels.com/photos/33062138/pexels-photo-33062138.jpeg",
+    rating: 4.6,
+    reviews: 87,
+    inStock: true,
+    description: {
+      fr: "Produits alimentaires biologiques locaux de haute qualité.",
+      en: "High-quality local organic food products."
+    },
+    sellerWhatsApp: "+237655123456"
+  },
+  {
+    id: 10,
+    name: { fr: "Équipement Sportif", en: "Sports Equipment" },
+    category: "sports_articles",
+    price: 35000,
+    image: "https://images.pexels.com/photos/163452/basketball-dunk-blue-game-163452.jpeg",
+    rating: 4.4,
+    reviews: 56,
+    inStock: true,
+    description: {
+      fr: "Équipement sportif de qualité pour tous les sports.",
+      en: "Quality sports equipment for all sports."
+    },
+    sellerWhatsApp: "+237655123456"
+  },
+  {
+    id: 11,
+    name: { fr: "Jouets Éducatifs", en: "Educational Toys" },
+    category: "toys",
+    price: 15000,
+    image: "https://images.pexels.com/photos/163028/lego-build-blocks-bricks-163028.jpeg",
+    rating: 4.8,
+    reviews: 124,
+    inStock: true,
+    description: {
+      fr: "Jouets éducatifs pour le développement des enfants.",
+      en: "Educational toys for children's development."
+    },
+    sellerWhatsApp: "+237655123456"
+  },
+  {
+    id: 12,
+    name: { fr: "Services de Livraison", en: "Delivery Services" },
+    category: "services",
+    price: 5000,
+    image: "https://images.pexels.com/photos/4391470/pexels-photo-4391470.jpeg",
+    rating: 4.2,
+    reviews: 201,
+    inStock: true,
+    description: {
+      fr: "Services de livraison rapide et fiable dans toute la ville.",
+      en: "Fast and reliable delivery services throughout the city."
+    },
+    sellerWhatsApp: "+237655123456"
   }
 ];
 
