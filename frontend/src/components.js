@@ -2510,12 +2510,18 @@ export const SellerProducts = (props) => {
                         onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
                         className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       >
-                        <option value="fashion">Mode</option>
-                        <option value="electronics">Électronique</option>
-                        <option value="home">Maison & Jardin</option>
-                        <option value="local">Produits Locaux</option>
-                        <option value="agriculture">Agriculture</option>
-                        <option value="beauty">Beauté</option>
+                        <option value="clothing_accessories">Vêtements et Accessoires</option>
+                        <option value="food_drinks">Aliments et Boissons</option>
+                        <option value="electronics">Électroniques</option>
+                        <option value="home_garden">Maison & Jardinage</option>
+                        <option value="handicrafts">Artisanat et Produits Faits Main</option>
+                        <option value="beauty_care">Produits de Beauté et Soins Personnels</option>
+                        <option value="sports_articles">Articles Sportifs</option>
+                        <option value="toys">Jouets pour Enfants</option>
+                        <option value="medical_equipment">Matériel Médical</option>
+                        <option value="professional_equipment">Équipements Professionnels</option>
+                        <option value="services">Services</option>
+                        <option value="travel_tickets">Voyages et Billets</option>
                       </select>
                     </div>
                     <div>
