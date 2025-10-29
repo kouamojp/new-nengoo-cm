@@ -384,7 +384,7 @@ const mockProducts = [
   {
     id: 6,
     name: { fr: "Cosmétiques Naturels", en: "Natural Cosmetics" },
-    category: "beauty",
+    category: "beauty_care",
     price: 12000,
     image: "https://images.pexels.com/photos/30419070/pexels-photo-30419070.jpeg",
     rating: 4.4,
