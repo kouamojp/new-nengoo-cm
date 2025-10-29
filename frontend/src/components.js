@@ -339,7 +339,7 @@ const mockProducts = [
   {
     id: 3,
     name: { fr: "Panier Artisanal", en: "Handcrafted Basket" },
-    category: "home",
+    category: "home_garden",
     price: 15000,
     image: "https://images.pexels.com/photos/31964014/pexels-photo-31964014.jpeg",
     rating: 4.9,
