@@ -2397,7 +2397,7 @@ export const SellerProducts = (props) => {
   const [products, setProducts] = useState(mockProducts);
   const [newProduct, setNewProduct] = useState({
     name: { fr: '', en: '' },
-    category: 'fashion',
+    category: 'clothing_accessories',
     price: 0,
     image: '',
     description: { fr: '', en: '' },
