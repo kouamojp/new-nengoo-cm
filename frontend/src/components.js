@@ -2128,7 +2128,7 @@ const mockUsers = {
       businessName: "Artisanat Cameroun",
       email: "artisanat@cameroun.cm",
       city: "Yaoundé",
-      categories: ["local", "home"],
+      categories: ["handicrafts", "home_garden"],
       status: "pending",
       submitDate: "2025-07-22",
       type: "seller"
