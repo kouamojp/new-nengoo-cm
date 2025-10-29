@@ -2416,7 +2416,7 @@ export const SellerProducts = (props) => {
     setProducts([...products, product]);
     setNewProduct({
       name: { fr: '', en: '' },
-      category: 'fashion', 
+      category: 'clothing_accessories', 
       price: 0,
       image: '',
       description: { fr: '', en: '' },
