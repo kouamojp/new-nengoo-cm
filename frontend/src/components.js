@@ -305,7 +305,7 @@ const mockProducts = [
   {
     id: 1,
     name: { fr: "Robe Traditionnelle Camerounaise", en: "Traditional Cameroonian Dress" },
-    category: "fashion",
+    category: "clothing_accessories",
     price: 45000,
     image: "https://images.pexels.com/photos/21618972/pexels-photo-21618972.jpeg",
     rating: 4.8,
@@ -399,7 +399,7 @@ const mockProducts = [
   {
     id: 7,
     name: { fr: "Vêtements de Mode", en: "Fashion Clothing" },
-    category: "fashion",
+    category: "clothing_accessories",
     price: 25000,
     image: "https://images.unsplash.com/photo-1550041499-4c5857d2b508",
     rating: 4.3,
