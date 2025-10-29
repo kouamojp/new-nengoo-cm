@@ -354,7 +354,7 @@ const mockProducts = [
   {
     id: 4,
     name: { fr: "Chapeaux Traditionnels", en: "Traditional Hats" },
-    category: "local",
+    category: "handicrafts",
     price: 8500,
     image: "https://images.pexels.com/photos/16430537/pexels-photo-16430537.jpeg",
     rating: 4.7,
@@ -414,7 +414,7 @@ const mockProducts = [
   {
     id: 8,
     name: { fr: "Accessoires de Marché", en: "Market Accessories" },
-    category: "local",
+    category: "handicrafts",
     price: 7500,
     image: "https://images.pexels.com/photos/2014342/pexels-photo-2014342.jpeg",
     rating: 4.5,
