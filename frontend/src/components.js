@@ -873,14 +873,18 @@ export const Homepage = (props) => {
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 lg:mb-12">{t.categories}</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {[
-              { key: 'fashion', icon: '👗', bg: 'from-pink-400 to-red-400' },
+              { key: 'clothing_accessories', icon: '👗', bg: 'from-pink-400 to-red-400' },
+              { key: 'food_drinks', icon: '🍽️', bg: 'from-green-400 to-teal-400' },
               { key: 'electronics', icon: '📱', bg: 'from-blue-400 to-indigo-400' },
-              { key: 'home', icon: '🏠', bg: 'from-green-400 to-teal-400' },
-              { key: 'local', icon: '🎨', bg: 'from-purple-400 to-pink-400' },
-              { key: 'agriculture', icon: '🌾', bg: 'from-yellow-400 to-orange-400' },
-              { key: 'beauty', icon: '💄', bg: 'from-purple-400 to-red-400' },
-              { key: 'sports', icon: '⚽', bg: 'from-indigo-400 to-blue-400' },
-              { key: 'books', icon: '📚', bg: 'from-gray-400 to-gray-600' }
+              { key: 'home_garden', icon: '🏠', bg: 'from-yellow-400 to-orange-400' },
+              { key: 'handicrafts', icon: '🎨', bg: 'from-purple-400 to-pink-400' },
+              { key: 'beauty_care', icon: '💄', bg: 'from-purple-400 to-red-400' },
+              { key: 'sports_articles', icon: '⚽', bg: 'from-indigo-400 to-blue-400' },
+              { key: 'toys', icon: '🧸', bg: 'from-orange-400 to-red-400' },
+              { key: 'medical_equipment', icon: '🏥', bg: 'from-red-400 to-pink-400' },
+              { key: 'professional_equipment', icon: '🔧', bg: 'from-gray-400 to-gray-600' },
+              { key: 'services', icon: '🛠️', bg: 'from-teal-400 to-green-400' },
+              { key: 'travel_tickets', icon: '✈️', bg: 'from-cyan-400 to-blue-400' }
             ].map(cat => (
               <Link
                 key={cat.key}
