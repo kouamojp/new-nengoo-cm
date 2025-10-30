@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/pod-backups/nengoo-cam/build/static/css/main.b5ebf34a.css",
-    "main.js": "/pod-backups/nengoo-cam/build/static/js/main.7b25adb5.js",
+    "main.css": "/pod-backups/nengoo-cam/build/static/css/main.edaa4d78.css",
+    "main.js": "/pod-backups/nengoo-cam/build/static/js/main.a0843ade.js",
     "index.html": "/pod-backups/nengoo-cam/build/index.html",
-    "main.b5ebf34a.css.map": "/pod-backups/nengoo-cam/build/static/css/main.b5ebf34a.css.map",
-    "main.7b25adb5.js.map": "/pod-backups/nengoo-cam/build/static/js/main.7b25adb5.js.map"
+    "main.edaa4d78.css.map": "/pod-backups/nengoo-cam/build/static/css/main.edaa4d78.css.map",
+    "main.a0843ade.js.map": "/pod-backups/nengoo-cam/build/static/js/main.a0843ade.js.map"
   },
   "entrypoints": [
-    "static/css/main.b5ebf34a.css",
-    "static/js/main.7b25adb5.js"
+    "static/css/main.edaa4d78.css",
+    "static/js/main.a0843ade.js"
   ]
 }
