@@ -489,7 +489,7 @@ const mockProducts = [
 ];
 
 // Header Component
-const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQuery, user }) => {
+const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQuery, user, setUser }) => {
   const navigate = useNavigate();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const t = translations[language];
