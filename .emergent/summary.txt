@@ -1,0 +1,88 @@
+<analysis>
+The user wants to build Nengoo, an e-commerce platform for Cameroon, cloning the Russian site . The project started as a frontend-only React application with mocked data. The initial phase involved research and building the core user-facing pages (Homepage, Product Catalog, Cart, Checkout).
+
+Development progressed through several user requests:
+1.  A comprehensive seller dashboard with administrative capabilities.
+2.  Integration of a WhatsApp contact button, seller social media links, and pickup points for delivery.
+3.  A full authentication system for buyers (via WhatsApp number) and sellers (with an admin approval flow).
+4.  Conversion of the web app into an installable mobile version (PWA) and setup for native builds using Capacitor.
+5.  An update to the product categories across the entire application.
+6.  A request to convert the existing FastAPI backend to Laravel, which was initiated but not completed.
+
+The most recent activity involves debugging a frontend runtime error () that is causing the logout functionality to fail. The user has also just requested the creation of a detailed user profile page, providing a screenshot of the Wildberries user profile as a model. The Laravel backend migration is currently paused.
+
+The user's primary language is French (). The next agent must respond in French.
+</analysis>
+
+<product_requirements>
+The primary goal is to build Nengoo, a feature-rich e-commerce platform for Cameroon, visually and functionally inspired by .
+
+**Initial Build (Completed):**
+*   A frontend-only React application with a purple/red gradient theme.
+*   Core e-commerce pages: Homepage, Product Catalog, Product Detail, Cart, and a multi-step Checkout.
+*   Bilingual support (French/English) with mocked data, including products and categories tailored for Cameroon.
+*   Currency is Central African CFA Franc (XAF).
+
+**Implemented Features:**
+*   **Seller Dashboard:** A dedicated section for sellers to manage products, orders, view analytics, and edit their profile.
+*   **Enhanced Connectivity:** WhatsApp contact button on product pages; seller profiles with links to social media (WhatsApp, Facebook).
+*   **Logistics:** A pickup point system integrated into the checkout process.
+*   **Authentication:** Separate login/signup flows for buyers and sellers. Seller registration requires admin approval.
+*   **Mobile App:** The web app has been converted into a Progressive Web App (PWA) with a manifest and service worker. Capacitor has been configured for future native iOS/Android builds.
+*   **Expanded Categories:** The initial product categories were replaced with a more comprehensive list of 12 categories.
+
+**Current/Pending Requirements:**
+*   Fix the broken logout functionality.
+*   Create a comprehensive user profile page for customers, modeled after a provided screenshot of .
+*   Convert the backend from FastAPI to Laravel (work started, but currently paused).
+</product_requirements>
+
+<key_technical_concepts>
+- **Frontend:** React, TailwindCSS
+- **Architecture:** Monolithic frontend with two main files:  for routing/state and  for all UI components.
+- **State Management:** React Hooks (, ). Data is mocked and stored in-memory.
+- **Mobile:** Progressive Web App (PWA) using  and a Service Worker (). Capacitor is set up for native app conversion.
+- **Backend (In-progress pivot):** Migrating from FastAPI/MongoDB to Laravel.
+</key_technical_concepts>
+
+<code_architecture>
+The project is structured with separate frontend and backend directories. A new directory for the Laravel backend has recently been created.
+
+
+
+- ****:
+    - **Importance**: This is the main entry point for the React application. It handles routing (using ), global state management (like current user, cart, language), and passes down props and functions to all other components.
+    - **Changes**: It has been repeatedly modified to add new routes for the seller dashboard, authentication pages (login, signup), and to manage the global user authentication state. The latest change was an attempt to fix how the  function is passed down to components.
+
+- ****:
+    - **Importance**: This is a monolithic file containing every single React component for the entire application, from the main page layouts to individual buttons and form fields. It includes logic for UI, state, and interactions.
+    - **Changes**: This file has undergone extensive and repeated modifications to add all requested features: seller dashboard components, WhatsApp buttons, the checkout flow with pickup points, all authentication forms (Login, Buyer/Seller Signup), and the PWA installation prompt. Debugging efforts have also heavily focused on this file to fix JSX syntax and logic errors.
+
+- ** & **:
+    - **Importance**: These files enable the Progressive Web App (PWA) functionality, allowing the site to be installed on a user's device and work offline.
+    - **Changes**: Created to fulfill the mobile app conversion request.
+
+- ****:
+    - **Importance**: This directory contains the new, in-progress Laravel backend, intended to replace the original FastAPI backend.
+    - **Changes**: This is a new directory structure scaffolded by the AI. It contains basic Laravel models (, , ), API controllers, and a database configuration file for MongoDB. The work here is incomplete.
+</code_architecture>
+
+<pending_tasks>
+- Complete the backend migration from FastAPI to a fully functional Laravel application.
+- Create the necessary database migrations and seeders for the Laravel backend to populate it with initial data.
+- Connect the React frontend to the new Laravel API endpoints, replacing the mocked data.
+</pending_tasks>
+
+<current_work>
+The immediate focus shifted from the Laravel backend migration to address a critical frontend bug and a new feature request from the user.
+
+1.  **Bug Fix:** A runtime error  is breaking the application, specifically the user logout functionality. The AI has identified that the  function, responsible for managing the user's login state, is not being correctly passed as a prop from  to the child components that need it, such as the . The last action was to inspect  to correct this prop drilling issue.
+
+2.  **New Feature:** The user has requested a new User Profile page for customers, providing a screenshot of the  page as a visual and functional template. This task is pending the resolution of the logout bug.
+
+The Laravel backend conversion work in the  directory has been paused to address these urgent frontend tasks.
+</current_work>
+
+<optional_next_step>
+First, I will fix the logout functionality by correcting how the  function is passed to the  and other components. Then, I will create the new user profile page as requested.
+</optional_next_step>
