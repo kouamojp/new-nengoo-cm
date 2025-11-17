@@ -593,8 +593,11 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
                   <span className="text-2xl">{user.type === 'seller' ? '🏪' : '👤'}</span>
                   <div className="text-sm">{user.name}</div>
                 </Link>
-                <button 
-                  onClick={() => setUser(null)}
+                <button
+                  onClick={() => {
+                    setUser(null);
+                    localStorage.removeItem('nengoo-user');
+                  }}
                   className="text-sm hover:text-yellow-300 transition-colors"
                 >
                   {t.logout}
