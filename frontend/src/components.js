@@ -4543,4 +4543,733 @@ export const SellerMessages = (props) => {
       <Footer language={language} />
     </div>
   );
+
+};
+
+// =============================================================================
+// ADMIN COMPONENTS
+// =============================================================================
+
+// Admin Mock Data
+const adminMockData = {
+  // Numéro WhatsApp admin et code d'accès
+  adminCredentials: {
+    whatsapp: '+237600000000',
+    accessCode: 'ADMIN2025'
+  },
+  
+  // Statistiques globales
+  stats: {
+    totalUsers: 1250,
+    totalSellers: 45,
+    totalProducts: 389,
+    totalOrders: 567,
+    totalRevenue: 45680000,
+    pendingSellers: 12,
+    activeOrders: 34
+  },
+  
+  // Liste des acheteurs
+  buyers: [
+    { id: 1, name: 'Marie Kouam', whatsapp: '+237655123456', joinDate: '2025-01-10', orders: 5, spent: 245000, status: 'active' },
+    { id: 2, name: 'Jean Mbarga', whatsapp: '+237699234567', joinDate: '2025-01-12', orders: 3, spent: 156000, status: 'active' },
+    { id: 3, name: 'Sophie Nkomo', whatsapp: '+237677345678', joinDate: '2025-01-15', orders: 8, spent: 389000, status: 'active' },
+    { id: 4, name: 'Paul Etame', whatsapp: '+237655456789', joinDate: '2025-01-18', orders: 2, spent: 98000, status: 'suspended' }
+  ],
+  
+  // Liste des vendeurs
+  sellers: [
+    { id: 1, name: 'Boutique Marie', whatsapp: '+237655111222', businessName: 'Mode Africaine', city: 'Douala', categories: ['Vêtements'], joinDate: '2024-12-01', products: 45, sales: 1250000, status: 'approved' },
+    { id: 2, name: 'Tech Store CM', whatsapp: '+237699222333', businessName: 'Electronics Pro', city: 'Yaoundé', categories: ['Électroniques'], joinDate: '2024-12-15', products: 89, sales: 3450000, status: 'approved' },
+    { id: 3, name: 'Artisan Local', whatsapp: '+237677333444', businessName: 'Artisanat Camerounais', city: 'Bafoussam', categories: ['Artisanat'], joinDate: '2025-01-05', products: 23, sales: 567000, status: 'approved' }
+  ],
+  
+  // Vendeurs en attente
+  pendingSellers: [
+    { id: 1, name: 'Nouveau Vendeur 1', whatsapp: '+237655777888', businessName: 'Beauty Shop', city: 'Douala', categories: ['Beauté'], submitDate: '2025-01-20', email: 'beauty@example.com' },
+    { id: 2, name: 'Nouveau Vendeur 2', whatsapp: '+237699888999', businessName: 'Sports Arena', city: 'Yaoundé', categories: ['Sports'], submitDate: '2025-01-21', email: 'sports@example.com' },
+    { id: 3, name: 'Nouveau Vendeur 3', whatsapp: '+237677999000', businessName: 'Food Corner', city: 'Garoua', categories: ['Aliments'], submitDate: '2025-01-22', email: 'food@example.com' }
+  ],
+  
+  // Liste de tous les produits
+  allProducts: [
+    { id: 1, name: 'Robe Traditionnelle', seller: 'Boutique Marie', category: 'Vêtements', price: 45000, stock: 12, status: 'approved', addedDate: '2025-01-10' },
+    { id: 2, name: 'Smartphone Android', seller: 'Tech Store CM', category: 'Électroniques', price: 125000, stock: 8, status: 'approved', addedDate: '2025-01-11' },
+    { id: 3, name: 'Panier Artisanal', seller: 'Artisan Local', category: 'Artisanat', price: 15000, stock: 25, status: 'approved', addedDate: '2025-01-12' },
+    { id: 4, name: 'Produit Suspect', seller: 'Vendeur Test', category: 'Divers', price: 5000, stock: 100, status: 'pending', addedDate: '2025-01-22' }
+  ],
+  
+  // Liste de toutes les commandes
+  allOrders: [
+    { id: 'CMD001', buyer: 'Marie Kouam', seller: 'Boutique Marie', date: '2025-01-20', status: 'delivered', total: 45000, items: 1 },
+    { id: 'CMD002', buyer: 'Jean Mbarga', seller: 'Tech Store CM', date: '2025-01-21', status: 'in_transit', total: 125000, items: 1 },
+    { id: 'CMD003', buyer: 'Sophie Nkomo', seller: 'Artisan Local', date: '2025-01-22', status: 'processing', total: 27500, items: 2 },
+    { id: 'CMD004', buyer: 'Paul Etame', seller: 'Boutique Marie', date: '2025-01-22', status: 'cancelled', total: 98000, items: 3 }
+  ]
+};
+
+// Admin Login Component
+export const AdminLogin = (props) => {
+  const { language, setUser } = props;
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    whatsapp: '',
+    accessCode: ''
+  });
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+    setError('');
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Vérifier les identifiants admin
+    if (formData.whatsapp === adminMockData.adminCredentials.whatsapp && 
+        formData.accessCode === adminMockData.adminCredentials.accessCode) {
+      
+      const adminUser = {
+        id: 'admin',
+        name: 'Administrateur',
+        whatsapp: formData.whatsapp,
+        type: 'admin',
+        joinDate: '2024-01-01'
+      };
+      
+      setUser(adminUser);
+      localStorage.setItem('nengoo-user', JSON.stringify(adminUser));
+      navigate('/admin/dashboard');
+    } else {
+      setError('Identifiants administrateur incorrects');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-red-600 flex items-center justify-center p-4">
+      <div className="max-w-md w-full">
+        <div className="bg-white rounded-lg shadow-2xl p-8">
+          <div className="text-center mb-8">
+            <div className="text-6xl mb-4">🔐</div>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Accès Administrateur</h1>
+            <p className="text-gray-600">Connectez-vous pour gérer Nengoo</p>
+          </div>
+
+          {error && (
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+              <p className="text-red-700 text-sm">{error}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Numéro WhatsApp Administrateur
+              </label>
+              <input
+                type="tel"
+                name="whatsapp"
+                value={formData.whatsapp}
+                onChange={handleInputChange}
+                placeholder="+237 XXX XXX XXX"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Code d'accès
+              </label>
+              <input
+                type="password"
+                name="accessCode"
+                value={formData.accessCode}
+                onChange={handleInputChange}
+                placeholder="Entrez le code d'accès"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all"
+            >
+              Se connecter
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <Link to="/" className="text-gray-600 hover:text-gray-700 text-sm">
+              ← Retour à l'accueil
+            </Link>
+          </div>
+
+          <div className="mt-6 bg-gray-50 rounded-lg p-4">
+            <p className="text-xs text-gray-500 text-center">
+              🔒 Accès réservé aux administrateurs autorisés uniquement
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Admin Dashboard Component
+export const AdminDashboard = (props) => {
+  const { language, user } = props;
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('dashboard');
+  const [sellers, setSellers] = useState(adminMockData.sellers);
+  const [pendingSellers, setPendingSellers] = useState(adminMockData.pendingSellers);
+  const [buyers, setBuyers] = useState(adminMockData.buyers);
+  const [products, setProducts] = useState(adminMockData.allProducts);
+  const [orders, setOrders] = useState(adminMockData.allOrders);
+
+  // Vérifier si l'utilisateur est admin
+  if (!user || user.type !== 'admin') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🚫</div>
+          <h2 className="text-2xl font-bold mb-4">Accès Refusé</h2>
+          <p className="text-gray-600 mb-6">Vous n'avez pas les permissions nécessaires.</p>
+          <Link to="/admin/login" className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold">
+            Se connecter en tant qu'admin
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'XAF',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const approveSeller = (sellerId) => {
+    const seller = pendingSellers.find(s => s.id === sellerId);
+    if (seller) {
+      const approvedSeller = {
+        ...seller,
+        status: 'approved',
+        products: 0,
+        sales: 0,
+        joinDate: new Date().toISOString().split('T')[0]
+      };
+      setSellers([...sellers, approvedSeller]);
+      setPendingSellers(pendingSellers.filter(s => s.id !== sellerId));
+      alert(`✅ Vendeur "${seller.businessName}" approuvé avec succès!`);
+    }
+  };
+
+  const rejectSeller = (sellerId) => {
+    const seller = pendingSellers.find(s => s.id === sellerId);
+    if (seller && confirm(`Êtes-vous sûr de vouloir rejeter la demande de "${seller.businessName}"?`)) {
+      setPendingSellers(pendingSellers.filter(s => s.id !== sellerId));
+      alert(`❌ Demande de "${seller.businessName}" rejetée.`);
+    }
+  };
+
+  const toggleSellerStatus = (sellerId) => {
+    setSellers(sellers.map(s => 
+      s.id === sellerId 
+        ? { ...s, status: s.status === 'approved' ? 'suspended' : 'approved' }
+        : s
+    ));
+  };
+
+  const toggleBuyerStatus = (buyerId) => {
+    setBuyers(buyers.map(b => 
+      b.id === buyerId 
+        ? { ...b, status: b.status === 'active' ? 'suspended' : 'active' }
+        : b
+    ));
+  };
+
+  const approveProduct = (productId) => {
+    setProducts(products.map(p => 
+      p.id === productId ? { ...p, status: 'approved' } : p
+    ));
+    alert('✅ Produit approuvé!');
+  };
+
+  const rejectProduct = (productId) => {
+    if (confirm('Êtes-vous sûr de vouloir rejeter ce produit?')) {
+      setProducts(products.filter(p => p.id !== productId));
+      alert('❌ Produit rejeté et supprimé.');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Admin Header */}
+      <header className="bg-gradient-to-r from-purple-700 to-red-600 text-white shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="bg-white rounded-lg p-2">
+                <span className="text-2xl font-bold text-purple-700">🔧</span>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">Panneau Administrateur</h1>
+                <p className="text-sm opacity-90">Gestion de Nengoo</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm">👤 {user.name}</span>
+              <Link to="/" className="bg-white text-purple-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-semibold transition-colors text-sm">
+                ← Retour au site
+              </Link>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-md p-4 sticky top-24">
+              <nav className="space-y-2">
+                <button
+                  onClick={() => setActiveSection('dashboard')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'dashboard' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">📊</span>
+                  <span className="font-medium text-sm">Tableau de bord</span>
+                </button>
+                
+                <button
+                  onClick={() => setActiveSection('sellers')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'sellers' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">🏪</span>
+                  <span className="font-medium text-sm">Vendeurs</span>
+                  {pendingSellers.length > 0 && (
+                    <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                      {pendingSellers.length}
+                    </span>
+                  )}
+                </button>
+                
+                <button
+                  onClick={() => setActiveSection('buyers')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'buyers' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">👥</span>
+                  <span className="font-medium text-sm">Acheteurs</span>
+                </button>
+                
+                <button
+                  onClick={() => setActiveSection('products')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'products' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">📦</span>
+                  <span className="font-medium text-sm">Produits</span>
+                </button>
+                
+                <button
+                  onClick={() => setActiveSection('orders')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'orders' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">🛒</span>
+                  <span className="font-medium text-sm">Commandes</span>
+                </button>
+              </nav>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-4">
+            {/* Dashboard Section */}
+            {activeSection === 'dashboard' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Tableau de bord</h2>
+                
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                  <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Utilisateurs</p>
+                        <p className="text-3xl font-bold text-purple-600">{adminMockData.stats.totalUsers}</p>
+                      </div>
+                      <div className="text-4xl">👥</div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Vendeurs</p>
+                        <p className="text-3xl font-bold text-blue-600">{adminMockData.stats.totalSellers}</p>
+                      </div>
+                      <div className="text-4xl">🏪</div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Produits</p>
+                        <p className="text-3xl font-bold text-green-600">{adminMockData.stats.totalProducts}</p>
+                      </div>
+                      <div className="text-4xl">📦</div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg shadow-md p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-600 mb-1">Revenus</p>
+                        <p className="text-2xl font-bold text-red-600">{formatPrice(adminMockData.stats.totalRevenue)}</p>
+                      </div>
+                      <div className="text-4xl">💰</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Alerts */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-3xl">⚠️</span>
+                      <div>
+                        <h3 className="font-bold text-yellow-800 mb-1">Demandes en attente</h3>
+                        <p className="text-yellow-700">{adminMockData.stats.pendingSellers} vendeurs attendent une approbation</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-3xl">📦</span>
+                      <div>
+                        <h3 className="font-bold text-blue-800 mb-1">Commandes actives</h3>
+                        <p className="text-blue-700">{adminMockData.stats.activeOrders} commandes en cours de traitement</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Sellers Management Section */}
+            {activeSection === 'sellers' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Gestion des vendeurs</h2>
+                
+                {/* Pending Sellers */}
+                {pendingSellers.length > 0 && (
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold mb-4 flex items-center">
+                      <span className="text-yellow-500 mr-2">⏳</span>
+                      Demandes en attente ({pendingSellers.length})
+                    </h3>
+                    <div className="space-y-4">
+                      {pendingSellers.map((seller) => (
+                        <div key={seller.id} className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="md:col-span-2">
+                              <h4 className="font-bold text-lg mb-2">{seller.businessName}</h4>
+                              <div className="space-y-1 text-sm text-gray-600">
+                                <p>👤 Propriétaire: {seller.name}</p>
+                                <p>📱 WhatsApp: {seller.whatsapp}</p>
+                                <p>📧 Email: {seller.email}</p>
+                                <p>📍 Ville: {seller.city}</p>
+                                <p>🏷️ Catégories: {seller.categories.join(', ')}</p>
+                                <p>📅 Soumis le: {seller.submitDate}</p>
+                              </div>
+                            </div>
+                            <div className="flex flex-col space-y-2">
+                              <button
+                                onClick={() => approveSeller(seller.id)}
+                                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                              >
+                                ✅ Approuver
+                              </button>
+                              <button
+                                onClick={() => rejectSeller(seller.id)}
+                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                              >
+                                ❌ Rejeter
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Active Sellers */}
+                <div>
+                  <h3 className="text-xl font-bold mb-4 flex items-center">
+                    <span className="text-green-500 mr-2">✅</span>
+                    Vendeurs actifs ({sellers.length})
+                  </h3>
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table className="w-full">
+                      <thead className="bg-gray-50 border-b">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Boutique</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ville</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Produits</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ventes</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {sellers.map((seller) => (
+                          <tr key={seller.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4">
+                              <div>
+                                <p className="font-medium">{seller.businessName}</p>
+                                <p className="text-sm text-gray-500">{seller.name}</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-sm">{seller.city}</td>
+                            <td className="px-6 py-4 text-sm">{seller.products}</td>
+                            <td className="px-6 py-4 text-sm font-medium">{formatPrice(seller.sales)}</td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 text-xs rounded-full ${
+                                seller.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                              }`}>
+                                {seller.status === 'approved' ? 'Actif' : 'Suspendu'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <button
+                                onClick={() => toggleSellerStatus(seller.id)}
+                                className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
+                              >
+                                {seller.status === 'approved' ? '🚫 Suspendre' : '✅ Activer'}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Buyers Management Section */}
+            {activeSection === 'buyers' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Gestion des acheteurs</h2>
+                
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">WhatsApp</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Inscription</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Commandes</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total dépensé</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {buyers.map((buyer) => (
+                        <tr key={buyer.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4">
+                            <p className="font-medium">{buyer.name}</p>
+                          </td>
+                          <td className="px-6 py-4 text-sm">{buyer.whatsapp}</td>
+                          <td className="px-6 py-4 text-sm">{buyer.joinDate}</td>
+                          <td className="px-6 py-4 text-sm">{buyer.orders}</td>
+                          <td className="px-6 py-4 text-sm font-medium">{formatPrice(buyer.spent)}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                              buyer.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                            }`}>
+                              {buyer.status === 'active' ? 'Actif' : 'Suspendu'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => toggleBuyerStatus(buyer.id)}
+                              className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
+                            >
+                              {buyer.status === 'active' ? '🚫 Suspendre' : '✅ Activer'}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Products Management Section */}
+            {activeSection === 'products' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Gestion des produits</h2>
+                
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Produit</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendeur</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Catégorie</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prix</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {products.map((product) => (
+                        <tr key={product.id} className={`hover:bg-gray-50 ${product.status === 'pending' ? 'bg-yellow-50' : ''}`}>
+                          <td className="px-6 py-4">
+                            <p className="font-medium">{product.name}</p>
+                            <p className="text-xs text-gray-500">Ajouté le {product.addedDate}</p>
+                          </td>
+                          <td className="px-6 py-4 text-sm">{product.seller}</td>
+                          <td className="px-6 py-4 text-sm">{product.category}</td>
+                          <td className="px-6 py-4 text-sm font-medium">{formatPrice(product.price)}</td>
+                          <td className="px-6 py-4 text-sm">{product.stock}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                              product.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {product.status === 'approved' ? 'Approuvé' : 'En attente'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="flex space-x-2">
+                              {product.status === 'pending' && (
+                                <button
+                                  onClick={() => approveProduct(product.id)}
+                                  className="text-green-600 hover:text-green-700 font-semibold text-sm"
+                                >
+                                  ✅ Approuver
+                                </button>
+                              )}
+                              <button
+                                onClick={() => rejectProduct(product.id)}
+                                className="text-red-600 hover:text-red-700 font-semibold text-sm"
+                              >
+                                🗑️ Supprimer
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Orders Management Section */}
+            {activeSection === 'orders' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">Gestion des commandes</h2>
+                
+                {/* Order Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <p className="text-sm text-blue-600 font-medium">En cours</p>
+                    <p className="text-2xl font-bold text-blue-700">
+                      {orders.filter(o => o.status === 'processing').length}
+                    </p>
+                  </div>
+                  <div className="bg-yellow-50 rounded-lg p-4">
+                    <p className="text-sm text-yellow-600 font-medium">En transit</p>
+                    <p className="text-2xl font-bold text-yellow-700">
+                      {orders.filter(o => o.status === 'in_transit').length}
+                    </p>
+                  </div>
+                  <div className="bg-green-50 rounded-lg p-4">
+                    <p className="text-sm text-green-600 font-medium">Livrées</p>
+                    <p className="text-2xl font-bold text-green-700">
+                      {orders.filter(o => o.status === 'delivered').length}
+                    </p>
+                  </div>
+                  <div className="bg-red-50 rounded-lg p-4">
+                    <p className="text-sm text-red-600 font-medium">Annulées</p>
+                    <p className="text-2xl font-bold text-red-700">
+                      {orders.filter(o => o.status === 'cancelled').length}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Commande</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acheteur</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vendeur</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Articles</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {orders.map((order) => (
+                        <tr key={order.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4">
+                            <p className="font-medium">{order.id}</p>
+                          </td>
+                          <td className="px-6 py-4 text-sm">{order.buyer}</td>
+                          <td className="px-6 py-4 text-sm">{order.seller}</td>
+                          <td className="px-6 py-4 text-sm">{order.date}</td>
+                          <td className="px-6 py-4 text-sm">{order.items}</td>
+                          <td className="px-6 py-4 text-sm font-medium">{formatPrice(order.total)}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                              order.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                              order.status === 'in_transit' ? 'bg-blue-100 text-blue-800' :
+                              order.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {order.status === 'delivered' ? 'Livré' :
+                               order.status === 'in_transit' ? 'En transit' :
+                               order.status === 'processing' ? 'En cours' :
+                               'Annulé'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
 };
