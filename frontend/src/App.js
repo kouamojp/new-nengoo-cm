@@ -138,6 +138,10 @@ function App() {
           <Route path="/seller/analytics" element={<SellerAnalytics {...appProps} />} />
           <Route path="/seller/profile" element={<SellerProfile {...appProps} />} />
           <Route path="/seller/messages" element={<SellerMessages {...appProps} />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin {...appProps} />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard {...appProps} />} />
         </Routes>
       </Router>
     </div>
