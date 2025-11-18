@@ -634,6 +634,8 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
 
           {/* Desktop User Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <InstallButton />
+            
             <Link to="/cart" className="relative hover:text-yellow-300 transition-colors">
               <span className="text-2xl">🛒</span>
               {cartItems.length > 0 && (
