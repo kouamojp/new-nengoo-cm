@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/pod-backups/shopnengoo/build/static/css/main.e5df0295.css",
-    "main.js": "/pod-backups/shopnengoo/build/static/js/main.6829bb8f.js",
-    "index.html": "/pod-backups/shopnengoo/build/index.html",
-    "main.e5df0295.css.map": "/pod-backups/shopnengoo/build/static/css/main.e5df0295.css.map",
-    "main.6829bb8f.js.map": "/pod-backups/shopnengoo/build/static/js/main.6829bb8f.js.map"
+    "main.css": "/static/css/main.2c6b3927.css",
+    "main.js": "/static/js/main.94f31788.js",
+    "index.html": "/index.html",
+    "main.2c6b3927.css.map": "/static/css/main.2c6b3927.css.map",
+    "main.94f31788.js.map": "/static/js/main.94f31788.js.map"
   },
   "entrypoints": [
-    "static/css/main.e5df0295.css",
-    "static/js/main.6829bb8f.js"
+    "static/css/main.2c6b3927.css",
+    "static/js/main.94f31788.js"
   ]
 }
