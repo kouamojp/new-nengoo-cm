@@ -920,6 +920,14 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
 const Footer = ({ language }) => {
   const t = translations[language];
   
+  const handleStoreClick = (store) => {
+    if (store === 'android') {
+      alert('🤖 Application Android\n\nL\'application sera bientôt disponible sur Google Play Store!\n\nEn attendant, vous pouvez installer la version PWA en cliquant sur le bouton "Installer l\'App" en haut de la page.');
+    } else {
+      alert('🍎 Application iOS\n\nL\'application sera bientôt disponible sur Apple App Store!\n\nEn attendant, vous pouvez installer la version PWA:\n\niOS: Appuyez sur Partager (□↑) puis "Sur l\'écran d\'accueil"');
+    }
+  };
+  
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -968,19 +976,44 @@ const Footer = ({ language }) => {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Download App */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">{t.newsletter}</h4>
-            <p className="text-gray-300 mb-4">Recevez nos dernières offres et nouveautés</p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder={t.email}
-                className="flex-1 px-3 py-2 bg-gray-700 text-white rounded-l-lg focus:outline-none focus:bg-gray-600"
-              />
-              <button className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-r-lg transition-colors">
-                {t.subscribe}
-              </button>
+            <h4 className="text-lg font-semibold mb-4">📱 Télécharger l'App</h4>
+            <p className="text-gray-300 mb-4 text-sm">Installez Nengoo sur votre mobile</p>
+            
+            {/* Google Play Badge */}
+            <button 
+              onClick={() => handleStoreClick('android')}
+              className="w-full bg-black hover:bg-gray-800 rounded-lg p-3 mb-3 transition-all hover:scale-105 flex items-center space-x-3 border border-gray-700"
+            >
+              <div className="text-3xl">📱</div>
+              <div className="text-left">
+                <div className="text-xs text-gray-400">Disponible sur</div>
+                <div className="text-sm font-semibold">Google Play</div>
+              </div>
+            </button>
+
+            {/* App Store Badge */}
+            <button 
+              onClick={() => handleStoreClick('ios')}
+              className="w-full bg-black hover:bg-gray-800 rounded-lg p-3 mb-3 transition-all hover:scale-105 flex items-center space-x-3 border border-gray-700"
+            >
+              <div className="text-3xl">🍎</div>
+              <div className="text-left">
+                <div className="text-xs text-gray-400">Télécharger sur</div>
+                <div className="text-sm font-semibold">App Store</div>
+              </div>
+            </button>
+
+            {/* PWA Install */}
+            <div className="bg-purple-900 bg-opacity-50 rounded-lg p-3 border border-purple-700">
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="text-lg">⚡</span>
+                <span className="text-xs font-semibold text-yellow-300">Installation Rapide</span>
+              </div>
+              <p className="text-xs text-gray-300">
+                Installez maintenant en 1 clic depuis cette page (PWA)
+              </p>
             </div>
           </div>
         </div>
