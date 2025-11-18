@@ -19,7 +19,9 @@ import {
   Login,
   BuyerSignup,
   SellerSignup,
-  PendingApproval
+  PendingApproval,
+  AdminLogin,
+  AdminDashboard
 } from './components';
 
 function App() {
