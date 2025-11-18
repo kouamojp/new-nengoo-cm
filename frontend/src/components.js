@@ -989,6 +989,60 @@ export const Homepage = (props) => {
         </div>
       </section>
 
+      {/* Install App Section */}
+      <section className="py-8 lg:py-12 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500">
+        <div className="container mx-auto px-4">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div className="text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start mb-4">
+                  <span className="text-6xl animate-bounce">📱</span>
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                  Installez l'Application Nengoo
+                </h2>
+                <p className="text-lg text-gray-600 mb-6">
+                  Accédez instantanément à Nengoo depuis votre écran d'accueil. 
+                  Plus rapide, plus pratique, fonctionne même hors ligne!
+                </p>
+                
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-green-500 text-2xl">✓</span>
+                    <span className="text-gray-700">Installation en 1 clic</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-green-500 text-2xl">✓</span>
+                    <span className="text-gray-700">Fonctionne hors ligne</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-green-500 text-2xl">✓</span>
+                    <span className="text-gray-700">Mises à jour automatiques</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <span className="text-green-500 text-2xl">✓</span>
+                    <span className="text-gray-700">Très léger (~500KB)</span>
+                  </div>
+                </div>
+
+                <InstallAppButton />
+              </div>
+
+              <div className="hidden lg:block">
+                <div className="relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c"
+                    alt="Mobile Phone"
+                    className="rounded-2xl shadow-xl w-full"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-600/20 to-transparent rounded-2xl"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Grid */}
       <section className="py-12 lg:py-16">
         <div className="container mx-auto px-4">
