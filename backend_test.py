@@ -608,7 +608,7 @@ class NengooTester:
 
     async def verify_database_state(self):
         """Vérification finale de l'état de la base de données"""
-        if not self.db:
+        if self.db is None:
             return False
             
         print("\n🔍 Vérification de l'état de la base de données...")
