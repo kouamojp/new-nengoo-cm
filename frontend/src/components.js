@@ -5172,6 +5172,13 @@ export const AdminDashboard = (props) => {
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm">👤 {user.name}</span>
+              <button
+                onClick={() => setShowProfileEdit(true)}
+                className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transition-colors text-sm flex items-center space-x-2"
+              >
+                <span>✏️</span>
+                <span>Modifier Profil</span>
+              </button>
               <Link to="/" className="bg-white text-purple-600 hover:bg-gray-100 px-4 py-2 rounded-lg font-semibold transition-colors text-sm">
                 ← Retour au site
               </Link>
@@ -5179,6 +5186,167 @@ export const AdminDashboard = (props) => {
           </div>
         </div>
       </header>
+
+      {/* Modal Edit Profile */}
+      {showProfileEdit && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Mon Profil</h2>
+                <p className="text-sm text-gray-600">Super Administrateur - {user.whatsapp}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setShowProfileEdit(false);
+                  setProfileData({
+                    name: user.name,
+                    email: user.email || '',
+                    currentCode: '',
+                    newCode: '',
+                    confirmCode: ''
+                  });
+                }}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Informations Personnelles */}
+              <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                <h3 className="font-bold text-purple-900 mb-4">📋 Informations Personnelles</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nom complet *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={profileData.name}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      placeholder="Votre nom complet"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={profileData.email}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                      placeholder="admin@nengoo.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Numéro WhatsApp (non modifiable)
+                    </label>
+                    <input
+                      type="text"
+                      value={user.whatsapp}
+                      disabled
+                      className="w-full px-4 py-3 border rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Votre numéro WhatsApp est votre identifiant unique
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sécurité - Changement de code */}
+              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+                <h3 className="font-bold text-red-900 mb-4">🔐 Changer le Code d'Accès</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Code d'accès actuel
+                    </label>
+                    <input
+                      type="password"
+                      name="currentCode"
+                      value={profileData.currentCode}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder="Entrez votre code actuel"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nouveau code d'accès
+                    </label>
+                    <input
+                      type="password"
+                      name="newCode"
+                      value={profileData.newCode}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder="Minimum 8 caractères"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Confirmer le nouveau code
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmCode"
+                      value={profileData.confirmCode}
+                      onChange={handleProfileChange}
+                      className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                      placeholder="Retapez le nouveau code"
+                    />
+                  </div>
+
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-xs text-yellow-800">
+                      ⚠️ Si vous changez votre code, vous devrez l'utiliser lors de votre prochaine connexion. Laissez vide pour conserver le code actuel.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex space-x-4">
+                <button
+                  onClick={handleProfileUpdate}
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg"
+                >
+                  Enregistrer les Modifications
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileEdit(false);
+                    setProfileData({
+                      name: user.name,
+                      email: user.email || '',
+                      currentCode: '',
+                      newCode: '',
+                      confirmCode: ''
+                    });
+                  }}
+                  className="px-6 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
