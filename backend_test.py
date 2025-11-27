@@ -114,7 +114,7 @@ class NengooTester:
 
     async def create_collections_and_indexes(self):
         """Création des collections et index MongoDB selon DATABASE_SCHEMA.md"""
-        if not self.db:
+        if self.db is None:
             return False
             
         print("\n🗄️ Création des collections et index...")
