@@ -5553,3 +5553,492 @@ export const AdminDashboard = (props) => {
   );
 
 };
+
+// =============================================================================
+// ADMIN MANAGEMENT - Gestion des Administrateurs et Rôles
+// =============================================================================
+
+// Roles et Permissions
+const adminRoles = {
+  super_admin: {
+    name: 'Super Administrateur',
+    color: 'red',
+    icon: '👑',
+    permissions: ['all']
+  },
+  admin: {
+    name: 'Administrateur',
+    color: 'purple',
+    icon: '⚡',
+    permissions: ['manage_users', 'manage_sellers', 'manage_products', 'manage_orders', 'view_analytics']
+  },
+  moderator: {
+    name: 'Modérateur',
+    color: 'blue',
+    icon: '🛡️',
+    permissions: ['manage_products', 'manage_sellers', 'view_orders']
+  },
+  support: {
+    name: 'Support',
+    color: 'green',
+    icon: '💬',
+    permissions: ['view_users', 'view_orders', 'manage_messages']
+  }
+};
+
+// Mock data pour les administrateurs
+const mockAdmins = [
+  {
+    id: 'admin_1',
+    name: 'Admin Principal',
+    whatsapp: '+237600000000',
+    email: 'admin@nengoo.com',
+    role: 'super_admin',
+    status: 'active',
+    createdDate: '2024-01-01',
+    lastLogin: '2025-01-22 14:30'
+  },
+  {
+    id: 'admin_2',
+    name: 'Marie Admin',
+    whatsapp: '+237655111111',
+    email: 'marie@nengoo.com',
+    role: 'admin',
+    status: 'active',
+    createdDate: '2024-06-15',
+    lastLogin: '2025-01-22 10:15'
+  },
+  {
+    id: 'admin_3',
+    name: 'Jean Modérateur',
+    whatsapp: '+237699222222',
+    email: 'jean@nengoo.com',
+    role: 'moderator',
+    status: 'active',
+    createdDate: '2024-09-01',
+    lastLogin: '2025-01-21 18:45'
+  },
+  {
+    id: 'admin_4',
+    name: 'Sophie Support',
+    whatsapp: '+237677333333',
+    email: 'sophie@nengoo.com',
+    role: 'support',
+    status: 'active',
+    createdDate: '2024-11-10',
+    lastLogin: '2025-01-22 09:20'
+  }
+];
+
+// Admin Management Component
+export const AdminManagement = (props) => {
+  const { language, user } = props;
+  const navigate = useNavigate();
+  const [admins, setAdmins] = useState(mockAdmins);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingAdmin, setEditingAdmin] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    whatsapp: '',
+    email: '',
+    role: 'support',
+    accessCode: ''
+  });
+
+  // Vérifier si l'utilisateur est super admin
+  const isSuperAdmin = user && user.type === 'admin' && user.whatsapp === '+237600000000';
+
+  if (!user || user.type !== 'admin') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">🚫</div>
+          <h2 className="text-2xl font-bold mb-4">Accès Refusé</h2>
+          <p className="text-gray-600 mb-6">Réservé aux administrateurs.</p>
+          <Link to="/admin/login" className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold">
+            Se connecter
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleAddAdmin = () => {
+    if (!formData.name || !formData.whatsapp || !formData.email || !formData.accessCode) {
+      alert('Veuillez remplir tous les champs');
+      return;
+    }
+
+    const newAdmin = {
+      id: `admin_${Date.now()}`,
+      name: formData.name,
+      whatsapp: formData.whatsapp,
+      email: formData.email,
+      role: formData.role,
+      status: 'active',
+      createdDate: new Date().toISOString().split('T')[0],
+      lastLogin: 'Jamais'
+    };
+
+    setAdmins([...admins, newAdmin]);
+    setFormData({ name: '', whatsapp: '', email: '', role: 'support', accessCode: '' });
+    setShowAddForm(false);
+    alert(`✅ Administrateur "${newAdmin.name}" ajouté avec succès!\n\nCode d'accès: ${formData.accessCode}\n\n⚠️ Sauvegardez ce code, il ne sera plus affiché!`);
+  };
+
+  const handleEditAdmin = (admin) => {
+    setEditingAdmin(admin.id);
+    setFormData({
+      name: admin.name,
+      whatsapp: admin.whatsapp,
+      email: admin.email,
+      role: admin.role,
+      accessCode: ''
+    });
+  };
+
+  const handleUpdateAdmin = () => {
+    setAdmins(admins.map(a => 
+      a.id === editingAdmin 
+        ? { ...a, name: formData.name, email: formData.email, role: formData.role }
+        : a
+    ));
+    setEditingAdmin(null);
+    setFormData({ name: '', whatsapp: '', email: '', role: 'support', accessCode: '' });
+    alert('✅ Administrateur mis à jour avec succès!');
+  };
+
+  const toggleAdminStatus = (adminId) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut désactiver des admins');
+      return;
+    }
+
+    setAdmins(admins.map(a => 
+      a.id === adminId 
+        ? { ...a, status: a.status === 'active' ? 'suspended' : 'active' }
+        : a
+    ));
+  };
+
+  const deleteAdmin = (adminId) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut supprimer des admins');
+      return;
+    }
+
+    const admin = admins.find(a => a.id === adminId);
+    if (admin && confirm(`Êtes-vous sûr de vouloir supprimer "${admin.name}"?`)) {
+      setAdmins(admins.filter(a => a.id !== adminId));
+      alert('✅ Administrateur supprimé');
+    }
+  };
+
+  const getRoleStats = () => {
+    return Object.keys(adminRoles).map(roleKey => ({
+      role: roleKey,
+      ...adminRoles[roleKey],
+      count: admins.filter(a => a.role === roleKey).length
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-purple-700 to-red-600 text-white shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Link to="/admin/dashboard" className="text-white hover:text-gray-200">
+                ← Retour Dashboard
+              </Link>
+              <div className="border-l border-white/30 pl-4">
+                <h1 className="text-2xl font-bold">👥 Gestion des Administrateurs</h1>
+                <p className="text-sm opacity-90">Rôles et permissions</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm">👤 {user.name}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          {getRoleStats().map((stat) => (
+            <div key={stat.role} className={`bg-white rounded-lg shadow-md p-6 border-l-4 border-${stat.color}-500`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600 mb-1">{stat.name}</p>
+                  <p className="text-3xl font-bold">{stat.count}</p>
+                </div>
+                <div className="text-4xl">{stat.icon}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Roles & Permissions Info */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-6">📋 Rôles et Permissions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Object.entries(adminRoles).map(([key, role]) => (
+              <div key={key} className="border rounded-lg p-4">
+                <div className="flex items-center space-x-3 mb-3">
+                  <span className="text-3xl">{role.icon}</span>
+                  <div>
+                    <h3 className="font-bold">{role.name}</h3>
+                    <span className={`text-xs px-2 py-1 rounded-full bg-${role.color}-100 text-${role.color}-800`}>
+                      {key}
+                    </span>
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold text-gray-700 mb-2">Permissions:</p>
+                  {role.permissions.map((perm, idx) => (
+                    <div key={idx} className="text-xs text-gray-600 flex items-start">
+                      <span className="text-green-500 mr-1">✓</span>
+                      <span>{perm.replace(/_/g, ' ')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Add Admin Button */}
+        <div className="mb-6">
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg"
+          >
+            {showAddForm ? '✕ Annuler' : '+ Ajouter un Administrateur'}
+          </button>
+        </div>
+
+        {/* Add/Edit Admin Form */}
+        {(showAddForm || editingAdmin) && (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 className="text-xl font-bold mb-6">
+              {editingAdmin ? '✏️ Modifier Administrateur' : '➕ Nouvel Administrateur'}
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nom complet *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Ex: Marie Kouam"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Numéro WhatsApp *</label>
+                <input
+                  type="tel"
+                  name="whatsapp"
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  placeholder="+237 XXX XXX XXX"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  disabled={editingAdmin}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="admin@nengoo.com"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Rôle *</label>
+                <select
+                  name="role"
+                  value={formData.role}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  disabled={!isSuperAdmin}
+                >
+                  {Object.entries(adminRoles).map(([key, role]) => (
+                    <option key={key} value={key}>
+                      {role.icon} {role.name}
+                    </option>
+                  ))}
+                </select>
+                {!isSuperAdmin && (
+                  <p className="text-xs text-gray-500 mt-1">Seul le Super Admin peut changer les rôles</p>
+                )}
+              </div>
+
+              {!editingAdmin && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Code d'accès *</label>
+                  <input
+                    type="password"
+                    name="accessCode"
+                    value={formData.accessCode}
+                    onChange={handleInputChange}
+                    placeholder="Créer un code d'accès"
+                    className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    required
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Code secret pour la connexion</p>
+                </div>
+              )}
+            </div>
+
+            <div className="flex space-x-4 mt-6">
+              <button
+                onClick={editingAdmin ? handleUpdateAdmin : handleAddAdmin}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                {editingAdmin ? 'Mettre à jour' : 'Créer Administrateur'}
+              </button>
+              <button
+                onClick={() => {
+                  setShowAddForm(false);
+                  setEditingAdmin(null);
+                  setFormData({ name: '', whatsapp: '', email: '', role: 'support', accessCode: '' });
+                }}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Admins List */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="p-6 border-b">
+            <h3 className="text-xl font-bold">Liste des Administrateurs ({admins.length})</h3>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Administrateur</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rôle</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Création</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dernière Connexion</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {admins.map((admin) => {
+                  const roleInfo = adminRoles[admin.role];
+                  return (
+                    <tr key={admin.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="text-2xl">{roleInfo.icon}</div>
+                          <div>
+                            <p className="font-medium text-gray-900">{admin.name}</p>
+                            <p className="text-sm text-gray-500">{admin.id}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="text-sm text-gray-900">{admin.whatsapp}</p>
+                        <p className="text-sm text-gray-500">{admin.email}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 text-xs rounded-full font-medium bg-${roleInfo.color}-100 text-${roleInfo.color}-800`}>
+                          {roleInfo.name}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 text-xs rounded-full font-medium ${
+                          admin.status === 'active' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {admin.status === 'active' ? 'Actif' : 'Suspendu'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {admin.createdDate}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {admin.lastLogin}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleEditAdmin(admin)}
+                            className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                          >
+                            ✏️ Modifier
+                          </button>
+                          {isSuperAdmin && admin.id !== 'admin_1' && (
+                            <>
+                              <button
+                                onClick={() => toggleAdminStatus(admin.id)}
+                                className="text-orange-600 hover:text-orange-800 font-semibold text-sm"
+                              >
+                                {admin.status === 'active' ? '🚫 Suspendre' : '✅ Activer'}
+                              </button>
+                              <button
+                                onClick={() => deleteAdmin(admin.id)}
+                                className="text-red-600 hover:text-red-800 font-semibold text-sm"
+                              >
+                                🗑️ Supprimer
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Info Box */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="flex items-start space-x-3">
+            <span className="text-3xl">ℹ️</span>
+            <div>
+              <h4 className="font-semibold text-blue-900 mb-2">Informations Importantes</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Seul le <strong>Super Administrateur</strong> peut suspendre ou supprimer des admins</li>
+                <li>• Les codes d'accès ne sont affichés qu'une seule fois lors de la création</li>
+                <li>• Chaque rôle a des permissions spécifiques définies</li>
+                <li>• Les admins suspendus ne peuvent plus se connecter</li>
+                <li>• Le Super Admin ne peut pas être supprimé ou suspendu</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+};
