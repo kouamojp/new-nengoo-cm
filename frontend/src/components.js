@@ -5442,38 +5442,6 @@ export const AdminDashboard = (props) => {
                 
                 <div className="border-t border-gray-200 my-2"></div>
                 
-                <button
-                  onClick={() => setActiveSection('user_access')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    activeSection === 'user_access' ? 'bg-orange-100 text-orange-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <span className="text-xl">👁️</span>
-                  <span className="font-medium text-sm">Accès Utilisateurs</span>
-                </button>
-                
-                <button
-                  onClick={() => setActiveSection('content_editor')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    activeSection === 'content_editor' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <span className="text-xl">✏️</span>
-                  <span className="font-medium text-sm">Éditeur Contenu</span>
-                </button>
-                
-                <button
-                  onClick={() => setActiveSection('banners')}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    activeSection === 'banners' ? 'bg-yellow-100 text-yellow-700' : 'hover:bg-gray-100'
-                  }`}
-                >
-                  <span className="text-xl">📢</span>
-                  <span className="font-medium text-sm">Publicités</span>
-                </button>
-                
-                <div className="border-t border-gray-200 my-2"></div>
-                
                 <Link
                   to="/admin/management"
                   className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-purple-50 border-2 border-purple-300 bg-purple-50"
