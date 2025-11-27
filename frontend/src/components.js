@@ -4885,32 +4885,6 @@ const adminMockData = {
     { id: 'CMD002', buyer: 'Jean Mbarga', seller: 'Tech Store CM', date: '2025-01-21', status: 'in_transit', total: 125000, items: 1 },
     { id: 'CMD003', buyer: 'Sophie Nkomo', seller: 'Artisan Local', date: '2025-01-22', status: 'processing', total: 27500, items: 2 },
     { id: 'CMD004', buyer: 'Paul Etame', seller: 'Boutique Marie', date: '2025-01-22', status: 'cancelled', total: 98000, items: 3 }
-  ],
-  
-  // Panneaux publicitaires
-  banners: [
-    {
-      id: 'banner_1',
-      title: 'Promo Spéciale -30%',
-      description: 'Sur tous les vêtements traditionnels',
-      imageUrl: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a',
-      link: '/catalog/clothing_accessories',
-      position: 'homepage_hero',
-      status: 'active',
-      startDate: '2025-01-15',
-      endDate: '2025-02-15'
-    },
-    {
-      id: 'banner_2',
-      title: 'Nouveaux Smartphones',
-      description: 'Dernière génération disponible',
-      imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9',
-      link: '/catalog/electronics',
-      position: 'homepage_top',
-      status: 'active',
-      startDate: '2025-01-20',
-      endDate: '2025-02-28'
-    }
   ]
 };
 
