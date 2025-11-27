@@ -5003,7 +5003,7 @@ export const AdminLogin = (props) => {
 
 // Admin Dashboard Component
 export const AdminDashboard = (props) => {
-  const { language, user } = props;
+  const { language, user, setUser } = props;
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('dashboard');
   const [sellers, setSellers] = useState(adminMockData.sellers);
@@ -5011,6 +5011,14 @@ export const AdminDashboard = (props) => {
   const [buyers, setBuyers] = useState(adminMockData.buyers);
   const [products, setProducts] = useState(adminMockData.allProducts);
   const [orders, setOrders] = useState(adminMockData.allOrders);
+  const [showProfileEdit, setShowProfileEdit] = useState(false);
+  const [profileData, setProfileData] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+    currentCode: '',
+    newCode: '',
+    confirmCode: ''
+  });
 
   // Vérifier si l'utilisateur est admin
   if (!user || user.type !== 'admin') {
