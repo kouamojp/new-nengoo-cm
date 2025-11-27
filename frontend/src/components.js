@@ -5192,25 +5192,37 @@ export const AdminDashboard = (props) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8">
             <div className="flex items-center justify-between mb-6">
-              <div>
+              <div className="flex-1">
                 <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Mon Profil</h2>
                 <p className="text-sm text-gray-600">Super Administrateur - {user.whatsapp}</p>
               </div>
-              <button
-                onClick={() => {
-                  setShowProfileEdit(false);
-                  setProfileData({
-                    name: user.name,
-                    email: user.email || '',
-                    currentCode: '',
-                    newCode: '',
-                    confirmCode: ''
-                  });
-                }}
-                className="text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                ✕
-              </button>
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => {
+                    setShowProfileEdit(false);
+                    setActiveSection('dashboard');
+                  }}
+                  className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+                >
+                  <span>🏠</span>
+                  <span>Tableau de bord</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileEdit(false);
+                    setProfileData({
+                      name: user.name,
+                      email: user.email || '',
+                      currentCode: '',
+                      newCode: '',
+                      confirmCode: ''
+                    });
+                  }}
+                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
             <div className="space-y-6">
