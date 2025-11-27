@@ -5756,6 +5756,7 @@ export const AdminDashboard = (props) => {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Articles</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
@@ -5781,6 +5782,16 @@ export const AdminDashboard = (props) => {
                                order.status === 'processing' ? 'En cours' :
                                'Annulé'}
                             </span>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => {
+                                alert(`Modification de la commande ${order.id}\n\nStatut actuel: ${order.status === 'delivered' ? 'Livré' : order.status === 'in_transit' ? 'En transit' : order.status === 'processing' ? 'En cours' : 'Annulé'}\n\nFonctionnalité: Modifier le statut de la commande, voir les détails complets.`);
+                              }}
+                              className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                            >
+                              ✏️ Modifier
+                            </button>
                           </td>
                         </tr>
                       ))}
