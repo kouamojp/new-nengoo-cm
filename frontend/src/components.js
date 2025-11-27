@@ -5175,6 +5175,16 @@ export const AdminDashboard = (props) => {
                   <span className="text-xl">🛒</span>
                   <span className="font-medium text-sm">Commandes</span>
                 </button>
+                
+                <div className="border-t border-gray-200 my-2"></div>
+                
+                <Link
+                  to="/admin/management"
+                  className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors hover:bg-purple-50 border-2 border-purple-300 bg-purple-50"
+                >
+                  <span className="text-xl">👑</span>
+                  <span className="font-medium text-sm text-purple-700">Administrateurs</span>
+                </Link>
               </nav>
             </div>
           </div>
