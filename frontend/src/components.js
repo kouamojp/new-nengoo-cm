@@ -5098,6 +5098,63 @@ export const AdminDashboard = (props) => {
     }
   };
 
+  const handleProfileChange = (e) => {
+    setProfileData({
+      ...profileData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleProfileUpdate = () => {
+    // Validation
+    if (!profileData.name) {
+      alert('⚠️ Le nom est requis');
+      return;
+    }
+
+    // Si changement de code d'accès
+    if (profileData.newCode) {
+      if (profileData.currentCode !== 'ADMIN2025') {
+        alert('❌ Code d\'accès actuel incorrect');
+        return;
+      }
+      if (profileData.newCode !== profileData.confirmCode) {
+        alert('❌ Les nouveaux codes ne correspondent pas');
+        return;
+      }
+      if (profileData.newCode.length < 8) {
+        alert('⚠️ Le nouveau code doit contenir au moins 8 caractères');
+        return;
+      }
+    }
+
+    // Mettre à jour l'utilisateur
+    const updatedUser = {
+      ...user,
+      name: profileData.name,
+      email: profileData.email
+    };
+
+    setUser(updatedUser);
+    localStorage.setItem('nengoo-user', JSON.stringify(updatedUser));
+    setShowProfileEdit(false);
+    
+    if (profileData.newCode) {
+      alert(`✅ Profil mis à jour avec succès!\n\nNouveau code d'accès: ${profileData.newCode}\n\n⚠️ Sauvegardez ce code, vous en aurez besoin pour votre prochaine connexion!`);
+    } else {
+      alert('✅ Profil mis à jour avec succès!');
+    }
+    
+    // Réinitialiser le formulaire
+    setProfileData({
+      name: updatedUser.name,
+      email: updatedUser.email,
+      currentCode: '',
+      newCode: '',
+      confirmCode: ''
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
