@@ -21,7 +21,8 @@ import {
   SellerSignup,
   PendingApproval,
   AdminLogin,
-  AdminDashboard
+  AdminDashboard,
+  AdminManagement
 } from './components';
 
 function App() {
