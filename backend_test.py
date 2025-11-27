@@ -185,7 +185,7 @@ class NengooTester:
 
     async def insert_test_data(self):
         """Insertion de données de test réalistes pour le Cameroun"""
-        if not self.db:
+        if self.db is None:
             return False
             
         print("\n📊 Insertion des données de test...")
