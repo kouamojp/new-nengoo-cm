@@ -5037,6 +5037,7 @@ export const AdminDashboard = (props) => {
   const [buyers, setBuyers] = useState(adminMockData.buyers);
   const [products, setProducts] = useState(adminMockData.allProducts);
   const [orders, setOrders] = useState(adminMockData.allOrders);
+  const [banners, setBanners] = useState(adminMockData.banners || []);
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [profileData, setProfileData] = useState({
     name: user?.name || '',
@@ -5045,6 +5046,10 @@ export const AdminDashboard = (props) => {
     newCode: '',
     confirmCode: ''
   });
+  const [editingUser, setEditingUser] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingBanner, setEditingBanner] = useState(null);
+  const [showBannerForm, setShowBannerForm] = useState(false);
 
   // Vérifier si l'utilisateur est admin
   if (!user || user.type !== 'admin') {
