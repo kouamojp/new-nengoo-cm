@@ -932,14 +932,13 @@ const Footer = ({ language }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-purple-600 rounded-lg p-2">
-                <span className="text-2xl font-bold">🛍️</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">Nengoo</h3>
-                <p className="text-sm opacity-75">nengoo.com</p>
-              </div>
+            <div className="mb-4">
+              <img 
+                src="/images/logo-nengoo.png" 
+                alt="Nengoo Logo" 
+                className="h-12 w-auto mb-2"
+              />
+              <p className="text-sm opacity-75">nengoo.com</p>
             </div>
             <p className="text-gray-300 mb-4">
               {t.footerText}
