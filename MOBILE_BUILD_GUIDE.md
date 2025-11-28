@@ -20,13 +20,13 @@ L'application propose automatiquement l'installation lors de la visite:
 ### Installation manuelle
 
 #### Sur Android (Chrome/Edge):
-1. Ouvrir https://shopnengoo.preview.emergentagent.com
+1. Ouvrir https://wildnengoo.preview.emergentagent.com
 2. Cliquer sur le menu (⋮) en haut à droite
 3. Sélectionner "Installer l'application" ou "Ajouter à l'écran d'accueil"
 4. Confirmer l'installation
 
 #### Sur iOS (Safari):
-1. Ouvrir https://shopnengoo.preview.emergentagent.com
+1. Ouvrir https://wildnengoo.preview.emergentagent.com
 2. Appuyer sur le bouton Partager (□↑)
 3. Faire défiler et choisir "Sur l'écran d'accueil"
 4. Nommer l'app et confirmer

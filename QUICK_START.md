@@ -5,13 +5,13 @@
 ### Option 1: PWA (Le Plus Rapide) ⭐
 
 #### Sur Mobile (Android/iOS):
-1. Ouvrir: https://shopnengoo.preview.emergentagent.com
+1. Ouvrir: https://wildnengoo.preview.emergentagent.com
 2. Cliquer sur **"Installer l'App"** dans le header
 3. Confirmer l'installation
 4. ✅ C'est installé! Icône sur votre écran d'accueil
 
 #### Sur Desktop:
-1. Ouvrir: https://shopnengoo.preview.emergentagent.com
+1. Ouvrir: https://wildnengoo.preview.emergentagent.com
 2. Cliquer sur l'icône ⊕ dans la barre d'adresse (Chrome)
 3. Cliquer sur "Installer"
 4. ✅ Application installée!
@@ -69,7 +69,7 @@ npx cap open ios
 ## 🔐 Accès Admin
 
 ```
-URL: https://shopnengoo.preview.emergentagent.com/admin/login
+URL: https://wildnengoo.preview.emergentagent.com/admin/login
 WhatsApp: +237600000000
 Code: ADMIN2025
 ```

@@ -272,7 +272,7 @@ rel="noopener noreferrer"
 
 ## 🧪 Comment Tester
 
-1. **Ouvrir l'application**: https://shopnengoo.preview.emergentagent.com
+1. **Ouvrir l'application**: https://wildnengoo.preview.emergentagent.com
 2. **Scroller jusqu'en bas** de n'importe quelle page
 3. **Regarder la 4ème colonne** du footer
 4. **Voir les badges** Google Play et App Store

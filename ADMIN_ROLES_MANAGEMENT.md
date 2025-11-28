@@ -10,7 +10,7 @@ Une page complète de gestion des administrateurs a été créée avec un systè
 
 ### URL:
 ```
-https://shopnengoo.preview.emergentagent.com/admin/management
+https://wildnengoo.preview.emergentagent.com/admin/management
 ```
 
 ### Accès depuis le Dashboard Admin:
@@ -529,4 +529,4 @@ R: Non, il doit être réactivé par le Super Admin d'abord.
 
 **La gestion des administrateurs de Nengoo est maintenant complète et sécurisée!** 👑🔐
 
-**Accès: https://shopnengoo.preview.emergentagent.com/admin/management**
+**Accès: https://wildnengoo.preview.emergentagent.com/admin/management**

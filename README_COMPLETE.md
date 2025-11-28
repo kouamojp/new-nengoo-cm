@@ -42,12 +42,12 @@ Nengoo est une marketplace complète pour le Cameroun, inspirée de Wildberries,
 
 ### URL Production:
 ```
-https://shopnengoo.preview.emergentagent.com
+https://wildnengoo.preview.emergentagent.com
 ```
 
 ### Accès Admin:
 ```
-URL: https://shopnengoo.preview.emergentagent.com/admin/login
+URL: https://wildnengoo.preview.emergentagent.com/admin/login
 WhatsApp: +237600000000
 Code: ADMIN2025
 ```

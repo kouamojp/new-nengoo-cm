@@ -159,13 +159,13 @@ Petit bouton dans le header, conservé pour accès rapide.
 ## 🚀 Comment Tester
 
 ### Sur Desktop:
-1. Ouvrir https://shopnengoo.preview.emergentagent.com
+1. Ouvrir https://wildnengoo.preview.emergentagent.com
 2. La section d'installation est visible en haut
 3. Cliquer sur "Installer l'Application"
 4. Suivre les instructions
 
 ### Sur Mobile:
-1. Ouvrir https://shopnengoo.preview.emergentagent.com
+1. Ouvrir https://wildnengoo.preview.emergentagent.com
 2. Scroll légèrement vers le bas
 3. Section d'installation très visible
 4. Cliquer sur le gros bouton
@@ -241,4 +241,4 @@ Petit bouton dans le header, conservé pour accès rapide.
 
 Les utilisateurs verront immédiatement l'option d'installer Nengoo comme application native dès leur arrivée sur le site. Cela devrait significativement augmenter le taux d'installation de la PWA.
 
-**Visitez: https://shopnengoo.preview.emergentagent.com pour voir le résultat!** 📱🚀
+**Visitez: https://wildnengoo.preview.emergentagent.com pour voir le résultat!** 📱🚀

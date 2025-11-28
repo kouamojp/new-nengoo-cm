@@ -4,7 +4,7 @@
 
 ### URL d'accès:
 ```
-https://shopnengoo.preview.emergentagent.com/admin/login
+https://wildnengoo.preview.emergentagent.com/admin/login
 ```
 
 ### Identifiants Admin:

@@ -23,7 +23,7 @@ ROOT_DIR = Path(__file__).parent / "backend"
 load_dotenv(ROOT_DIR / '.env')
 
 # URLs et configuration
-BACKEND_URL = "https://shopnengoo.preview.emergentagent.com"
+BACKEND_URL = "https://wildnengoo.preview.emergentagent.com"
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 DB_NAME = os.environ.get('DB_NAME', 'test_database')
 
