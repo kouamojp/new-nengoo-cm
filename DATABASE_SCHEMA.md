@@ -891,8 +891,9 @@ Ajout des champs pour la gestion des points de retrait:
 | users | 1,250+ | ~2KB |
 | sellers | 45+ | ~3KB |
 | products | 389+ | ~5KB |
-| orders | 567+ | ~4KB |
-| pickupPoints | 10-20 | ~1KB |
+| orders | 567+ | ~5KB |
+| pickupPoints | 20-50 | ~2KB |
+| pickupManagers | 20-50 | ~2KB |
 | messages | Variable | ~2KB |
 | reviews | Variable | ~3KB |
 
