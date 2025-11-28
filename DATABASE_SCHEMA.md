@@ -18,11 +18,20 @@ Stocke tous les utilisateurs (acheteurs et administrateurs).
   _id: ObjectId,                    // ID unique MongoDB
   id: String,                       // ID custom (UUID recommandé)
   whatsapp: String,                 // Numéro WhatsApp (unique)
+  password: String,                 // Mot de passe hashé (bcrypt)
   name: String,                     // Nom complet
   email: String,                    // Email (optionnel)
   type: String,                     // "buyer" | "admin"
   joinDate: Date,                   // Date d'inscription
   status: String,                   // "active" | "suspended"
+  
+  // Sécurité et authentification
+  passwordResetRequired: Boolean,   // Mot de passe doit être changé
+  lastPasswordChange: Date,         // Dernière modification du mot de passe
+  passwordChangedBy: String,        // ID de l'admin qui a modifié (si applicable)
+  loginAttempts: Number,            // Tentatives de connexion échouées
+  lastLoginAttempt: Date,           // Dernière tentative de connexion
+  accountLocked: Boolean,           // Compte verrouillé après tentatives
   
   // Statistiques acheteur
   totalOrders: Number,              // Nombre de commandes
@@ -30,7 +39,7 @@ Stocke tous les utilisateurs (acheteurs et administrateurs).
   
   // Données profil
   addresses: Array,                 // Adresses de livraison
-  favoritePickupPoints: Array,      // Points de retrait favoris
+  favoritePickupPoints: Array,      // Points de retrait favoris (IDs)
   paymentMethods: Array,            // Méthodes de paiement
   
   // Métadonnées
