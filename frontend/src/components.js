@@ -2352,6 +2352,11 @@ export const UserProfile = (props) => {
               <p className="text-sm opacity-75 mt-1">Membre depuis {user.joinDate}</p>
             </div>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+              {user.type === 'admin' && (
+                <Link to="/admin/dashboard" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors text-center">
+                  📊 Tableau de bord
+                </Link>
+              )}
               <Link to="/catalog" className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-2 rounded-lg font-semibold transition-colors text-center">
                 🛍️ Continuer mes achats
               </Link>
