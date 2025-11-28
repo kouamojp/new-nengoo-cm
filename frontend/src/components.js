@@ -5466,6 +5466,72 @@ export const AdminDashboard = (props) => {
     alert('✅ Commande mise à jour avec succès!');
   };
 
+  // Fonctions pour les points de retrait
+  const approvePickupPoint = (pointId) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut approuver les points de retrait');
+      return;
+    }
+    
+    const point = pickupPoints.find(p => p.id === pointId);
+    if (point) {
+      const updatedPoint = {
+        ...point,
+        status: 'approved',
+        verified: true,
+        approvedDate: new Date().toISOString().split('T')[0]
+      };
+      
+      setPickupPoints(pickupPoints.map(p => 
+        p.id === pointId ? updatedPoint : p
+      ));
+      
+      alert(`✅ Point de retrait "${point.name}" approuvé avec succès!`);
+    }
+  };
+
+  const rejectPickupPoint = (pointId) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut rejeter les points de retrait');
+      return;
+    }
+    
+    const point = pickupPoints.find(p => p.id === pointId);
+    if (point && confirm(`Êtes-vous sûr de vouloir rejeter "${point.name}"?`)) {
+      setPickupPoints(pickupPoints.filter(p => p.id !== pointId));
+      alert(`❌ Point de retrait "${point.name}" rejeté.`);
+    }
+  };
+
+  const togglePickupPointStatus = (pointId) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier le statut');
+      return;
+    }
+    
+    setPickupPoints(pickupPoints.map(p => 
+      p.id === pointId 
+        ? { ...p, status: p.status === 'approved' ? 'suspended' : 'approved' }
+        : p
+    ));
+  };
+
+  const handleEditPickupPoint = (point) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier les points de retrait');
+      return;
+    }
+    setEditingPickupPoint({ ...point });
+  };
+
+  const handleUpdatePickupPoint = () => {
+    setPickupPoints(pickupPoints.map(p => 
+      p.id === editingPickupPoint.id ? editingPickupPoint : p
+    ));
+    setEditingPickupPoint(null);
+    alert('✅ Point de retrait mis à jour avec succès!');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
