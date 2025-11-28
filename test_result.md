@@ -178,17 +178,77 @@ backend:
           comment: "Endpoints e-commerce non implémentés: /api/products, /api/sellers, /api/auth/login retournent 404. Seuls les endpoints de base /api/status fonctionnent."
 
 frontend:
-  - task: "Frontend testing"
-    implemented: false
+  - task: "Homepage functionality"
+    implemented: true
     working: "NA"
-    file: "N/A"
+    file: "/app/frontend/src/components.js"
     stuck_count: 0
-    priority: "low"
-    needs_retesting: false
+    priority: "high"
+    needs_retesting: true
     status_history:
         - working: "NA"
-          agent: "testing"
-          comment: "Frontend testing non effectué selon les instructions - focus backend uniquement"
+          agent: "main"
+          comment: "Homepage component implemented with logo, product slider, categories, footer - needs testing"
+
+  - task: "Product Catalog functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Product catalog with grid, filters, pagination implemented - needs testing"
+
+  - task: "Pickup Points page functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Pickup points page with filters by city, modal details, WhatsApp/call buttons - needs testing"
+
+  - task: "Admin Login functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Admin login with WhatsApp +237600000000 and code ADMIN2025 - needs testing"
+
+  - task: "Admin Dashboard functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Admin dashboard with statistics, sections (Vendeurs, Acheteurs, Produits, Commandes, Points de retrait) - needs testing"
+
+  - task: "Navigation functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Header/footer navigation, cart button, search functionality - needs testing"
 
 metadata:
   created_by: "testing_agent"
