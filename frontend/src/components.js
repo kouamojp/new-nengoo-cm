@@ -2911,15 +2911,22 @@ const mockUsers = {
     {
       id: 1,
       whatsapp: "+237655123456",
+      password: "123456", // En production, sera hashé avec bcrypt
       name: "Marie Kouam",
+      email: "marie.kouam@example.com",
       joinDate: "2025-01-10",
-      type: "buyer"
+      type: "buyer",
+      passwordResetRequired: false,
+      lastPasswordChange: "2025-01-10",
+      loginAttempts: 0,
+      accountLocked: false
     }
   ],
   sellers: [
     {
       id: 1,
       whatsapp: "+237655123456",
+      password: "seller123", // En production, sera hashé avec bcrypt
       name: "Jean Baptiste",
       businessName: "Boutique Afrique",
       email: "boutique@afrique.cm",
@@ -2927,13 +2934,18 @@ const mockUsers = {
       categories: ["clothing_accessories", "handicrafts"],
       status: "approved",
       joinDate: "2024-01-15",
-      type: "seller"
+      type: "seller",
+      passwordResetRequired: false,
+      lastPasswordChange: "2024-01-15",
+      loginAttempts: 0,
+      accountLocked: false
     }
   ],
   pendingSellers: [
     {
       id: 2,
       whatsapp: "+237655987654",
+      password: "pending123",
       name: "Aminata Sow",
       businessName: "Artisanat Cameroun",
       email: "artisanat@cameroun.cm",
@@ -2941,7 +2953,11 @@ const mockUsers = {
       categories: ["handicrafts", "home_garden"],
       status: "pending",
       submitDate: "2025-07-22",
-      type: "seller"
+      type: "seller",
+      passwordResetRequired: false,
+      lastPasswordChange: "2025-07-22",
+      loginAttempts: 0,
+      accountLocked: false
     }
   ]
 };
