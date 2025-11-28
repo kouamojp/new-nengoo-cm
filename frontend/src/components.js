@@ -5669,12 +5669,22 @@ export const AdminDashboard = (props) => {
                               </span>
                             </td>
                             <td className="px-6 py-4">
-                              <button
-                                onClick={() => toggleSellerStatus(seller.id)}
-                                className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
-                              >
-                                {seller.status === 'approved' ? '🚫 Suspendre' : '✅ Activer'}
-                              </button>
+                              <div className="flex space-x-3">
+                                {isSuperAdmin && (
+                                  <button
+                                    onClick={() => handleEditSeller(seller)}
+                                    className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                                  >
+                                    ✏️ Modifier
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => toggleSellerStatus(seller.id)}
+                                  className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
+                                >
+                                  {seller.status === 'approved' ? '🚫 Suspendre' : '✅ Activer'}
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
