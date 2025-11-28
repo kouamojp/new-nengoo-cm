@@ -653,6 +653,237 @@ db.products.aggregate([{ $indexStats: {} }])
 
 ---
 
+### 8. 📍 Collection: `pickupPoints`
+
+Points de retrait pour la livraison des commandes.
+
+#### Schéma:
+```javascript
+{
+  _id: ObjectId,                    // ID unique MongoDB
+  id: String,                       // ID custom (UUID)
+  name: String,                     // Nom du point de retrait
+  
+  // Localisation
+  address: String,                  // Adresse complète
+  city: String,                     // Ville
+  region: String,                   // Région du Cameroun
+  coordinates: {                    // Coordonnées GPS (optionnel)
+    latitude: Number,
+    longitude: Number
+  },
+  
+  // Gestionnaire
+  managerId: String,                // ID du gestionnaire
+  managerName: String,              // Nom du gestionnaire
+  managerWhatsApp: String,          // WhatsApp du gestionnaire
+  managerEmail: String,             // Email du gestionnaire
+  
+  // Informations de contact
+  phone: String,                    // Téléphone du point de retrait
+  email: String,                    // Email du point de retrait
+  
+  // Détails opérationnels
+  capacity: Number,                 // Capacité de stockage (nombre de colis)
+  currentLoad: Number,              // Nombre de colis actuellement stockés
+  hours: String,                    // Horaires d'ouverture (ex: "Lun-Sam: 8h-18h")
+  description: String,              // Description du point de retrait
+  
+  // Statut
+  status: String,                   // "pending" | "approved" | "rejected" | "suspended"
+  verified: Boolean,                // Point de retrait vérifié
+  
+  // Statistiques
+  totalOrders: Number,              // Nombre total de commandes traitées
+  activeOrders: Number,             // Commandes en cours
+  rating: Number,                   // Note moyenne (0-5)
+  reviewsCount: Number,             // Nombre d'avis
+  
+  // Métadonnées
+  createdDate: Date,
+  approvedDate: Date,
+  suspendedDate: Date,
+  updatedAt: Date
+}
+```
+
+#### Exemple:
+```json
+{
+  "_id": "65abc...",
+  "id": "pickup_001",
+  "name": "Nengoo Point Douala Centre",
+  "address": "Avenue de la Liberté, Akwa",
+  "city": "Douala",
+  "region": "Littoral",
+  "coordinates": {
+    "latitude": 4.0511,
+    "longitude": 9.7679
+  },
+  "managerId": "manager_001",
+  "managerName": "Jean Mbarga",
+  "managerWhatsApp": "+237655888999",
+  "managerEmail": "jean.mbarga@nengoo.cm",
+  "phone": "+237 233 456 789",
+  "email": "douala.centre@nengoo.cm",
+  "capacity": 100,
+  "currentLoad": 25,
+  "hours": "Lun-Sam: 8h-18h, Dim: Fermé",
+  "description": "Point de retrait principal situé au centre ville de Douala",
+  "status": "approved",
+  "verified": true,
+  "totalOrders": 450,
+  "activeOrders": 25,
+  "rating": 4.7,
+  "reviewsCount": 120,
+  "createdDate": "2025-01-01T00:00:00Z",
+  "approvedDate": "2025-01-02T10:30:00Z",
+  "updatedAt": "2025-01-28T12:00:00Z"
+}
+```
+
+#### Index recommandés:
+```javascript
+db.pickupPoints.createIndex({ id: 1 }, { unique: true })
+db.pickupPoints.createIndex({ managerId: 1 })
+db.pickupPoints.createIndex({ city: 1, status: 1 })
+db.pickupPoints.createIndex({ status: 1 })
+db.pickupPoints.createIndex({ createdDate: -1 })
+```
+
+---
+
+### 9. 👨‍💼 Collection: `pickupManagers`
+
+Gestionnaires des points de retrait.
+
+#### Schéma:
+```javascript
+{
+  _id: ObjectId,                    // ID unique MongoDB
+  id: String,                       // ID custom (UUID)
+  name: String,                     // Nom complet
+  whatsapp: String,                 // Numéro WhatsApp (unique)
+  email: String,                    // Email
+  
+  // Point de retrait géré
+  pickupPointId: String,            // ID du point de retrait
+  pickupPointName: String,          // Nom du point de retrait
+  
+  // Informations personnelles
+  idCard: String,                   // Numéro de carte d'identité
+  photo: String,                    // URL de la photo
+  address: String,                  // Adresse personnelle
+  
+  // Type et rôle
+  type: String,                     // "pickup_manager"
+  role: String,                     // "manager" | "assistant_manager"
+  
+  // Permissions
+  canApproveOrders: Boolean,        // Peut approuver les réceptions
+  canContactCustomers: Boolean,     // Peut contacter les clients
+  canModifyInventory: Boolean,      // Peut modifier l'inventaire
+  
+  // Statut
+  status: String,                   // "active" | "suspended" | "pending"
+  verified: Boolean,                // Compte vérifié
+  
+  // Statistiques
+  ordersProcessed: Number,          // Commandes traitées
+  performanceRating: Number,        // Note de performance (0-5)
+  
+  // Métadonnées
+  joinDate: Date,
+  lastLogin: Date,
+  createdAt: Date,
+  updatedAt: Date
+}
+```
+
+#### Exemple:
+```json
+{
+  "_id": "65def...",
+  "id": "manager_001",
+  "name": "Jean Mbarga",
+  "whatsapp": "+237655888999",
+  "email": "jean.mbarga@nengoo.cm",
+  "pickupPointId": "pickup_001",
+  "pickupPointName": "Nengoo Point Douala Centre",
+  "idCard": "CM-DLA-123456",
+  "photo": "https://example.com/managers/jean_mbarga.jpg",
+  "address": "Quartier Bonanjo, Douala",
+  "type": "pickup_manager",
+  "role": "manager",
+  "canApproveOrders": true,
+  "canContactCustomers": true,
+  "canModifyInventory": true,
+  "status": "active",
+  "verified": true,
+  "ordersProcessed": 450,
+  "performanceRating": 4.8,
+  "joinDate": "2025-01-01T00:00:00Z",
+  "lastLogin": "2025-01-28T09:30:00Z",
+  "createdAt": "2025-01-01T00:00:00Z",
+  "updatedAt": "2025-01-28T09:30:00Z"
+}
+```
+
+#### Index recommandés:
+```javascript
+db.pickupManagers.createIndex({ id: 1 }, { unique: true })
+db.pickupManagers.createIndex({ whatsapp: 1 }, { unique: true })
+db.pickupManagers.createIndex({ pickupPointId: 1 })
+db.pickupManagers.createIndex({ email: 1 })
+db.pickupManagers.createIndex({ status: 1 })
+```
+
+---
+
+### 🔄 Modification: Collection `orders`
+
+Ajout des champs pour la gestion des points de retrait:
+
+#### Nouveaux champs:
+```javascript
+{
+  // ... champs existants ...
+  
+  // Point de retrait
+  pickupPointId: String,            // ID du point de retrait choisi
+  pickupPointName: String,          // Nom du point de retrait
+  pickupPointAddress: String,       // Adresse du point de retrait
+  pickupPointPhone: String,         // Téléphone du point de retrait
+  
+  // Statut de livraison au point de retrait
+  pickupStatus: String,             // "ordered" | "in_transit" | "at_pickup_point" | "collected" | "cancelled"
+  
+  // Dates importantes
+  orderedDate: Date,                // Date de commande
+  shippedDate: Date,                // Date d'expédition
+  arrivedAtPickupDate: Date,        // Date d'arrivée au point de retrait
+  collectedDate: Date,              // Date de récupération par le client
+  
+  // Notifications WhatsApp
+  notificationsSent: {
+    toSeller: Boolean,              // Notification envoyée au vendeur
+    toPickupManager: Boolean,       // Notification envoyée au gestionnaire
+    toCustomer: Boolean,            // Notification envoyée au client
+    arrivedNotification: Boolean    // Notification d'arrivée envoyée
+  },
+  
+  // Gestionnaire
+  pickupManagerId: String,          // ID du gestionnaire qui a validé
+  pickupManagerName: String,        // Nom du gestionnaire
+  receivedBy: String,               // Nom de la personne qui a réceptionné
+  
+  // Métadonnées
+  pickupNotes: String               // Notes du gestionnaire
+}
+```
+
+---
+
 ## 🎯 Résumé
 
 | Collection | Documents estimés | Taille moyenne |
