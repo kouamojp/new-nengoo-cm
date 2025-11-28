@@ -22,7 +22,8 @@ import {
   PendingApproval,
   AdminLogin,
   AdminDashboard,
-  AdminManagement
+  AdminManagement,
+  PickupPointsMap
 } from './components';
 
 function App() {
