@@ -6119,6 +6119,187 @@ export const AdminDashboard = (props) => {
       )}
 
 
+      {/* Modal Edit Pickup Point */}
+      {editingPickupPoint && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Point de Retrait</h2>
+              <button
+                onClick={() => setEditingPickupPoint(null)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nom du point de retrait</label>
+                  <input
+                    type="text"
+                    value={editingPickupPoint.name}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, name: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
+                  <input
+                    type="text"
+                    value={editingPickupPoint.address}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, address: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Ville</label>
+                  <input
+                    type="text"
+                    value={editingPickupPoint.city}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, city: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Région</label>
+                  <input
+                    type="text"
+                    value={editingPickupPoint.region}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, region: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
+                  <input
+                    type="tel"
+                    value={editingPickupPoint.phone}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, phone: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <input
+                    type="email"
+                    value={editingPickupPoint.email}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, email: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="border-t pt-4">
+                <h3 className="font-semibold text-gray-900 mb-3">Informations du Gestionnaire</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Nom du gestionnaire</label>
+                    <input
+                      type="text"
+                      value={editingPickupPoint.managerName}
+                      onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, managerName: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">WhatsApp gestionnaire</label>
+                    <input
+                      type="tel"
+                      value={editingPickupPoint.managerWhatsApp}
+                      onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, managerWhatsApp: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Capacité</label>
+                  <input
+                    type="number"
+                    value={editingPickupPoint.capacity}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, capacity: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Charge actuelle</label>
+                  <input
+                    type="number"
+                    value={editingPickupPoint.currentLoad}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, currentLoad: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Note</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0"
+                    max="5"
+                    value={editingPickupPoint.rating}
+                    onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, rating: parseFloat(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Horaires d'ouverture</label>
+                <input
+                  type="text"
+                  value={editingPickupPoint.hours}
+                  onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, hours: e.target.value })}
+                  placeholder="Ex: Lun-Sam: 8h-18h"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea
+                  value={editingPickupPoint.description}
+                  onChange={(e) => setEditingPickupPoint({ ...editingPickupPoint, description: e.target.value })}
+                  rows="3"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="flex space-x-4 pt-4">
+                <button
+                  onClick={handleUpdatePickupPoint}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ Enregistrer
+                </button>
+                <button
+                  onClick={() => setEditingPickupPoint(null)}
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Sidebar */}
