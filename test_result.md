@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Tester le backend de Nengoo et créer les bases de données MongoDB nécessaires pour l'application e-commerce camerounaise"
+user_problem_statement: "Test complet de l'application Nengoo - E-commerce frontend et backend avec React frontend sur http://localhost:3000"
 
 backend:
   - task: "Backend server startup and basic endpoints"
