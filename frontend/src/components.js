@@ -6620,6 +6620,183 @@ export const AdminDashboard = (props) => {
             )}
 
 
+            {/* Pickup Points Management Section */}
+            {activeSection === 'pickupPoints' && (
+              <div>
+                <h2 className="text-3xl font-bold mb-6">📍 Gestion des Points de Retrait</h2>
+                
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-green-50 rounded-lg p-4">
+                    <p className="text-sm text-green-600 font-medium">Points Approuvés</p>
+                    <p className="text-2xl font-bold text-green-700">
+                      {pickupPoints.filter(p => p.status === 'approved').length}
+                    </p>
+                  </div>
+                  <div className="bg-yellow-50 rounded-lg p-4">
+                    <p className="text-sm text-yellow-600 font-medium">En attente</p>
+                    <p className="text-2xl font-bold text-yellow-700">
+                      {pickupPoints.filter(p => p.status === 'pending').length}
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <p className="text-sm text-blue-600 font-medium">Total Gestionnaires</p>
+                    <p className="text-2xl font-bold text-blue-700">
+                      {pickupManagers.length}
+                    </p>
+                  </div>
+                  <div className="bg-purple-50 rounded-lg p-4">
+                    <p className="text-sm text-purple-600 font-medium">Capacité Totale</p>
+                    <p className="text-2xl font-bold text-purple-700">
+                      {pickupPoints.reduce((sum, p) => sum + p.capacity, 0)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Pending Pickup Points */}
+                {pickupPoints.filter(p => p.status === 'pending').length > 0 && (
+                  <div className="mb-8">
+                    <h3 className="text-xl font-bold mb-4 flex items-center">
+                      <span className="text-yellow-500 mr-2">⏳</span>
+                      Demandes en attente ({pickupPoints.filter(p => p.status === 'pending').length})
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {pickupPoints.filter(p => p.status === 'pending').map((point) => (
+                        <div key={point.id} className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <h4 className="text-lg font-bold text-gray-900 mb-2">{point.name}</h4>
+                              <div className="space-y-1 text-sm text-gray-600">
+                                <p>📍 {point.address}, {point.city}</p>
+                                <p>📞 {point.phone}</p>
+                                <p>👤 {point.managerName}</p>
+                                <p>📱 {point.managerWhatsApp}</p>
+                                <p>💼 Capacité: {point.capacity} colis</p>
+                                <p>🕐 {point.hours}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-700 mb-4 italic">{point.description}</p>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => approvePickupPoint(point.id)}
+                              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors text-sm"
+                            >
+                              ✅ Approuver
+                            </button>
+                            <button
+                              onClick={() => rejectPickupPoint(point.id)}
+                              className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors text-sm"
+                            >
+                              ❌ Rejeter
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Active Pickup Points */}
+                <div>
+                  <h3 className="text-xl font-bold mb-4 flex items-center">
+                    <span className="text-green-500 mr-2">✅</span>
+                    Points de retrait actifs ({pickupPoints.filter(p => p.status === 'approved').length})
+                  </h3>
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                    <table className="w-full">
+                      <thead className="bg-gray-50 border-b">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Point de retrait</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gestionnaire</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ville</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Capacité</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Commandes</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Note</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {pickupPoints.filter(p => p.status === 'approved').map((point) => (
+                          <tr key={point.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4">
+                              <div>
+                                <p className="font-medium">{point.name}</p>
+                                <p className="text-sm text-gray-500">{point.address}</p>
+                                <p className="text-sm text-gray-500">📞 {point.phone}</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div>
+                                <p className="text-sm font-medium">{point.managerName}</p>
+                                <p className="text-xs text-gray-500">{point.managerWhatsApp}</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-sm">{point.city}</td>
+                            <td className="px-6 py-4 text-sm">
+                              <div>
+                                <p className="font-medium">{point.currentLoad}/{point.capacity}</p>
+                                <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                  <div 
+                                    className={`h-2 rounded-full ${
+                                      point.currentLoad / point.capacity > 0.8 ? 'bg-red-500' : 
+                                      point.currentLoad / point.capacity > 0.5 ? 'bg-yellow-500' : 'bg-green-500'
+                                    }`}
+                                    style={{ width: `${(point.currentLoad / point.capacity) * 100}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div>
+                                <p className="text-sm font-medium text-blue-600">{point.activeOrders} en cours</p>
+                                <p className="text-xs text-gray-500">{point.totalOrders} total</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center">
+                                <span className="text-yellow-500 mr-1">⭐</span>
+                                <span className="text-sm font-medium">{point.rating}</span>
+                                <span className="text-xs text-gray-500 ml-1">({point.reviewsCount})</span>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <span className={`px-2 py-1 text-xs rounded-full ${
+                                point.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                              }`}>
+                                {point.status === 'approved' ? 'Actif' : 'Suspendu'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="flex space-x-2">
+                                {isSuperAdmin && (
+                                  <button
+                                    onClick={() => handleEditPickupPoint(point)}
+                                    className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                                  >
+                                    ✏️ Modifier
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => togglePickupPointStatus(point.id)}
+                                  className="text-purple-600 hover:text-purple-700 font-semibold text-sm"
+                                >
+                                  {point.status === 'approved' ? '🚫 Suspendre' : '✅ Activer'}
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+
+
 
           </div>
         </div>
