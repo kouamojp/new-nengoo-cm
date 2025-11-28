@@ -271,3 +271,5 @@ test_plan:
 agent_communication:
     - agent: "testing"
       message: "Tests backend Nengoo terminés avec succès. Score: 100% (5/5). Backend de base fonctionnel, MongoDB configuré avec 7 collections et données de test. Manque: API endpoints e-commerce complets (/products, /sellers, /auth). Recommandation: implémenter les endpoints manquants pour fonctionnalité e-commerce complète."
+    - agent: "main"
+      message: "Frontend Nengoo implémenté avec composants React: Homepage, ProductCatalog, PickupPointsMap, AdminLogin, AdminDashboard, Navigation. Prêt pour tests complets selon review_request. URL frontend: https://wildnengoo.preview.emergentagent.com"
