@@ -126,6 +126,7 @@ function App() {
           <Route path="/profile" element={<UserProfile {...appProps} />} />
           <Route path="/about" element={<About {...appProps} />} />
           <Route path="/search" element={<SearchResults {...appProps} />} />
+          <Route path="/pickup-points" element={<PickupPointsMap {...appProps} />} />
           
           {/* Authentication Routes */}
           <Route path="/login" element={<Login {...appProps} />} />
