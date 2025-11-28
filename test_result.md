@@ -275,16 +275,10 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Homepage functionality"
-    - "Product Catalog functionality"
-    - "Pickup Points page functionality"
-    - "Admin Login functionality"
-    - "Admin Dashboard functionality"
-    - "Navigation functionality"
+  current_focus: []
   stuck_tasks: []
-  test_all: false
-  test_priority: "high_first"
+  test_all: true
+  test_priority: "completed"
 
 agent_communication:
     - agent: "testing"
