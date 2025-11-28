@@ -5650,7 +5650,21 @@ export const AdminDashboard = (props) => {
         joinDate: new Date().toISOString().split('T')[0]
       };
       setSellers([...sellers, approvedSeller]);
-      setPendingSellers(pendingSellers.filter(s => s.id !== sellerId));
+      
+      // Mettre à jour les listes
+      const updatedPending = pendingSellers.filter(s => s.id !== sellerId);
+      setPendingSellers(updatedPending);
+      
+      // Mettre à jour localStorage
+      const storedPending = JSON.parse(localStorage.getItem('nengoo-pending-sellers') || '[]');
+      const updatedStoredPending = storedPending.filter(s => s.id !== sellerId);
+      localStorage.setItem('nengoo-pending-sellers', JSON.stringify(updatedStoredPending));
+      
+      // Sauvegarder le vendeur approuvé
+      const approvedSellers = JSON.parse(localStorage.getItem('nengoo-approved-sellers') || '[]');
+      approvedSellers.push(approvedSeller);
+      localStorage.setItem('nengoo-approved-sellers', JSON.stringify(approvedSellers));
+      
       alert(`✅ Vendeur "${seller.businessName}" approuvé avec succès!`);
     }
   };
@@ -5658,7 +5672,15 @@ export const AdminDashboard = (props) => {
   const rejectSeller = (sellerId) => {
     const seller = pendingSellers.find(s => s.id === sellerId);
     if (seller && confirm(`Êtes-vous sûr de vouloir rejeter la demande de "${seller.businessName}"?`)) {
-      setPendingSellers(pendingSellers.filter(s => s.id !== sellerId));
+      // Mettre à jour la liste
+      const updatedPending = pendingSellers.filter(s => s.id !== sellerId);
+      setPendingSellers(updatedPending);
+      
+      // Mettre à jour localStorage
+      const storedPending = JSON.parse(localStorage.getItem('nengoo-pending-sellers') || '[]');
+      const updatedStoredPending = storedPending.filter(s => s.id !== sellerId);
+      localStorage.setItem('nengoo-pending-sellers', JSON.stringify(updatedStoredPending));
+      
       alert(`❌ Demande de "${seller.businessName}" rejetée.`);
     }
   };
