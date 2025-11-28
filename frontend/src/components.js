@@ -5164,6 +5164,71 @@ export const AdminDashboard = (props) => {
     });
   };
 
+  // Fonctions de modification pour super admin
+  const handleEditSeller = (seller) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier les vendeurs');
+      return;
+    }
+    setEditingSeller({ ...seller });
+  };
+
+  const handleUpdateSeller = () => {
+    setSellers(sellers.map(s => 
+      s.id === editingSeller.id ? editingSeller : s
+    ));
+    setEditingSeller(null);
+    alert('✅ Vendeur mis à jour avec succès!');
+  };
+
+  const handleEditBuyer = (buyer) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier les acheteurs');
+      return;
+    }
+    setEditingBuyer({ ...buyer });
+  };
+
+  const handleUpdateBuyer = () => {
+    setBuyers(buyers.map(b => 
+      b.id === editingBuyer.id ? editingBuyer : b
+    ));
+    setEditingBuyer(null);
+    alert('✅ Acheteur mis à jour avec succès!');
+  };
+
+  const handleEditProduct = (product) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier les produits');
+      return;
+    }
+    setEditingProduct({ ...product });
+  };
+
+  const handleUpdateProduct = () => {
+    setProducts(products.map(p => 
+      p.id === editingProduct.id ? editingProduct : p
+    ));
+    setEditingProduct(null);
+    alert('✅ Produit mis à jour avec succès!');
+  };
+
+  const handleEditOrder = (order) => {
+    if (!isSuperAdmin) {
+      alert('⚠️ Seul le Super Administrateur peut modifier les commandes');
+      return;
+    }
+    setEditingOrder({ ...order });
+  };
+
+  const handleUpdateOrder = () => {
+    setOrders(orders.map(o => 
+      o.id === editingOrder.id ? editingOrder : o
+    ));
+    setEditingOrder(null);
+    alert('✅ Commande mise à jour avec succès!');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
