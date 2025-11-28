@@ -5582,7 +5582,13 @@ export const AdminDashboard = (props) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('dashboard');
   const [sellers, setSellers] = useState(adminMockData.sellers);
-  const [pendingSellers, setPendingSellers] = useState(adminMockData.pendingSellers);
+  const [pendingSellers, setPendingSellers] = useState(() => {
+    // Charger les vendeurs en attente depuis localStorage
+    const storedPending = localStorage.getItem('nengoo-pending-sellers');
+    const localPending = storedPending ? JSON.parse(storedPending) : [];
+    // Combiner avec les données mockées initiales
+    return [...adminMockData.pendingSellers, ...localPending];
+  });
   const [buyers, setBuyers] = useState(adminMockData.buyers);
   const [products, setProducts] = useState(adminMockData.allProducts);
   const [orders, setOrders] = useState(adminMockData.allOrders);
