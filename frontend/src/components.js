@@ -5898,14 +5898,23 @@ export const AdminDashboard = (props) => {
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <button
-                              onClick={() => {
-                                alert(`Modification de la commande ${order.id}\n\nStatut actuel: ${order.status === 'delivered' ? 'Livré' : order.status === 'in_transit' ? 'En transit' : order.status === 'processing' ? 'En cours' : 'Annulé'}\n\nFonctionnalité: Modifier le statut de la commande, voir les détails complets.`);
-                              }}
-                              className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
-                            >
-                              ✏️ Modifier
-                            </button>
+                            {isSuperAdmin ? (
+                              <button
+                                onClick={() => handleEditOrder(order)}
+                                className="text-blue-600 hover:text-blue-800 font-semibold text-sm"
+                              >
+                                ✏️ Modifier
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  alert('⚠️ Seul le Super Administrateur peut modifier les commandes');
+                                }}
+                                className="text-gray-400 cursor-not-allowed font-semibold text-sm"
+                              >
+                                ✏️ Modifier
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))}
