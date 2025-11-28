@@ -5020,6 +5020,15 @@ export const AdminDashboard = (props) => {
     confirmCode: ''
   });
 
+  // States pour les modals d'édition
+  const [editingSeller, setEditingSeller] = useState(null);
+  const [editingBuyer, setEditingBuyer] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingOrder, setEditingOrder] = useState(null);
+  
+  // Vérifier si l'utilisateur est super admin
+  const isSuperAdmin = user && user.whatsapp === '+237600000000';
+
   // Vérifier si l'utilisateur est admin
   if (!user || user.type !== 'admin') {
     return (
