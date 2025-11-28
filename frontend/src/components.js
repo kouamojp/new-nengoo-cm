@@ -6109,6 +6109,16 @@ export const AdminDashboard = (props) => {
                   <span className="font-medium text-sm">Commandes</span>
                 </button>
                 
+                <button
+                  onClick={() => setActiveSection('pickupPoints')}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    activeSection === 'pickupPoints' ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-100'
+                  }`}
+                >
+                  <span className="text-xl">📍</span>
+                  <span className="font-medium text-sm">Points de retrait</span>
+                </button>
+                
                 <div className="border-t border-gray-200 my-2"></div>
                 
                 <Link
