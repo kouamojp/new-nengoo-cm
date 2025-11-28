@@ -258,11 +258,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Backend server startup and basic endpoints"
-    - "MongoDB connection and database setup"
-    - "MongoDB collections creation"
-    - "MongoDB indexes creation"
-    - "Test data insertion"
+    - "Homepage functionality"
+    - "Product Catalog functionality"
+    - "Pickup Points page functionality"
+    - "Admin Login functionality"
+    - "Admin Dashboard functionality"
+    - "Navigation functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
