@@ -4710,7 +4710,7 @@ export const SellerSignup = (props) => {
     } else {
       // Register new seller
       const newSeller = {
-        id: mockUsers.pendingSellers.length + 1,
+        id: Date.now(), // ID unique basé sur timestamp
         whatsapp: formData.whatsapp,
         name: formData.name,
         businessName: formData.businessName,
@@ -4721,6 +4721,11 @@ export const SellerSignup = (props) => {
         submitDate: new Date().toISOString().split('T')[0],
         type: 'seller'
       };
+      
+      // Sauvegarder dans localStorage pour persistance
+      const existingPendingSellers = JSON.parse(localStorage.getItem('nengoo-pending-sellers') || '[]');
+      existingPendingSellers.push(newSeller);
+      localStorage.setItem('nengoo-pending-sellers', JSON.stringify(existingPendingSellers));
       
       mockUsers.pendingSellers.push(newSeller);
       navigate('/pending-approval', { state: { seller: newSeller } });
