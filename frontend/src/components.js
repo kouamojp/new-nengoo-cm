@@ -5794,6 +5794,14 @@ export const AdminDashboard = (props) => {
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex space-x-2">
+                              {isSuperAdmin && (
+                                <button
+                                  onClick={() => handleEditProduct(product)}
+                                  className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+                                >
+                                  ✏️ Modifier
+                                </button>
+                              )}
                               {product.status === 'pending' && (
                                 <button
                                   onClick={() => approveProduct(product.id)}
