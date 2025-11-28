@@ -5434,6 +5434,388 @@ export const AdminDashboard = (props) => {
         </div>
       )}
 
+
+      {/* Modal Edit Seller */}
+      {editingSeller && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Vendeur</h2>
+              <button
+                onClick={() => setEditingSeller(null)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nom du vendeur</label>
+                <input
+                  type="text"
+                  value={editingSeller.name}
+                  onChange={(e) => setEditingSeller({ ...editingSeller, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nom de la boutique</label>
+                <input
+                  type="text"
+                  value={editingSeller.businessName}
+                  onChange={(e) => setEditingSeller({ ...editingSeller, businessName: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">WhatsApp</label>
+                <input
+                  type="tel"
+                  value={editingSeller.whatsapp}
+                  onChange={(e) => setEditingSeller({ ...editingSeller, whatsapp: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ville</label>
+                <input
+                  type="text"
+                  value={editingSeller.city}
+                  onChange={(e) => setEditingSeller({ ...editingSeller, city: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nombre de produits</label>
+                  <input
+                    type="number"
+                    value={editingSeller.products}
+                    onChange={(e) => setEditingSeller({ ...editingSeller, products: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Total des ventes (FCFA)</label>
+                  <input
+                    type="number"
+                    value={editingSeller.sales}
+                    onChange={(e) => setEditingSeller({ ...editingSeller, sales: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-4 pt-4">
+                <button
+                  onClick={handleUpdateSeller}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ Enregistrer
+                </button>
+                <button
+                  onClick={() => setEditingSeller(null)}
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Edit Buyer */}
+      {editingBuyer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Acheteur</h2>
+              <button
+                onClick={() => setEditingBuyer(null)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nom complet</label>
+                <input
+                  type="text"
+                  value={editingBuyer.name}
+                  onChange={(e) => setEditingBuyer({ ...editingBuyer, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">WhatsApp</label>
+                <input
+                  type="tel"
+                  value={editingBuyer.whatsapp}
+                  onChange={(e) => setEditingBuyer({ ...editingBuyer, whatsapp: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nombre de commandes</label>
+                  <input
+                    type="number"
+                    value={editingBuyer.orders}
+                    onChange={(e) => setEditingBuyer({ ...editingBuyer, orders: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Total dépensé (FCFA)</label>
+                  <input
+                    type="number"
+                    value={editingBuyer.spent}
+                    onChange={(e) => setEditingBuyer({ ...editingBuyer, spent: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-4 pt-4">
+                <button
+                  onClick={handleUpdateBuyer}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ Enregistrer
+                </button>
+                <button
+                  onClick={() => setEditingBuyer(null)}
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Edit Product */}
+      {editingProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Produit</h2>
+              <button
+                onClick={() => setEditingProduct(null)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nom du produit</label>
+                <input
+                  type="text"
+                  value={editingProduct.name}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Vendeur</label>
+                <input
+                  type="text"
+                  value={editingProduct.seller}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, seller: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                <input
+                  type="text"
+                  value={editingProduct.category}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Prix (FCFA)</label>
+                  <input
+                    type="number"
+                    value={editingProduct.price}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, price: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+                  <input
+                    type="number"
+                    value={editingProduct.stock}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, stock: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                <select
+                  value={editingProduct.status}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, status: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="pending">En attente</option>
+                  <option value="approved">Approuvé</option>
+                </select>
+              </div>
+
+              <div className="flex space-x-4 pt-4">
+                <button
+                  onClick={handleUpdateProduct}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ Enregistrer
+                </button>
+                <button
+                  onClick={() => setEditingProduct(null)}
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Edit Order */}
+      {editingOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier Commande</h2>
+              <button
+                onClick={() => setEditingOrder(null)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">ID Commande</label>
+                <input
+                  type="text"
+                  value={editingOrder.id}
+                  disabled
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Acheteur</label>
+                <input
+                  type="text"
+                  value={editingOrder.buyer}
+                  onChange={(e) => setEditingOrder({ ...editingOrder, buyer: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Vendeur</label>
+                <input
+                  type="text"
+                  value={editingOrder.seller}
+                  onChange={(e) => setEditingOrder({ ...editingOrder, seller: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                  <input
+                    type="date"
+                    value={editingOrder.date}
+                    onChange={(e) => setEditingOrder({ ...editingOrder, date: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Nombre d'articles</label>
+                  <input
+                    type="number"
+                    value={editingOrder.items}
+                    onChange={(e) => setEditingOrder({ ...editingOrder, items: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Total (FCFA)</label>
+                <input
+                  type="number"
+                  value={editingOrder.total}
+                  onChange={(e) => setEditingOrder({ ...editingOrder, total: parseInt(e.target.value) || 0 })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Statut de la commande</label>
+                <select
+                  value={editingOrder.status}
+                  onChange={(e) => setEditingOrder({ ...editingOrder, status: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="processing">En cours</option>
+                  <option value="in_transit">En transit</option>
+                  <option value="delivered">Livré</option>
+                  <option value="cancelled">Annulé</option>
+                </select>
+              </div>
+
+              <div className="flex space-x-4 pt-4">
+                <button
+                  onClick={handleUpdateOrder}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  ✅ Enregistrer
+                </button>
+                <button
+                  onClick={() => setEditingOrder(null)}
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Sidebar */}
