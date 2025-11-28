@@ -730,13 +730,11 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-90 transition-opacity">
-            <div className="bg-white rounded-lg p-1 sm:p-2">
-              <span className="text-lg sm:text-2xl font-bold text-purple-700">🛍️</span>
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-3xl font-bold">Nengoo</h1>
-              <p className="text-xs opacity-90 hidden sm:block">nengoo.com</p>
-            </div>
+            <img 
+              src="/images/logo-nengoo.png" 
+              alt="Nengoo Logo" 
+              className="h-10 sm:h-12 w-auto"
+            />
           </Link>
 
           {/* Search Bar - Hidden on mobile, shown on tablet+ */}
