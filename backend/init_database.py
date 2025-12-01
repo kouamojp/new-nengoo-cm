@@ -620,9 +620,98 @@ result = db.pickupManagers.insert_many(pickupManagers_data)
 print(f"   ✅ {len(result.inserted_ids)} gestionnaires créés")
 
 # ============================================================================
-# 6. COLLECTION: orders (Commandes)
+# 6. COLLECTION: admins (Administrateurs)
 # ============================================================================
-print("\n6️⃣  Création de la collection 'orders'...")
+print("\n6️⃣  Création de la collection 'admins'...")
+
+# Supprimer la collection existante
+db.admins.drop()
+
+# Créer les index
+db.admins.create_index([("whatsapp", ASCENDING)], unique=True)
+db.admins.create_index([("role", ASCENDING)])
+
+# Données des administrateurs
+admins_data = [
+    {
+        "id": "super_admin_001",
+        "name": 'Admin Principal',
+        "whatsapp": '+237600000000',
+        "email": 'admin@nengoo.com',
+        "role": 'super_admin',
+        "accessCode": hash_password('ADMIN2025'),
+        "status": "active",
+        "createdDate": datetime(2024, 1, 1, tzinfo=timezone.utc),
+        "lastLogin": None
+    },
+    {
+        "id": "admin_001",
+        "name": 'Marie Admin',
+        "whatsapp": '+237655111111',
+        "email": 'marie@nengoo.com',
+        "role": 'admin',
+        "accessCode": hash_password('marieAdmin2025'),
+        "status": "active",
+        "createdDate": datetime(2024, 6, 15, tzinfo=timezone.utc),
+        "lastLogin": None
+    },
+    {
+        "id": "moderator_001",
+        "name": 'Jean Modérateur',
+        "whatsapp": '+237699222222',
+        "email": 'jean@nengoo.com',
+        "role": 'moderator',
+        "accessCode": hash_password('jeanModo2025'),
+        "status": "active",
+        "createdDate": datetime(2024, 9, 1, tzinfo=timezone.utc),
+        "lastLogin": None
+    },
+    {
+        "id": "support_001",
+        "name": 'Sophie Support',
+        "whatsapp": '+237677333333',
+        "email": 'sophie@nengoo.com',
+        "role": 'support',
+        "accessCode": hash_password('sophieSupp2025'),
+        "status": "active",
+        "createdDate": datetime(2024, 11, 10, tzinfo=timezone.utc),
+        "lastLogin": None
+    }
+]
+
+result = db.admins.insert_many(admins_data)
+print(f"   ✅ {len(result.inserted_ids)} administrateurs créés")
+
+# ============================================================================
+# 7. COLLECTION: categories (Catégories de produits)
+# ============================================================================
+print("\n7️⃣  Création de la collection 'categories'...")
+
+# Supprimer la collection existante
+db.categories.drop()
+
+# Créer les index
+db.categories.create_index([("id", ASCENDING)], unique=True)
+db.categories.create_index([("name", ASCENDING)], unique=True)
+
+# Données des catégories
+categories_data = [
+    {"id": "clothing_accessories", "name": "Vêtements et Accessoires", "description": "Mode pour hommes, femmes et enfants."},
+    {"id": "electronics", "name": "Électronique", "description": "Appareils électroniques, gadgets et accessoires."},
+    {"id": "home_garden", "name": "Maison et Jardin", "description": "Articles pour la maison, la décoration et le jardinage."},
+    {"id": "handicrafts", "name": "Artisanat", "description": "Produits artisanaux et faits main."},
+    {"id": "beauty_care", "name": "Beauté et Soins", "description": "Produits cosmétiques et de soins personnels."},
+    {"id": "food_drinks", "name": "Aliments et Boissons", "description": "Produits alimentaires, épicerie et boissons."},
+    {"id": "sports_articles", "name": "Articles de Sport", "description": "Équipements et vêtements de sport."},
+]
+
+result = db.categories.insert_many(categories_data)
+print(f"   ✅ {len(result.inserted_ids)} catégories créées")
+
+# ============================================================================
+# 8. COLLECTION: orders (Commandes)
+# ============================================================================
+print("\n8️⃣  Création de la collection 'orders'...")
 
 # Supprimer la collection existante
 db.orders.drop()
@@ -732,9 +821,9 @@ result = db.orders.insert_many(orders_data)
 print(f"   ✅ {len(result.inserted_ids)} commandes créées")
 
 # ============================================================================
-# 7. COLLECTION: reviews (Avis)
+# 8. COLLECTION: reviews (Avis)
 # ============================================================================
-print("\n7️⃣  Création de la collection 'reviews'...")
+print("\n8️⃣  Création de la collection 'reviews'...")
 
 # Supprimer la collection existante
 db.reviews.drop()
@@ -794,6 +883,8 @@ print(f"   • sellers: {db.sellers.count_documents({})} documents")
 print(f"   • products: {db.products.count_documents({})} documents")
 print(f"   • pickupPoints: {db.pickupPoints.count_documents({})} documents")
 print(f"   • pickupManagers: {db.pickupManagers.count_documents({})} documents")
+print(f"   • admins: {db.admins.count_documents({})} documents")
+print(f"   • categories: {db.categories.count_documents({})} documents")
 print(f"   • orders: {db.orders.count_documents({})} documents")
 print(f"   • reviews: {db.reviews.count_documents({})} documents")
 

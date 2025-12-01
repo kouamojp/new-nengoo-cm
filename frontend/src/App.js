@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
-import { 
-  Homepage, 
-  ProductCatalog, 
-  ProductDetail, 
-  ShoppingCart, 
-  Checkout, 
-  UserProfile, 
+import {
+  Homepage,
+  ProductCatalog,
+  ProductDetail,
+  ShoppingCart,
+  Checkout,
+  UserProfile,
   About,
   SearchResults,
   SellerDashboard,
