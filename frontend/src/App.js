@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
+import Toast from './components/ui/Toast';
 import {
   Homepage,
   ProductCatalog,
@@ -32,6 +33,15 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [toast, setToast] = useState({ message: '', type: '', show: false });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type, show: true });
+  };
+
+  const hideToast = () => {
+    setToast({ message: '', type: '', show: false });
+  };
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -63,6 +73,7 @@ function App() {
       }
       return [...prev, { ...product, quantity }];
     });
+    showToast(`${product.name} ajouté au panier!`, 'success');
   };
 
   const updateCartQuantity = (productId, newQuantity) => {
@@ -148,6 +159,7 @@ function App() {
           <Route path="/admin/management" element={<AdminManagement {...appProps} />} />
         </Routes>
       </Router>
+      {toast.show && <Toast message={toast.message} type={toast.type} onClose={hideToast} />}
     </div>
   );
 }

@@ -257,6 +257,7 @@ const ProductDetail = (props) => {
                   {t.addToCart}
                 </button>
                 <button
+                  onClick={() => addToCart(product, quantity)}
                   disabled={!product.inStock}
                   className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
                 >
