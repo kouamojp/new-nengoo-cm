@@ -1,39 +1,19 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:8001/api';
 
-const OrderManagement = (props) => {
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    const fetchOrders = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${API_BASE_URL}/orders`, {
-                headers: { 'X-Admin-Role': 'super_admin' }
-            });
-            if (!response.ok) throw new Error('Failed to fetch orders');
-            const data = await response.json();
-            setOrders(data);
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchOrders();
-    }, []);
+const OrderManagement = ({ orders, user, onOrderUpdate }) => {
+    const [loading, setLoading] = useState(false); // Only for update operations
 
     const handleUpdateOrderStatus = async (orderId, newStatus) => {
+        setLoading(true);
         try {
             const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Admin-Role': 'super_admin'
+                    'X-Admin-Role': user.role // Use actual user role
                 },
                 body: JSON.stringify({ status: newStatus })
             });
@@ -41,11 +21,16 @@ const OrderManagement = (props) => {
                 const err = await response.json();
                 throw new Error(err.detail || 'Failed to update order status');
             }
-            await fetchOrders();
+            // Call the callback to tell the parent to re-fetch orders
+            if (onOrderUpdate) {
+                onOrderUpdate();
+            }
             alert(`Statut de la commande ${orderId} mis à jour à "${newStatus}".`);
         } catch (error) {
             console.error("Error updating order status:", error);
             alert(`Erreur: ${error.message}`);
+        } finally {
+            setLoading(false);
         }
     };
     

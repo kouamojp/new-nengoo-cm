@@ -69,6 +69,19 @@ const AdminManagement = (props) => {
     });
   };
 
+
+  const handleEditAdmin = (admin) => {
+    setEditingAdmin(admin.id);
+    setFormData({
+      name: admin.name,
+      email: admin.email,
+      role: admin.role,
+      whatsapp: admin.whatsapp,
+      accessCode: '' // Ne pas afficher le code d'accès
+    });
+    setShowAddForm(true); // Afficher le formulaire
+  };
+
   const handleAddAdmin = async () => {
     if (!formData.name || !formData.whatsapp || !formData.email || !formData.accessCode) {
       alert('Veuillez remplir tous les champs');
@@ -274,7 +287,7 @@ const AdminManagement = (props) => {
                 <div className="space-y-1">
                   <p className="text-xs font-semibold text-gray-700 mb-2">Permissions:</p>
                   {role.permissions.map((perm, idx) => (
-                    <div key={idx} className="text-xs text-gray-600 flex items-start">
+                    <div key={idx} className="text-xs text-gray-600 flex items-start justify-center">
                       <span className="text-green-500 mr-1">✓</span>
                       <span>{perm.replace(/_/g, ' ')}</span>
                     </div>
@@ -286,17 +299,19 @@ const AdminManagement = (props) => {
         </div>
 
         {/* Add Admin Button */}
-        <div className="mb-6">
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg"
-          >
-            {showAddForm ? '✕ Annuler' : '+ Ajouter un Administrateur'}
-          </button>
-        </div>
+        {isSuperAdmin && (
+          <div className="mb-6">
+            <button
+              onClick={() => setShowAddForm(!showAddForm)}
+              className="bg-gradient-to-r from-purple-600 to-red-600 hover:from-purple-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-all shadow-lg"
+            >
+              {showAddForm ? '✕ Annuler' : '+ Ajouter un Administrateur'}
+            </button>
+          </div>
+        )}
 
         {/* Add/Edit Admin Form */}
-        {(showAddForm || editingAdmin) && (
+        {isSuperAdmin && (showAddForm || editingAdmin) && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <h3 className="text-xl font-bold mb-6">
               {editingAdmin ? '✏️ Modifier Administrateur' : '➕ Nouvel Administrateur'}
@@ -401,7 +416,8 @@ const AdminManagement = (props) => {
         )}
 
         {/* Admins List */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        {isSuperAdmin && (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <div className="p-6 border-b">
             <h3 className="text-xl font-bold">Liste des Administrateurs ({admins.length})</h3>
           </div>
@@ -493,9 +509,11 @@ const AdminManagement = (props) => {
             )}
           </div>
         </div>
+        )}
+        
 
         {/* Info Box */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6 text-left">
           <div className="flex items-start space-x-3">
             <span className="text-3xl">ℹ️</span>
             <div>

@@ -30,12 +30,13 @@ const AdminDashboard = (props) => {
     const [editingBuyer, setEditingBuyer] = useState(null);
     const [editingOrder, setEditingOrder] = useState(null);
     
-    const isSuperAdmin = user && user.whatsapp === '+237600000000';
+    // const isSuperAdmin = user && user.whatsapp === '+237600000000'; // No longer needed directly
 
     const fetchOrders = async () => {
+        if (!user || !user.role) return; // Ensure user and role are available
         try {
             const response = await fetch(`${API_BASE_URL}/orders`, {
-                headers: { 'X-Admin-Role': 'super_admin' }
+                headers: { 'X-Admin-Role': user.role } // Use actual user role
             });
             if (!response.ok) throw new Error('Failed to fetch orders');
             const data = await response.json();
@@ -46,10 +47,12 @@ const AdminDashboard = (props) => {
     };
 
     useEffect(() => {
-        if (isSuperAdmin) {
+        console.log('AdminDashboard user object:', user);
+        if (user && user.type === 'admin') { // Check if any admin type is logged in
             fetchOrders();
         }
-    }, [isSuperAdmin]);
+    }, [user]); // Re-fetch when user changes
+
 
     if (!user || user.type !== 'admin') {
       return (
@@ -161,7 +164,7 @@ const AdminDashboard = (props) => {
                     {activeSection === 'products' && <ProductManagement {...props} />}
                     {activeSection === 'pickupPoints' && <PickupPointManagement {...props} />}
                     {activeSection === 'buyers' && <BuyerManagement {...props} />}
-                    {activeSection === 'orders' && <OrderManagement {...props} />}
+                    {activeSection === 'orders' && <OrderManagement {...props} orders={orders} onOrderUpdate={fetchOrders} />}
                     {activeSection === 'categories' && <CategoryManagement {...props} />}
                 </div>
             </div>

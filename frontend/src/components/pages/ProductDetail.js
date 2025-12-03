@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { translations } from '../../lib/translations';
 import { openWhatsApp, generateProductWhatsAppMessage } from '../../lib/utils';
 import Header from '../layout/Header';
@@ -12,6 +12,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:800
 const ProductDetail = (props) => {
   const { language, addToCart } = props;
   const { id } = useParams();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
@@ -257,7 +258,10 @@ const ProductDetail = (props) => {
                   {t.addToCart}
                 </button>
                 <button
-                  onClick={() => addToCart(product, quantity)}
+                  onClick={() => {
+                    //addToCart(product, quantity);
+                    navigate('/checkout');
+                  }}
                   disabled={!product.inStock}
                   className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
                 >

@@ -35,8 +35,8 @@ const Checkout = (props) => {
   
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = formData.deliveryOption === 'pickup' ? 0 : (subtotal > 50000 ? 0 : 2500); // Free shipping for pickup or orders over 50,000 XAF
-  const tax = subtotal * 0.1;
-  const total = subtotal + shipping + tax;
+  const tax = 0;
+  const total = subtotal + shipping;
   
   const handleInputChange = (e) => {
     setFormData({
@@ -228,9 +228,9 @@ const Checkout = (props) => {
                 <h3 className="text-xl font-bold mb-6">{t.paymentMethod}</h3>
                 <div className="space-y-3">
                   {[
-                    { key: 'mtnMoney', label: t.mtnMoney, icon: '📱' },
+                    /* { key: 'mtnMoney', label: t.mtnMoney, icon: '📱' },
                     { key: 'orangeMoney', label: t.orangeMoney, icon: '🍊' },
-                    { key: 'creditCard', label: t.creditCard, icon: '💳' },
+                    { key: 'creditCard', label: t.creditCard, icon: '💳' }, */
                     { key: 'cashOnDelivery', label: t.cashOnDelivery, icon: '💰' }
                   ].map(method => (
                     <label key={method.key} className="flex items-center p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
@@ -292,10 +292,6 @@ const Checkout = (props) => {
                     {formData.deliveryOption === 'pickup' ? 'Retrait gratuit' : t.shipping}
                   </span>
                   <span>{shipping === 0 ? 'Gratuit' : formatPrice(shipping)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>{t.tax}</span>
-                  <span>{formatPrice(tax)}</span>
                 </div>
                 {formData.deliveryOption === 'pickup' && formData.selectedPickupPoint && (
                   <div className="pt-2 border-t">

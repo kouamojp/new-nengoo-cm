@@ -311,6 +311,26 @@ async def generate_presigned_url(request: PresignedUrlRequest):
         logging.error(e)
         raise HTTPException(status_code=500, detail="Could not generate pre-signed URL.")
 
+class ShippingSettings(BaseModel):
+    price: float = Field(..., description="Prix de la livraison standard")
+
+# --- API Endpoints for Settings ---
+@api_router.get("/settings/shipping", response_model=ShippingSettings)
+async def get_shipping_price():
+    shipping_setting = await db.settings.find_one({"_id": "shipping_price"})
+    if shipping_setting:
+        return ShippingSettings(**shipping_setting)
+    return ShippingSettings(price=2500) # Default value
+
+@api_router.put("/settings/shipping", response_model=ShippingSettings, dependencies=[Depends(super_admin_required)])
+async def update_shipping_price(settings: ShippingSettings):
+    await db.settings.update_one(
+        {"_id": "shipping_price"},
+        {"$set": settings.dict()},
+        upsert=True
+    )
+    return settings
+
 # --- Buyer Management ---
 @api_router.get("/buyers", response_model=List[Buyer], dependencies=[Depends(super_admin_required)])
 async def list_buyers():
@@ -400,7 +420,7 @@ async def get_seller(seller_id: str):
     return Seller(**seller)
 
 # --- Order Management ---
-@api_router.get("/orders", response_model=List[Order], dependencies=[Depends(super_admin_required)])
+@api_router.get("/orders", response_model=List[Order], dependencies=[Depends(moderator_or_higher_required)])
 async def list_orders():
     orders_cursor = db.orders.find()
     orders = await orders_cursor.to_list(1000)
@@ -505,7 +525,39 @@ async def generate_presigned_url(request: PresignedUrlRequest):
         logging.error(e)
         raise HTTPException(status_code=500, detail="Could not generate pre-signed URL.")
 
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+
+class AdminLoginRequest(BaseModel):
+    whatsapp: str
+    accessCode: str
+
+#... (existing models)
+
 # --- Admin Management ---
+@api_router.post("/admins/login", response_model=Admin)
+async def admin_login(login_data: AdminLoginRequest):
+    admin = await db.admins.find_one({"whatsapp": login_data.whatsapp})
+
+    if not admin:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Numéro WhatsApp ou code d'accès incorrect")
+
+    if not verify_password(login_data.accessCode, admin["accessCode"]):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Numéro WhatsApp ou code d'accès incorrect")
+
+    if admin["status"] != "active":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Votre compte administrateur est suspendu")
+
+    # Mettre à jour la date de dernière connexion
+    await db.admins.update_one(
+        {"_id": admin["_id"]},
+        {"$set": {"lastLogin": datetime.utcnow()}}
+    )
+    
+    # Exclure le champ _id et retourner l'objet Admin complet
+    admin_data = {k: v for k, v in admin.items() if k != '_id'}
+    return Admin(**admin_data)
+
 @api_router.post("/admins", response_model=Admin, status_code=status.HTTP_201_CREATED, dependencies=[Depends(super_admin_required)])
 async def create_admin(admin_data: AdminCreate):
     if await db.admins.find_one({"whatsapp": admin_data.whatsapp}):

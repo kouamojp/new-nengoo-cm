@@ -68,9 +68,9 @@ const Header = ({ language, toggleLanguage, cartItems, searchQuery, setSearchQue
             <span className="hidden md:inline">📞 +237 6XX XXX XXX</span>
           </div>
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <button onClick={toggleLanguage} className="hover:text-yellow-300 transition-colors text-xs sm:text-sm">
+           {/*  <button onClick={toggleLanguage} className="hover:text-yellow-300 transition-colors text-xs sm:text-sm">
               {language === 'fr' ? '🇫🇷 FR' : '🇬🇧 EN'}
-            </button>
+            </button> */}
             <span className="text-xs sm:text-sm">💰 XAF</span>
           </div>
         </div>

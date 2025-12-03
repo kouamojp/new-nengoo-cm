@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { adminMockData } from '../../lib/mockData';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:8001/api';
 
 const AdminLogin = (props) => {
   const { setUser } = props;
@@ -11,6 +12,7 @@ const AdminLogin = (props) => {
     accessCode: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -20,25 +22,39 @@ const AdminLogin = (props) => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (formData.whatsapp === adminMockData.adminCredentials.whatsapp && 
-        formData.accessCode === adminMockData.adminCredentials.accessCode) {
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/admins/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || 'Erreur de connexion');
+      }
       
       const adminUser = {
-        id: 'admin',
-        name: 'Administrateur',
-        whatsapp: formData.whatsapp,
-        type: 'admin',
-        joinDate: '2024-01-01'
+        ...data,
+        type: 'admin' // Assurez-vous que le type est défini pour la logique de l'application
       };
-      
+
       setUser(adminUser);
       localStorage.setItem('nengoo-user', JSON.stringify(adminUser));
       navigate('/admin/dashboard');
-    } else {
-      setError('Identifiants administrateur incorrects');
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,9 +112,10 @@ const AdminLogin = (props) => {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50"
             >
-              Se connecter
+              {loading ? 'Connexion en cours...' : 'Se connecter'}
             </button>
           </form>
 

@@ -116,7 +116,7 @@ yarn start              # Dev server (http://localhost:3000)
 
 # Backend
 cd /app/backend
-python server.py        # API (http://localhost:8001)
+uvicorn server:app --port 8001 # API (http://localhost:8001)
 ```
 
 ### Production
