@@ -375,7 +375,7 @@ async def create_product(product_data: ProductCreate):
     await db.products.insert_one(product.dict())
     return product
 
-@api_router.put("/products/{product_id}", response_model=Product, dependencies=[Depends(super_admin_required)])
+@api_router.put("/products/{product_id}", response_model=Product, dependencies=[Depends(moderator_or_higher_required)])
 async def update_product(product_id: str, product_data: ProductUpdate):
     update_data = product_data.dict(exclude_unset=True)
     if not update_data:
@@ -387,7 +387,7 @@ async def update_product(product_id: str, product_data: ProductUpdate):
         raise HTTPException(status_code=404, detail="Product not found")
     return Product(**updated_product)
 
-@api_router.delete("/products/{product_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(super_admin_required)])
+@api_router.delete("/products/{product_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(moderator_or_higher_required)])
 async def delete_product(product_id: str):
     result = await db.products.delete_one({"id": product_id})
     if result.deleted_count == 0:
@@ -535,6 +535,8 @@ class AdminLoginRequest(BaseModel):
 #... (existing models)
 
 # --- Admin Management ---
+
+
 @api_router.post("/admins/login", response_model=Admin)
 async def admin_login(login_data: AdminLoginRequest):
     admin = await db.admins.find_one({"whatsapp": login_data.whatsapp})
@@ -567,7 +569,7 @@ async def create_admin(admin_data: AdminCreate):
         id=f"{admin_data.role.value}_{str(uuid.uuid4())[:4]}",
         accessCode=hash_password(admin_data.accessCode),
         status="active",
-        createdDate=datetime.now(datetime.timezone.utc),
+        createdDate=datetime.utcnow(),
         **admin_data.dict(exclude={"accessCode"})
     )
     await db.admins.insert_one(admin.dict())

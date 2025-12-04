@@ -11,6 +11,9 @@ const ProductManagement = (props) => {
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [editingProduct, setEditingProduct] = useState(null); // State for editing
+
+    // State for new product form
     const [newProductData, setNewProductData] = useState({
         name: '',
         description: '',
@@ -23,7 +26,13 @@ const ProductManagement = (props) => {
     });
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
-    const [uploadMethod, setUploadMethod] = useState('url'); // 'url' ou 'file'
+    const [uploadMethod, setUploadMethod] = useState('url');
+
+    // State for editing product image
+    const [editingSelectedFile, setEditingSelectedFile] = useState(null);
+    const [editingImageUrl, setEditingImageUrl] = useState('');
+    const [editingUploadMethod, setEditingUploadMethod] = useState('url');
+
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -44,7 +53,6 @@ const ProductManagement = (props) => {
             const response = await fetch(`${API_BASE_URL}/categories`);
             if (!response.ok) throw new Error('Failed to fetch categories');
             const data = await response.json();
-            console.log("Catégories récupérées:", data); // Log pour debug
             setCategories(data);
         } catch (error) {
             console.error("Erreur lors de la récupération des catégories:", error);
@@ -59,11 +67,9 @@ const ProductManagement = (props) => {
             });
             if (!response.ok) throw new Error('Failed to fetch sellers');
             const data = await response.json();
-            console.log("Vendeurs récupérés:", data); // Log pour debug
             setSellers(data);
         } catch (error) {
             console.error("Erreur lors de la récupération des vendeurs:", error);
-            // Pas d'alert ici car les vendeurs sont optionnels
         }
     };
 
@@ -73,10 +79,33 @@ const ProductManagement = (props) => {
         fetchSellers();
     }, []);
 
+    const handleDeleteProduct = async (productId) => {
+        if (window.confirm('Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.')) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Admin-Role': user?.role || 'admin',
+                    },
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ detail: 'Une erreur inconnue est survenue.' }));
+                    throw new Error(errorData.detail || 'La suppression du produit a échoué.');
+                }
+
+                await fetchProducts();
+                alert('Produit supprimé avec succès !');
+
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                alert(`Erreur lors de la suppression : ${error.message}`);
+            }
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
-        // Si on change le vendeur, mettre à jour aussi le nom
         if (name === 'sellerId') {
             const selectedSeller = sellers.find(s => s.id === value);
             setNewProductData({
@@ -89,14 +118,102 @@ const ProductManagement = (props) => {
         }
     };
 
+    const handleEditInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditingProduct({ ...editingProduct, [name]: value });
+    };
+
+    const handleUpdateProduct = async (e) => {
+        e.preventDefault();
+        if (!editingProduct) return;
+
+        setUploading(true);
+        try {
+            let finalImageUrl = editingProduct.images[0] || '';
+            let imageUpdated = false;
+
+            // Check if a new image URL is provided
+            if (editingUploadMethod === 'url' && editingImageUrl.trim() && editingImageUrl !== finalImageUrl) {
+                finalImageUrl = editingImageUrl.trim();
+                imageUpdated = true;
+            } 
+            // Check if a new file is selected for upload
+            else if (editingUploadMethod === 'file' && editingSelectedFile) {
+                const presignedResponse = await fetch(`${API_BASE_URL}/generate-presigned-url`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Admin-Role': user?.role || 'admin' },
+                    body: JSON.stringify({ fileName: editingSelectedFile.name, fileType: editingSelectedFile.type }),
+                });
+
+                if (!presignedResponse.ok) {
+                    const err = await presignedResponse.json();
+                    throw new Error(err.detail || 'Failed to get pre-signed URL for update.');
+                }
+                const { uploadUrl, publicUrl } = await presignedResponse.json();
+
+                const uploadToS3Response = await fetch(uploadUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': editingSelectedFile.type },
+                    body: editingSelectedFile,
+                });
+
+                if (!uploadToS3Response.ok) {
+                    throw new Error('Failed to upload new image to S3.');
+                }
+                finalImageUrl = publicUrl;
+                imageUpdated = true;
+            }
+
+            const updatedProductData = {
+                name: editingProduct.name,
+                description: editingProduct.description,
+                price: parseFloat(editingProduct.price),
+                stock: parseInt(editingProduct.stock, 10),
+                category: editingProduct.category,
+                status: editingProduct.status,
+                ...(imageUpdated && { images: [finalImageUrl] }),
+            };
+            
+            const response = await fetch(`${API_BASE_URL}/products/${editingProduct.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Role': user?.role || 'admin',
+                },
+                body: JSON.stringify(updatedProductData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'La mise à jour du produit a échoué.');
+            }
+
+            await fetchProducts();
+            setEditingProduct(null);
+            // Reset editing image state
+            setEditingImageUrl('');
+            setEditingSelectedFile(null);
+            alert('Produit mis à jour avec succès !');
+
+        } catch (error) {
+            console.error('Error updating product:', error);
+            alert(`Erreur: ${error.message}`);
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
+    };
+    
+    const handleEditingFileChange = (e) => {
+        setEditingSelectedFile(e.target.files[0]);
     };
 
     const handleAddProduct = async (e) => {
         e.preventDefault();
 
-        // Validation selon la méthode choisie
         if (uploadMethod === 'url' && !imageUrl.trim()) {
             alert('Veuillez entrer une URL d\'image valide.');
             return;
@@ -111,73 +228,40 @@ const ProductManagement = (props) => {
 
         try {
             if (uploadMethod === 'url') {
-                // Méthode simple : utiliser directement l'URL fournie
-                console.log("🖼️ [ProductManagement] Utilisation de l'URL d'image:", imageUrl);
                 finalImageUrl = imageUrl;
             } else {
-                // Méthode avec upload S3 (nécessite configuration AWS)
-                console.log("📤 [ProductManagement] Demande d'URL pré-signée pour:", selectedFile.name);
-                console.log("📤 [ProductManagement] API URL:", `${API_BASE_URL}/generate-presigned-url`);
-
                 const presignedResponse = await fetch(`${API_BASE_URL}/generate-presigned-url`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Admin-Role': 'super_admin',
+                        'X-Admin-Role': user?.role || 'admin',
                     },
                     body: JSON.stringify({
                         fileName: selectedFile.name,
                         fileType: selectedFile.type,
                     }),
-                }).catch(err => {
-                    console.error("❌ [ProductManagement] Erreur réseau lors de la demande d'URL:", err);
-                    throw new Error(`Impossible de contacter le backend à ${API_BASE_URL}. Vérifiez que le serveur backend est lancé et accessible.`);
                 });
 
                 if (!presignedResponse.ok) {
-                    const errorText = await presignedResponse.text();
-                    console.error("❌ [ProductManagement] Erreur HTTP:", presignedResponse.status, errorText);
-                    try {
-                        const err = JSON.parse(errorText);
-                        throw new Error(err.detail || `Erreur ${presignedResponse.status}: ${errorText}`);
-                    } catch (e) {
-                        throw new Error(errorText || `Erreur ${presignedResponse.status}: Failed to get pre-signed URL`);
-                    }
+                    const err = await presignedResponse.json();
+                    throw new Error(err.detail || 'Failed to get pre-signed URL');
                 }
-
-                console.log("✅ [ProductManagement] URL pré-signée reçue");
                 const { uploadUrl, publicUrl } = await presignedResponse.json();
-                console.log("📝 [ProductManagement] URL publique:", publicUrl);
 
-                // Upload file directly to S3
-                console.log("☁️ [ProductManagement] Upload vers S3...");
                 const uploadToS3Response = await fetch(uploadUrl, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': selectedFile.type,
-                    },
+                    headers: { 'Content-Type': selectedFile.type },
                     body: selectedFile,
-                }).catch(err => {
-                    console.error("❌ [ProductManagement] Erreur CORS lors de l'upload S3:", err);
-                    throw new Error(`Erreur CORS S3: Le bucket S3 n'est pas configuré pour accepter les requêtes depuis ${window.location.origin}. Consultez le fichier AWS_S3_CORS_CONFIGURATION.md pour la solution. 💡 Alternative : Utilisez la méthode "URL d'image" à la place.`);
                 });
 
                 if (!uploadToS3Response.ok) {
-                    const errorText = await uploadToS3Response.text();
-                    throw new Error(`Erreur S3 (${uploadToS3Response.status}): ${errorText || 'Failed to upload file to S3'}`);
+                    throw new Error('Failed to upload file to S3');
                 }
-
-                console.log("✅ [ProductManagement] Fichier uploadé vers S3 avec succès");
-
                 finalImageUrl = publicUrl;
             }
 
-            // 3. Create product with the image URL
-            // Si aucun vendeur n'est sélectionné, attribuer à l'admin par défaut
             const finalSellerId = newProductData.sellerId || (user ? user.id : 'admin_default');
             const finalSellerName = newProductData.sellerName || (user ? user.name : 'Admin');
-
-            console.log("📝 [ProductManagement] Création du produit avec l'URL:", finalImageUrl);
 
             const productToCreate = {
                 ...newProductData,
@@ -186,39 +270,25 @@ const ProductManagement = (props) => {
                 images: [finalImageUrl],
             };
 
-            console.log("📦 [ProductManagement] Données du produit:", productToCreate);
-
             const response = await fetch(`${API_BASE_URL}/products`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Admin-Role': 'super_admin',
+                    'X-Admin-Role': user?.role || 'admin',
                 },
                 body: JSON.stringify(productToCreate),
             });
             if (!response.ok) {
-                const errorText = await response.text();
-                try {
-                    const err = JSON.parse(errorText);
-                    throw new Error(err.detail || 'Failed to create product');
-                } catch (e) {
-                    throw new Error(errorText || 'Failed to create product');
-                }
+                const err = await response.json();
+                throw new Error(err.detail || 'Failed to create product');
             }
             await fetchProducts();
             setShowAddModal(false);
-            setNewProductData({ // Reset form
-                name: '',
-                description: '',
-                category: '',
-                price: 0,
-                sellerId: '',
-                sellerName: '',
-                stock: 0,
-                images: [''],
+            setNewProductData({
+                name: '', description: '', category: '', price: 0, sellerId: '', sellerName: '', stock: 0, images: [''],
             });
-            setSelectedFile(null); // Clear selected file
-            setImageUrl(''); // Clear URL field
+            setSelectedFile(null);
+            setImageUrl('');
             alert('✅ Produit ajouté avec succès!');
         } catch (error) {
             console.error('Error adding product:', error);
@@ -244,6 +314,117 @@ const ProductManagement = (props) => {
                     + Ajouter un Produit
                 </button>
             </div>
+
+            {/* Edit Product Modal */}
+            {editingProduct && (
+                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+                         <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-bold text-gray-900">✏️ Modifier le produit</h2>
+                            <button onClick={() => setEditingProduct(null)} className="text-gray-400 hover:text-gray-600 text-2xl">✕</button>
+                        </div>
+                        <form onSubmit={handleUpdateProduct} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Nom du produit</label>
+                                <input type="text" name="name" value={editingProduct.name} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                <textarea name="description" value={editingProduct.description} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg" rows="3" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                                <div className="flex items-center space-x-4 mb-4">
+                                    <img src={editingProduct.images[0]} alt={editingProduct.name} className="w-16 h-16 rounded object-cover" />
+                                    <p className="text-xs text-gray-500">Image actuelle. Choisissez une nouvelle méthode pour la remplacer.</p>
+                                </div>
+                                
+                                {/* Choix de la méthode d'upload */}
+                                <div className="flex flex-col space-y-2 mb-4 p-4 bg-gray-50 rounded-lg">
+                                    <label className="flex items-center cursor-pointer p-3 border-2 border-blue-500 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                                        <input
+                                            type="radio"
+                                            name="editingUploadMethod"
+                                            value="url"
+                                            checked={editingUploadMethod === 'url'}
+                                            onChange={(e) => setEditingUploadMethod(e.target.value)}
+                                            className="mr-3"
+                                        />
+                                        <div>
+                                            <span className="text-sm font-semibold text-blue-700">Nouvelle URL d'image</span>
+                                        </div>
+                                    </label>
+                                    <label className="flex items-center cursor-pointer p-3 border-2 border-gray-300 rounded-lg hover:bg-gray-100 transition">
+                                        <input
+                                            type="radio"
+                                            name="editingUploadMethod"
+                                            value="file"
+                                            checked={editingUploadMethod === 'file'}
+                                            onChange={(e) => setEditingUploadMethod(e.target.value)}
+                                            className="mr-3"
+                                        />
+                                        <div>
+                                            <span className="text-sm font-semibold">Nouveau fichier (Upload)</span>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                {editingUploadMethod === 'url' ? (
+                                    <div>
+                                        <input
+                                            type="url"
+                                            value={editingImageUrl}
+                                            onChange={(e) => setEditingImageUrl(e.target.value)}
+                                            placeholder="https://exemple.com/nouvelle-image.jpg"
+                                            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        />
+                                        <p className="text-xs text-gray-500 mt-1">Laissez vide pour conserver l'image actuelle.</p>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <input
+                                            type="file"
+                                            onChange={handleEditingFileChange}
+                                            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            accept="image/*"
+                                        />
+                                         <p className="text-xs text-gray-500 mt-1">Laissez vide pour conserver l'image actuelle.</p>
+                                    </div>
+                                )}
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                                <select name="category" value={editingProduct.category} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg">
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Prix (XAF)</label>
+                                    <input type="number" name="price" value={editingProduct.price} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Stock</label>
+                                    <input type="number" name="stock" value={editingProduct.stock} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg" />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                                <select name="status" value={editingProduct.status} onChange={handleEditInputChange} className="w-full px-4 py-3 border rounded-lg">
+                                    <option value="approved">Approuvé</option>
+                                    <option value="pending">En attente</option>
+                                    <option value="rejected">Rejeté</option>
+                                </select>
+                            </div>
+                            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold" disabled={uploading}>
+                                {uploading ? 'Sauvegarde...' : 'Sauvegarder les modifications'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             {showAddModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -420,8 +601,8 @@ const ProductManagement = (props) => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <button className="text-blue-600 hover:text-blue-800 font-semibold text-sm">Modifier</button>
-                                        <button className="text-red-600 hover:text-red-800 font-semibold text-sm ml-4">Supprimer</button>
+                                        <button onClick={() => setEditingProduct(product)} className="text-blue-600 hover:text-blue-800 font-semibold text-sm">Modifier</button>
+                                        <button onClick={() => handleDeleteProduct(product.id)} className="text-red-600 hover:text-red-800 font-semibold text-sm ml-4">Supprimer</button>
                                     </td>
                                 </tr>
                             ))}
